@@ -1,0 +1,19 @@
+{
+  "name": "renter-app",
+  "version": "1.0.0",
+  "description": "rent things",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RNTR/RenterApp.git"
+  },
+  "author": "RNTR (https://github.com/RNTR/RenterApp)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RNTR/RenterApp/issues"
+  },
+  "homepage": "https://github.com/RNTR/RenterApp#readme"
+}
