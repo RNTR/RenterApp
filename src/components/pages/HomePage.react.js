@@ -6,14 +6,13 @@
  *
  */
 
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { connect } from 'react-redux';
-import NotFound from './NotFound.react';
+var React = require('react');
+var Router = require('react-router');
 
+var Link = Router.Link;
 
-export default class HomePage extends Component {
-	render() {
+var HomePage = React.createClass ({
+	render: function() {
     return (
 			<article>
 				DIS DA HOME PAGE
@@ -21,5 +20,6 @@ export default class HomePage extends Component {
 			</article>
 		);
   }
-}
+});
 
+module.exports = HomePage;

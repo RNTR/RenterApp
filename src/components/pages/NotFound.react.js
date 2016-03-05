@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
+var React = require('react');
+var Router = require('react-router');
 
-class NotFound extends Component {
-  render() {
+var Link = Router.Link;
+
+var NotFound = React.createClass ({
+  render: function() {
     return(
       <article>
         <h1>Page not found.</h1>
@@ -10,6 +12,6 @@ class NotFound extends Component {
       </article>
     );
   }
-}
+})
 
-export default NotFound;
+module.exports = NotFound;

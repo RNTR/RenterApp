@@ -1,15 +1,17 @@
-import React from 'react';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import FontFaceObserver from 'fontfaceobserver';
+var React = require('react');
+var ReactDOM = require('react-dom');
+var Redux = require('react-redux');
+var Router = require('react-router').Router;
+var Route = require('react-router').Route;
+var FontFaceObserver = require('fontfaceobserver');
 
-// Import pages for routing
-import HomePage from './components/pages/HomePage.react';
-import NotFound from './components/pages/NotFound.react';
-import App from './components/App.react';
+var Provider = Redux.provider;
+var browserHistory = Router.browserhistory;
+
+// import pages for routing
+var HomePage = require('./components/pages/HomePage.react');
+var NotFound = require('./components/pages/NotFound.react');
+var App = require('./components/App.react');
 
 ReactDOM.render(
 	  <div>

@@ -6,13 +6,14 @@
  *
  */
 
-import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router';
+var React = require('react');
+var Router = require('react-router');
 
+var Link = Router.Link;
 // TODO, CREATE A NAV BAR
 
-class Nav extends Component {
-  render() {
+var Nav = React.createClass ({
+  render: function() {
     return(
       <div className="nav">
         <div className="nav__wrapper">
@@ -21,6 +22,6 @@ class Nav extends Component {
       </div>
     );
   }
-}
+});
 
-export default Nav;
+module.exports = Nav;

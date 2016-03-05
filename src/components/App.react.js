@@ -7,12 +7,11 @@
  */
 
 // Import stuff
-import React, { Component } from 'react';
-import Nav from './Nav.react';
-import { connect } from 'react-redux';
+var React = require('react');
+var Nav = require('./Nav.react');
 
-class App extends Component {
-  render() {
+var App = React.createClass ({
+  render: function() {
     return(
       <div className="wrapper">
         <Nav history={this.props.history} location={this.props.location} />
@@ -20,6 +19,6 @@ class App extends Component {
       </div>
     )
   }
-}
+});
 
-export default App;
+module.exports = App;
