@@ -3,6 +3,7 @@ var express = require('express');
 var Path = require('path');
 var Reactify = require('reactify');
 var routes = express.Router();
+//TODO: require database stuff
 
 routes.get('/app-bundle.js', // <<< ENSURE THIS IS CORRECT FILE
   browserify('./client/app.js', {
