@@ -15,5 +15,40 @@
   "bugs": {
     "url": "https://github.com/RNTR/RenterApp/issues"
   },
-  "homepage": "https://github.com/RNTR/RenterApp#readme"
+  "homepage": "https://github.com/RNTR/RenterApp#readme",
+  "dependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.6.5",
+    "babel-eslint": "^5.0.0",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-react-transform": "^2.0.2",
+    "fontfaceobserver": "^1.6.4",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-redux": "^4.4.0",
+    "react-router": "^2.0.0",
+    "react-tap-event-plugin": "^0.2.2",
+    "redux": "^3.3.1",
+    "redux-thunk": "^1.0.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.3",
+    "css-loader": "^0.23.1",
+    "cssnano": "^3.5.2",
+    "eslint": "^2.3.0",
+    "eslint-config-airbnb": "^6.0.2",
+    "eslint-plugin-react": "^4.1.0",
+    "file-loader": "^0.8.5",
+    "object.assign": "^4.0.3",
+    "postcss-focus": "^1.0.0",
+    "postcss-import": "^8.0.2",
+    "postcss-loader": "^0.8.1",
+    "postcss-reporter": "^1.3.3",
+    "postcss-simple-vars": "^1.2.0",
+    "ramda": "^0.19.1",
+    "react-transform-hmr": "^1.0.2",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.12.14"
+  }
 }
