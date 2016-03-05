@@ -3,19 +3,22 @@ var express = require('express');
 var Path = require('path');
 var Reactify = require('reactify');
 var routes = express.Router();
-//TODO: require database stuff
+// var db = require('../db/dbConfig.js') //database stuff (justin)
 
-routes.get('/app-bundle.js', // <<< ENSURE THIS IS CORRECT FILE
-  browserify('./client/app.js', {
-    transform: [Reactify]
-  }));
+
+//TURN THIS ON when we start browserify-ing
+// routes.get('/app-bundle.js', // <<< ENSURE THIS IS CORRECT FILE
+//   browserify('./client/app.js', {
+//     transform: [Reactify]
+//   }));
 
 // routes.get('/api/example', function(req, res) {
 //   res.send(['node', 'express', 'browserify', 'react', 'react-dom']);
 // });
 
-var assetFolder = Path.resolve(__dirname, '../client/public'); // <<< ENSURE THIS IS CORRECT LOCATION
-routes.use(express.static(assetFolder));
+//POINT THIS TO ./client and turn it back on
+// var assetFolder = Path.resolve(__dirname, '../client'); // this 
+// routes.use(express.static(assetFolder));
 
 
 if (process.env.NODE_ENV !== 'test') {   // Development mode
