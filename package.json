@@ -9,6 +9,7 @@
     "build": "npm run clean && npm run build:webpack",
     "start": "nodemon server.js",
     "lint": "eslint src"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -66,4 +67,5 @@
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0"
   }
+  "homepage": "https://github.com/RNTR/RenterApp#readme"
 }

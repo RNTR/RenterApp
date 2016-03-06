@@ -3,7 +3,7 @@ var express = require('express');
 var Path = require('path');
 var Reactify = require('reactify');
 var routes = express.Router();
-// var db = require('../db/dbConfig.js') //database stuff (justin)
+var db = require('../db/dbConfig.js') //database stuff (justin)
 
 
 //TURN THIS ON when we start browserify-ing
