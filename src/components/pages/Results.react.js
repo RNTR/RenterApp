@@ -14,7 +14,7 @@
  var ResultsPage = React.createClass ({
  	render: function() {
      return (
- 			<div>{this.props.children}</div>
+ 			<ul>{this.props.children}</ul>
  		);
    }
  });
