@@ -24,4 +24,6 @@ var ResultsPage = React.createClass({
   }
 });
 
-module.exports = HomePage;
+module.exports = ResultsPage;
+
+// HEYOOOOO
