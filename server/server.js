@@ -1,32 +1,24 @@
-// var browserify = require('browserify-middleware');
 var express = require('express');
 var Path = require('path');
 var Reactify = require('reactify');
 var routes = express.Router();
 var db = require('../db/dbConfig.js') //database stuff (justin)
+var webpack = require('webpack');
+var config = require('../webpack.config.dev');
 
-
-//TURN THIS ON when we start browserify-ing
-// routes.get('/app-bundle.js', // <<< ENSURE THIS IS CORRECT FILE
-//   browserify('./client/app.js', {
-//     transform: [Reactify]
-//   }));
-
-// routes.get('/api/example', function(req, res) {
-//   res.send(['node', 'express', 'browserify', 'react', 'react-dom']);
-// });
-
-//POINT THIS TO ./client and turn it back on
-// var assetFolder = Path.resolve(__dirname, '../client'); // this 
-// routes.use(express.static(assetFolder));
-
-
-if (process.env.NODE_ENV !== 'test') {   // Development mode
+if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
            
   var app = express();
+  var compiler = webpack(config);
 
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+  app.use(require('webpack-hot-middleware')(compiler));
   app.use('/', routes);
 
+  //basic post route
   app.post('/ENDPOINT HERE', function (request, response) {
 
   });
@@ -34,7 +26,7 @@ if (process.env.NODE_ENV !== 'test') {   // Development mode
   // The Catch-all Route. Make sure this route is last.
   routes.get('/*', function(req, res){
     console.log('catch-all route triggered');
-    res.sendFile( assetFolder + '/index.html' );
+    res.sendFile(path.join( __dirname + '/index.html' ));
   });
 
   // Start the server
@@ -43,6 +35,6 @@ if (process.env.NODE_ENV !== 'test') {   // Development mode
   console.log("Listening on port", port);
 }
 
-else {                                  // Test mode
+else {  // i.e. when in Test mode...
   module.exports = routes;
 }
