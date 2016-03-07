@@ -13,14 +13,18 @@ var HomePage = require('./components/pages/HomePage.react');
 var NotFound = require('./components/pages/NotFound.react');
 var App = require('./components/App.react');
 
+// Import the CSS file, which webpack transfers to the build folder
+require('./css/main.css');
+
+
 ReactDOM.render(
 	  <div>
-    <Router history={browserHistory}>
-      <Route component={App}>
-        <Route path="/" component={HomePage} />
-        <Route path="*" component={NotFound} />
-      </Route>
-    </Router>
-  </div>, 
+	    <Router history={browserHistory}>
+	      <Route component={App}>
+	        <Route path="/" component={HomePage} />
+	        <Route path="*" component={NotFound} />
+	      </Route>
+	    </Router>
+  	</div>, 
 	document.getElementById('app')
 );

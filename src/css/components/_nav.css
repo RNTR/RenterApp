@@ -1,0 +1,40 @@
+.nav {
+	position: absolute;
+	width: 100%;
+	padding: 0;
+	height: 50px;
+	border-bottom: 1px solid white;
+}
+.nav__logo {
+	margin-left:10rem;
+	padding:0;
+	position:absolute;
+	top:-32%;
+	color:#237092;
+}
+.nav__wrapper {
+	margin:0;
+	padding:0;
+	width:0;
+}
+.nav-btn > ul {
+	top: 1%;
+	color: white;
+	list-style: none;
+	position: absolute;
+	right: 5%;
+	li {
+		display:inline;
+		padding-right:14%;
+	}
+}
+.fa-search {
+	color: white;
+	right: 2%;
+	display:inline;
+	position: absolute;
+	border-left: 1px solid white;
+	padding-left: 1%;
+	top: 37%;
+}
+
