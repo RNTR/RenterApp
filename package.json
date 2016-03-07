@@ -9,7 +9,7 @@
     "build": "npm run clean && npm run build:webpack",
     "start": "nodemon server/server.js",
     "lint": "eslint src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
