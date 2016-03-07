@@ -1,4 +1,4 @@
-var browserify = require('browserify-middleware');
+// var browserify = require('browserify-middleware');
 var express = require('express');
 var Path = require('path');
 var Reactify = require('reactify');
@@ -46,4 +46,3 @@ if (process.env.NODE_ENV !== 'test') {   // Development mode
 else {                                  // Test mode
   module.exports = routes;
 }
-    
