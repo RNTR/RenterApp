@@ -1,7 +1,8 @@
 require('../test-helper.js');
 
+var chai = require('chai');
 var request = require('supertest');
-var db = require(/* location of db.js, or whatever file this winds up testing **/);
+var db = require('../../db/dbConfig.js');
 var env = process.env.NODE_ENV;
 var knex = require('knex')(config[env]);
 
@@ -14,11 +15,11 @@ describe("The Database", function() {
 
   //TODO: do some setup stuff - create tables, populate db with test data, etc.
 
-  it ("Should create 'Users', 'Items', and 'Rentals' tables" , function() {
+  it ("Should initialize with 'Users', 'Items', and 'Rentals' tables" , function() {
 
     //TODO: query for table information
 
-    return request(app)
+    return knex.select('*').from('tags')
       .expect(/* something about 'Users' **/).to.equal(/* expected result **/) 
       .expect(/* something about 'Items' **/).to.equal(/* expected result **/) 
       .expect(/* something about 'Rentals' **/).to.equal(/* expected result **/) 

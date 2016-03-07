@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
             table.string('username');
             table.string('password');
             table.string('email');
-            table.timestamps();
+            table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         }),
 
         knex.schema.createTable('items', function(table){
@@ -22,7 +22,7 @@ exports.up = function(knex, Promise) {
             table.integer('itemOwner')
                  .references('id')
                  .inTable('users');
-            table.dateTime('postDate');
+            table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         }),
 
         knex.schema.createTable('rentals', function(table){
@@ -36,7 +36,7 @@ exports.up = function(knex, Promise) {
             table.dateTime('date_start');
             table.dateTime('date_end');
             table.string('is_confirmed');
-            table.timestamps();
+            table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         })
     ])
   
