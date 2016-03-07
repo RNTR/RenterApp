@@ -6,17 +6,22 @@
  *
  */
 
- var React = require('react');
- var Router = require('react-router');
+var React = require('react');
+var Router = require('react-router');
 
- var Link = Router.Link;
+var Link = Router.Link;
 
- var ResultsPage = React.createClass ({
- 	render: function() {
-     return (
- 			<ul>{this.props.children}</ul>
- 		);
-   }
- });
+var ResultsPage = React.createClass({
+  render: function() {
+    var results = this.props.results;
+    return (
+      <ol>
+        {results.map(function(result) {
+          return <li key={result.id}>{result.text}</li>;
+        })}
+      </ol>
+    )
+  }
+});
 
- module.exports = HomePage;
+module.exports = HomePage;
