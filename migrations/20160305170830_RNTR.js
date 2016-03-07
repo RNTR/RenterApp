@@ -19,7 +19,7 @@ exports.up = function(knex, Promise) {
             table.string('category');
             table.integer('price');
             table.string('photo');
-            table.integer('itemOwner')
+            table.integer('item_owner')
                  .references('id')
                  .inTable('users');
             table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
