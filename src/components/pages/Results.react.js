@@ -1,7 +1,7 @@
 /*
  * ResultsPage
  *
- * This displays search results.
+ * This page displays rental search results.
  * Route: /results
  *
  */
