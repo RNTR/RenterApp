@@ -11,7 +11,6 @@ var Router = require('react-router');
 
 var Link = Router.Link;
 
-<<<<<<< HEAD
 var ResultsPage = React.createClass({
   render: function() {
     var results = this.props.results;
@@ -24,16 +23,5 @@ var ResultsPage = React.createClass({
     )
   }
 });
-=======
- var ResultsPage = React.createClass ({
- 	render: function() {
-     return (
- 			<ul>{this.props.children}</ul>
- 		);
-   }
- });
->>>>>>> List items
 
 module.exports = ResultsPage;
-
-// HEYOOOOO
