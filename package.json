@@ -7,7 +7,7 @@
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
-    "start": "nodemon server.js",
+    "start": "nodemon server/server.js",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
