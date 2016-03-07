@@ -20,7 +20,6 @@ var ResultsPage = React.createClass({
           return <li key={result.id}>{result.text}</li>;
         })}
       </ol>
-      <Link to="/results" className="btn">Results</Link>
     )
   }
 });
