@@ -2,6 +2,23 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    webpack: {
+    someName: {
+    // webpack options
+    entry: "./client/lib/index.js",  // <<< UPDATE THIS
+    output: {
+        path: "asserts/",             // <<< AND THIS
+        filename: "[hash].js",        // <<< AND THIS
+    },
+
+    stats: {
+        // Configure the console output
+        colors: false,
+        modules: true,
+        reasons: true
+    }
+      }
+    },
     concat: {
       options: {
         separator: ';'
@@ -47,9 +64,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-webpack');
 
   grunt.registerTask('test', ['jshint', 'qunit']);
 
-  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify', 'webpack']);
 
 };
