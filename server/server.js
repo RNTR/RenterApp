@@ -6,7 +6,7 @@ var routes = express.Router();
 var db = require('../db/dbConfig.js') //database stuff (justin)
 
 
-//TURN THIS ON when we start browserify-ing
+//TODO: refactor this to use webpack (not browserify) and turn it back on
 // routes.get('/app-bundle.js', // <<< ENSURE THIS IS CORRECT FILE
 //   browserify('./client/app.js', {
 //     transform: [Reactify]
@@ -34,7 +34,7 @@ if (process.env.NODE_ENV !== 'test') {   // Development mode
   // The Catch-all Route. Make sure this route is last.
   routes.get('/*', function(req, res){
     console.log('catch-all route triggered');
-    res.sendFile( assetFolder + '/index.html' );
+    res.sendFile( assetFolder + '/index.html' ); //this doesn't point to anything valid right now. (justin)
   });
 
   // Start the server
