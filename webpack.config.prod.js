@@ -1,6 +1,7 @@
+var autoprefixer = require('autoprefixer');
+var rucksack = require('rucksack-css');
 var path = require('path');
 var webpack = require('webpack');
-// TODO, Set up postcss
 
 
 module.exports = {
@@ -31,6 +32,27 @@ module.exports = {
       test: /\.js$/,
       loaders: ['babel'],
       include: path.join(__dirname, 'src')
-    }]
-  }
+      },
+      {
+        test: /\.css$/,
+        include: /client/,
+        loaders: [
+          'style-loader',
+          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          'postcss-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        exclude: /client/,
+        loader: 'style!css'
+      }
+    ]
+  },
+  postcss: [
+    rucksack({
+      autoprefixer: true
+    })
+  ]
 };
+
