@@ -34,7 +34,8 @@
     "react-router": "^2.0.0",
     "reactify": "^1.1.1",
     "redux": "^3.3.1",
-    "redux-thunk": "^1.0.3"
+    "redux-thunk": "^1.0.3",
+    "webpack": "^1.12.14"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
@@ -66,6 +67,5 @@
     "webpack": "^1.12.9",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0"
-  },
-  "homepage": "https://github.com/RNTR/RenterApp#readme"
+  }
 }
