@@ -1,6 +1,6 @@
 var express = require('express');
-var Path = require('path');
-var Reactify = require('reactify');
+var path = require('path');
+var reactify = require('reactify');
 var routes = express.Router();
 var db = require('../db/dbConfig.js') //database stuff (justin)
 var webpack = require('webpack');
