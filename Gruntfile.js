@@ -16,9 +16,9 @@ module.exports = function(grunt) {
         colors: false,
         modules: true,
         reasons: true
-    },
-      }
     }
+      }
+    },
     concat: {
       options: {
         separator: ';'
