@@ -1,41 +1,47 @@
 require('../test-helper.js');
 
 var chai = require('chai');
-var expect = require('chai').expect
+var expect = require('chai').expect;
 var request = require('supertest');
 var env = process.env.NODE_ENV;
 var db = require('../../db/dbConfig.js');
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
 
+// knex.migrate.latest([config]); //the damn db 'RNTR_test' isn't migrating/populating with tables!
+console.log(env);
 
 describe("The Database", function() {
-
 
   //TODO: do some setup stuff - create tables, populate db with test data, etc.
 
   it ("Should initialize with a users, items, and rentals table" , function() {
 
-    //TODO: get knex to play nicely in the dev environment. Check on promises - possibly bluebird/check gilberts solution
-    expect(1+1).to.equal(12)
-
+    //TODO: get knex to play nicely in the test environment, i.e. actually migrate/populate the db. 
+    //Check on promises - possibly bluebird - check gilberts solution
     knex.select('*').from('users')
       .then(function(response){
-        expect(response).to.include('username');
-        expect(1).to.equal(2);
+        expect(response).to.include('username')
+        knex.select('*').from('items')
+          .then(function(response){
+            expect(response).to.include('price') 
+            knex.select('*').from('rentals')
+              .then(function(response){
+                expect(response).to.include('is_confirmed') 
+              })
+          })
       })
+      // .catch(function(err){
+      //   console.error(err)
+      // })
 
-    knex.select('*').from('items')
-      .then(function(response){
-        expect(response).to.include('price') 
-      })
+      // .catch(function(err){
+      //   console.error(err)
+      // })
 
-    knex.select('*').from('rentals')
-      .then(function(response){
-        expect(response).to.include('is_confirmed') 
-      })
-
-      })
+      // .catch(function(err){
+      //   console.error(err)
+      // })
 
   // it ("Should add a user to the 'Users' table", function(){
 
@@ -74,5 +80,5 @@ describe("The Database", function() {
   //     .expect(/* confirmed **/).to.equal("false")
   //     .expect(/* borndate **/).to.exist
 
-  // })
+  })
 })
