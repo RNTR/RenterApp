@@ -3,29 +3,38 @@ require('../test-helper.js');
 var chai = require('chai');
 var expect = require('chai').expect
 var request = require('supertest');
-var db = require('../../db/dbConfig.js');
 var env = process.env.NODE_ENV;
+var db = require('../../db/dbConfig.js');
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
 
 
 describe("The Database", function() {
 
-  var app = TestHelper.createApp()
-  // app.use('/', routes)
-  app.testReady()
-
 
   //TODO: do some setup stuff - create tables, populate db with test data, etc.
 
-  it_ ("Should initialize with a users table" , function() {
+  it ("Should initialize with a users, items, and rentals table" , function() {
 
-    //TODO: query for table information
+    //TODO: get knex to play nicely in the dev environment. Check on promises - possibly bluebird/check gilberts solution
+    expect(1+1).to.equal(12)
 
-    return knex.select('*').from('users')
-      .expect(function(response){
-        expect(response).to.include('users') 
+    knex.select('*').from('users')
+      .then(function(response){
+        expect(response).to.include('username');
+        expect(1).to.equal(2);
       })
+
+    knex.select('*').from('items')
+      .then(function(response){
+        expect(response).to.include('price') 
+      })
+
+    knex.select('*').from('rentals')
+      .then(function(response){
+        expect(response).to.include('is_confirmed') 
+      })
+
       })
 
   // it ("Should add a user to the 'Users' table", function(){
