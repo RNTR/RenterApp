@@ -7,6 +7,11 @@ var reactDOM = require('react-dom');
 
 
 
+
+
+
+
+
 // This file will contain any global state variables, for example -
 
 	// window.globalStateUserId, window.globalStateUsername, etc.

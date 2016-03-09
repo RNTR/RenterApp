@@ -20,7 +20,7 @@ delistItem: function(){},
 
 getListedItems: function(){},
 
-getCurrentRentedItems: function(){};
+getCurrentRentedItems: function(){},
 
 render: function(){
 	return (/*DIV NAME HERE*/);
