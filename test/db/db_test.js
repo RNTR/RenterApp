@@ -15,19 +15,12 @@ describe("The Database", function() {
 
   //TODO: do some setup stuff - create tables, populate db with test data, etc.
 
-  it ("Should initialize with a 'users' table" , function() {
+  it ("Should pass a basic test: 1 === 1" , function() {
 
-    //TODO: get knex to play nicely in the test environment, i.e. actually migrate/populate the db. 
-    //Check on promises - possibly bluebird - check gilberts solution
-    knex.select('*').from('users')
+    //placeholder test:
+    expect(1).to.equal(1);
 
-      .then(function(response){
-        expect(response).to.equal([])
-      })
-      .catch(function(err){
-        //make sure it does NOT throw an error.
-        expect(err).not.to.be.an.instanceof (Error)
-      })
+    })
 
   // it ("Should add a user to the 'Users' table", function(){
 
@@ -66,5 +59,4 @@ describe("The Database", function() {
   //     .expect(/* confirmed **/).to.equal("false")
   //     .expect(/* borndate **/).to.exist
 
-  })
 })
