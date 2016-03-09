@@ -2,20 +2,13 @@ var express = require('express');
 var path = require('path');
 var reactify = require('reactify');
 var routes = express.Router();
-var db = require('../db/dbConfig.js') //database stuff (justin)
+var db = require('../db/dbConfig.js'); //database stuff (justin)
 var webpack = require('webpack');
-var config = require('../webpack.config.dev');
+
 
 if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
            
   var app = express();
-  var compiler = webpack(config);
-
-  app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: config.output.publicPath
-  }));
-  app.use(require('webpack-hot-middleware')(compiler));
   app.use('/', routes);
 
   //basic post route

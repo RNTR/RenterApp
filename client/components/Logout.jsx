@@ -4,6 +4,9 @@ var ReactDOM = require('react-dom');
 
 var Logout = React.createClass({
 
+logout: function(){}, 
+//this may be as easy as setting globalStateUserId to null. 
+//but if we are using zeroAuth then that could handle this for us.
 
 render: function(){
 	return (/*DIV NAME HERE*/)

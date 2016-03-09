@@ -4,13 +4,23 @@ var ReactDOM = require('react-dom');
 
 var UserPage = React.createClass({
 
-navBar: function(){}, //load globalNavBar;
-
 getInitialState: function(){
 	return {
 		username: {} // this might need to refer to window.globalStateUserId to see what user is currently logged in. will need to check on this.
 	};
 },
+
+navBar: function(){}, //load globalNavBar
+
+requestsToRentees: function(){},
+
+requestsFromRenters: function(){},
+
+delistItem: function(){},
+
+getListedItems: function(){},
+
+getCurrentRentedItems: function(){},
 
 render: function(){
 	return (/*DIV NAME HERE*/);

@@ -4,17 +4,19 @@ var ReactDOM = require('react-dom');
 
 var Signup = React.createClass({
 
+navBar: function(){},
+
 signup: function(){
 
+	// require username, password, email
 	
-
-}
+},
 
 render: function(){
-	return (/*DIV NAME HERE*/)
+	return (/*DIV NAME HERE*/);
 }
 
-})
+});
 
 
 
