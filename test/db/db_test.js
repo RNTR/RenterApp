@@ -15,33 +15,19 @@ describe("The Database", function() {
 
   //TODO: do some setup stuff - create tables, populate db with test data, etc.
 
-  it ("Should initialize with a users, items, and rentals table" , function() {
+  it ("Should initialize with a 'users' table" , function() {
 
     //TODO: get knex to play nicely in the test environment, i.e. actually migrate/populate the db. 
     //Check on promises - possibly bluebird - check gilberts solution
     knex.select('*').from('users')
+
       .then(function(response){
-        expect(response).to.include('username')
-        knex.select('*').from('items')
-          .then(function(response){
-            expect(response).to.include('price') 
-            knex.select('*').from('rentals')
-              .then(function(response){
-                expect(response).to.include('is_confirmed') 
-              })
-          })
+        expect(response).to.equal([])
       })
-      // .catch(function(err){
-      //   console.error(err)
-      // })
-
-      // .catch(function(err){
-      //   console.error(err)
-      // })
-
-      // .catch(function(err){
-      //   console.error(err)
-      // })
+      .catch(function(err){
+        //make sure it does NOT throw an error.
+        expect(err).not.to.be.an.instanceof (Error)
+      })
 
   // it ("Should add a user to the 'Users' table", function(){
 
