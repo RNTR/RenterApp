@@ -9,7 +9,7 @@
     "build": "npm run clean && npm run build:webpack",
     "start": "nodemon server/server.js",
     "lint": "eslint src",
-    "test": "createdb RNTR_test && knex migrate:latest --env test && node node_modules/mocha/bin/mocha"
+    "test": "knex migrate:latest --env test && node node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",

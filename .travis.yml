@@ -4,6 +4,7 @@ node_js:
 before_script:
   - npm install -g knex
   - export NODE_ENV=test
+  - createdb RNTR_test
   - node db/dbConfig.js
   - npm test 
 addons: 
