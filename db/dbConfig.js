@@ -6,7 +6,15 @@ var knex = require('knex')(config[env]);
 
 module.exports = knex;
 
-knex.migrate.latest([config]); 
+knex.migrate.latest([config])
+	.then(function(x){
+		console.log('migration complete, killing the connection.')
+		knex.destroy();
+	})
+	.catch(function(err){
+		console.error('migration error', err);
+		knex.destroy();
+	})
 
 
 // try migrating from the command line
