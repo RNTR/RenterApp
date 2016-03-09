@@ -7,6 +7,7 @@ var env = process.env.NODE_ENV;
 var db = require('../../db/dbConfig.js');
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
+var dbMethod = require('../../db/dbMethods.js');
 
 // knex.migrate.latest([config]); //the damn db 'RNTR_test' isn't migrating/populating with tables!
 console.log(env);
@@ -22,41 +23,49 @@ describe("The Database", function() {
 
     })
 
-  // it ("Should add a user to the 'Users' table", function(){
+  it_ ('Should add a new user to the users table', function * (){
+    yield dbMethod.addUser('jeffrey', '1234', 'jeffrey@netscape.net')
+      .then(function(something){
+        console.log('TEST THING', something)
+        expect(something[0]).to.be.a('string')
+      })
+  })
 
-  //   //TODO: write some code to add a user here, then query the db for it.
+  it_ ('Should delete a user from the users table', function * (){
+    yield dbMethod.addUser('franky', 'password1', 'nigerianPrince@aol.com')
+      .then(function(userId){
+        dbMethod.removeUser(userId[0])
+        .then(function(){
+          dbMethod.userExists()  //thinking about making a userExists/ getUsers method which would take the userID. should fail after removeUser is called.
+        })
+      })
 
-  //   return request(app)
-  //     .expect(/* username **/).to.equal(/* expected name **/)
-  //     .expect(/* password **/).to.equal(/* expected value **/)
-  //     .expect(/* e-mail **/).to.equal(/* expected email **/)
+  })
 
-  // })
+  it ('Should add a new item to the items table', function(){
 
-  // it ("Should add an item to the 'Items' table", function(){
 
-  //   //TODO: write some code to add an item here, then query the db for it
 
-  //   return request(app)
-  //     .expect(/* name **/).to.equal(/* expected value **/)
-  //     .expect(/* address **/).to.equal(/* expected value **/)
-  //     .expect(/* ZIP **/).to.equal(/* expected value **/)
-  //     .expect(/* category **/).to.equal(/* expected value **/)
-  //     .expect(/* price **/).to.equal(/* expected value **/)
-  //     .expect(/* photo **/).to.equal(/* expected value **/)
+  })
 
-  // })
+  it ('Should delete an item from the items table', function(){
 
-  //   it ("Should add an unconfirmed rental to the 'Rentals' table", function(){
 
-  //   //TODO: write some code to add a rental here, then query the db for it
 
-  //   return request(app)
-  //     .expect(/* userID **/).to.equal(/* expected value **/)
-  //     .expect(/* itemID **/).to.equal(/* expected value **/)
-  //     .expect(/* dateStart **/).to.equal(/* expected value **/)
-  //     .expect(/* dateEnd **/).to.equal(/* expected value **/)
-  //     .expect(/* confirmed **/).to.equal("false")
-  //     .expect(/* borndate **/).to.exist
+  })
+
+  it ('Should add item to the rentals table', function(){
+
+
+
+  })
+
+  it ('Should delete an item to the rentals table', function(){
+
+
+
+  })
+
+
 
 })
