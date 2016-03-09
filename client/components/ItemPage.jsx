@@ -4,6 +4,10 @@ var ReactDOM = require('react-dom');
 
 var ItemPage = React.createClass({
 
+getItems: function(){}, //get.js has a getItems function
+
+requestRental: function(){}, //post.js has a requestRental function
+
 render: function(){
 	return (   )
 }

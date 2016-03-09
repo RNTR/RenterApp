@@ -10,11 +10,13 @@ login: function(){},
 
 logout: function(){},
 
-searchbar: function(){},
+searchbar: function(){},  
 
-listItem: function(){},
+listItem: function(){},  // post.js has a listNewItem function
 
-titleHome: function(){},  // This is only for linking back to the home page
+myProfile: function(){}; // link to user profile
+
+titleHome: function(){},  // link back to the home page
 
 render: function(){
 	return (  );
