@@ -8,7 +8,6 @@ module.exports = knex;
 
 knex.migrate.latest([config])
 	.then(function(x){
-		console.log('migration complete, killing the connection.')
 		knex.destroy();
 	})
 	.catch(function(err){
