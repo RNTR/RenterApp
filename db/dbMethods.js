@@ -24,6 +24,24 @@ exports.addUser = function(username, password, email){
 }
 
 
+
+exports.removeUser = function(id){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.del('*').from('users').where('id', id)
+			.then(function(response){
+				knex.destroy();
+				fulfill(response)
+			})
+			.catch(function(err){
+				knex.destroy();
+				reject(err);
+			})
+	})	
+		
+}
+
+
 exports.userExists = function(id){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
