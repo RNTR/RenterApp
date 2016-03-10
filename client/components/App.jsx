@@ -1,5 +1,6 @@
 var react = require('react');
 var reactDOM = require('react-dom');
+var Router = require('react-router')
 var GlobalNavBar = require('./GlobalNavBar')
 // add dependencies for places where data is being rendered.
 // for example, we will probably be using something like
