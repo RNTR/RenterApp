@@ -42,16 +42,27 @@ describe("The Database", function() {
           expect(bool).to.equal(true)
         })
     })
-  })
-  describe("dbMethods.removeUser", function() {
-    xit_ ('Should delete a user from the users table', function * (){
-      yield dbMethod.addUser('franky', 'password1', 'nigerianPrince@aol.com')
-        .then(function(userId){
-          dbMethod.removeUser(userId[0])
-          .then(function(){
-            dbMethod.userExists()  //thinking about making a userExists/ getUsers method which would take the userID. should fail after removeUser is called.
+
+    it_ ('Should return false for a nonexistent user', function * () {
+      yield dbMethod.userExists(42786)
+        .then(function(bool) {
+          expect(bool).to.equal(false);
         })
-      })
+    })
+  })
+
+  describe("dbMethods.removeUser", function() {
+    it_ ('Should delete a user from the users table', function * (){
+      var user = yield dbMethod.addUser('Billiam Uttsbuuts', '7', 'b.uttsbuuts@larry.larry')
+      .then(function(userID){
+        return userID[0]; })
+
+      yield dbMethod.removeUser(user)
+
+      yield dbMethod.userExists(user)
+        .then(function(bool){
+          expect(bool).to.equal(false)
+        })
     })
   })
 
