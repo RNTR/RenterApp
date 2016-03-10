@@ -9,9 +9,6 @@ var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
 var dbMethod = require('../../db/dbMethods.js');
 
-// knex.migrate.latest([config]); //the damn db 'RNTR_test' isn't migrating/populating with tables!
-console.log(env);
-
 describe("The Database", function() {
 
   //TODO: do some setup stuff - create tables, populate db with test data, etc.
