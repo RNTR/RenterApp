@@ -8,15 +8,8 @@ var GlobalNavBar = require('./components/GlobalNavBar.jsx')
 
 
 
-
-
-
-
-
-
-// This file will contain any global state variables, for example -
-
-	// window.globalStateUserId, window.globalStateUsername, etc.
+	window.globalStateUserId = null;
+	window.globalStateUsername = null;
 
 
 
