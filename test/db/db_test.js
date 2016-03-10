@@ -4,23 +4,19 @@ var chai = require('chai');
 var expect = require('chai').expect;
 var request = require('supertest');
 var env = process.env.NODE_ENV;
-var db = require('../../db/dbConfig.js');
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
+var knexCleaner = require('knex-cleaner');
 var dbMethod = require('../../db/dbMethods.js');
 
 describe("The Database", function() {
-
-  // TODO: do some setup stuff - create tables, populate db with test data, etc.
-  // use beforeEach here and truncate the tables.  this will drop the database every time a new it_ is called
-
-  // TRUNCATE 
-
-  it ("Should pass a basic test: 1 === 1" , function() {
-    //placeholder test:
-    expect(1).to.equal(1);
-    })
-
+  // beforeEach(function(done) {
+  //   //TODO: truncate, or dropdb + createdb
+  //   knexCleaner.clean(knex)
+  //     .then(function(){
+  //       done();
+  //     })
+  // })
 
   describe("dbMethods.addUser", function() {
     it_ ('Should add a new user to the users table', function * (){
@@ -38,7 +34,6 @@ describe("The Database", function() {
           expect(resp).to.equal('Username already taken. Choose another.')
         })
     })
-
   })
 
 
@@ -83,6 +78,10 @@ describe("The Database", function() {
     xit ('Should add a new item to the items table', function(){
 
     })
+
+    xit ('Should NOT add an item if the owner is not a valid user', function(){
+
+    })
   })
 
 
@@ -92,16 +91,48 @@ describe("The Database", function() {
     })
   })
 
+  describe("dbMethods.getItemsByZip", function() {
+    xit ('should return all items in a certain ZIP code', function(){
 
-  describe("dbMethods.createRental", function() {
-    xit ('Should add item to the rentals table', function(){
+    })
+  })
+
+  describe("dbMethods.getItemsByNameAndZip", function() {
+    xit ('should return all items with a certain name in a certain ZIP code', function(){
+      //is there a 'like' sql parameter to get close matches?
+    })
+    xit ('should NOT return items with the wrong ZIP code', function(){
+
+    })
+  })
+
+  describe("dbMethods.getItemsByName", function() {
+    xit ('Should return all items with a certain name', function(){
+      //is there a 'like' sql parameter to get close matches?
+    })
+  })
+
+  describe("dbMethods.bookItem", function() {
+    xit ('Should add a new rental to the rentals table if there is no date conflict', function(){
+
+    })
+
+    xit ("Should update a booked item's isConfirmed status to 'true'" , function(){
+
+    })
+
+    xit ('Should NOT add a new rental if the item is already booked', function(){
 
     })
   })
 
 
-  describe("dbMethods.deleteRental", function() {
-    xit ('Should delete an item to the rentals table', function(){
+  describe("dbMethods.unbookItem", function() {
+    xit ('Should delete an item from the rentals table', function(){
+
+    })
+
+    xit ("Should update a booked item's isConfirmed status to 'false'", function(){
 
     })
   })
