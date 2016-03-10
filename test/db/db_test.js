@@ -17,19 +17,30 @@ describe("The Database", function() {
   // TRUNCATE 
 
   it ("Should pass a basic test: 1 === 1" , function() {
-
     //placeholder test:
     expect(1).to.equal(1);
-
     })
+
+
   describe("dbMethods.addUser", function() {
     it_ ('Should add a new user to the users table', function * (){
       yield dbMethod.addUser('jeffrey', '1234', 'jeffrey@netscape.net')
-        .then(function(something){
-          expect(something[0]).to.be.a('number')
+        .then(function(resp){
+          expect(resp[0]).to.be.a('number')
         })
     })
+
+    it_ ('Should not add a new user if username is already taken', function * (){
+      yield dbMethod.addUser('Marge', 'password', 'margeemail@marge.com')
+
+      yield dbMethod.addUser('Marge', 'pw', 'another@email.com')
+        .then(function(resp){
+          expect(resp).to.equal('Username already taken. Choose another.')
+        })
+    })
+
   })
+
 
   describe("dbMethods.userExists", function() {
     it_ ('Should return true if a user exists', function * (){
@@ -51,6 +62,7 @@ describe("The Database", function() {
     })
   })
 
+
   describe("dbMethods.removeUser", function() {
     it_ ('Should delete a user from the users table', function * (){
       var user = yield dbMethod.addUser('Billiam Uttsbuuts', '7', 'b.uttsbuuts@larry.larry')
@@ -66,11 +78,13 @@ describe("The Database", function() {
     })
   })
 
+
   describe("dbMethods.addItem", function() {
     xit ('Should add a new item to the items table', function(){
 
     })
   })
+
 
   describe("dbMethods.removeItem", function() {
     xit ('Should delete an item from the items table', function(){
@@ -78,11 +92,13 @@ describe("The Database", function() {
     })
   })
 
+
   describe("dbMethods.createRental", function() {
     xit ('Should add item to the rentals table', function(){
 
     })
   })
+
 
   describe("dbMethods.deleteRental", function() {
     xit ('Should delete an item to the rentals table', function(){

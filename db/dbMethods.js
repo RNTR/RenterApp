@@ -18,6 +18,9 @@ exports.addUser = function(username, password, email){
 			})
 			.catch(function(err){
 				knex.destroy();
+				if (err.constraint === 'users_username_unique'){
+					fulfill('Username already taken. Choose another.')
+				}
 				reject(err)
 			})
 	})
