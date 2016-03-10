@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Link = Router.Link 
 // add additional dependencies
 
 var GlobalNavBar = React.createClass({
@@ -14,7 +15,7 @@ login: function(){},
 
 logout: function(){},
 
-searchbar: function(){},  
+searchbar: function(){},
 
 listItem: function(){},  // post.js has a listNewItem function
 

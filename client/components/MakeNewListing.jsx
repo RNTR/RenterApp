@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Link = Router.Link 
 // add additional dependencies
 
 var MakeNewListing = React.createClass({
@@ -17,5 +18,3 @@ render: function(){
 
 
 module.exports = MakeNewListing;
-
-
