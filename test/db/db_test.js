@@ -6,7 +6,6 @@ var request = require('supertest');
 var env = process.env.NODE_ENV;
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
-var knexCleaner = require('knex-cleaner');
 var dbMethod = require('../../db/dbMethods.js');
 var Promise = require('bluebird');
 
