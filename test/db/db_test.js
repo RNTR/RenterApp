@@ -10,7 +10,7 @@ var dbMethod = require('../../db/dbMethods.js');
 var Promise = require('bluebird');
 
 
-//truncate (effectively) empties each database table before each test.
+//Truncate empties the database tables. We call it once before each test.
 function truncate () {
   var tables = ['users', 'items', 'rentals'];
   return Promise.each(tables, function (table) {
@@ -179,8 +179,38 @@ describe ("The Database", function() {
   })
 
   describe("dbMethods.removeItem", function() {
-    xit_ ('Should delete an item from the items table', function * (){
+    it_ ('Should delete an item from the items table', function * (){
 
+      var user = yield dbMethod.addUser('UserMon', 'pass', 'theemail@emailery.eee')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];          
+        })
+
+      yield dbMethod.removeItem(item)
+
+      yield dbMethod.itemExists(item)
+        .then(function(bool){
+          expect(bool).to.equal(false);
+        })
     })
   })
 

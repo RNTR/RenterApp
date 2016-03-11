@@ -105,10 +105,19 @@ exports.itemExists = function(id){
 	})
 }
 
-exports.removeItem = function(){
+exports.removeItem = function(id){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
-	})
+		var knex = require('knex')(config[env]); 
+		knex.del('*').from('items').where('id', id)
+			.then(function(response){
+				knex.destroy();
+				fulfill(response)
+			})
+			.catch(function(err){
+				knex.destroy();
+				reject(err);
+			})
+	})	
 }
 
 exports.getItemsByZip = function(){
