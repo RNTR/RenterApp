@@ -72,6 +72,7 @@ exports.addItem = function(obj){
 		var knex = require('knex')(config[env]); 
 		knex.insert(obj).returning('id').into('items')
 			.then(function(response){
+				console.log('this is response: ', response)
 				knex.destroy();
 				fulfill(response);
 			})
