@@ -11,7 +11,7 @@ var dbMethod = require('../../db/dbMethods.js');
 var Promise = require('bluebird');
 
 
-//truncate empties each database table before each test.
+//truncate (effectively) empties each database table before each test.
 function truncate () {
   var tables = ['users', 'items', 'rentals'];
   return Promise.each(tables, function (table) {
@@ -30,19 +30,6 @@ describe ("The Database", function() {
 
 
   describe("dbMethods.addUser", function() {
-    //only empties tables for this test - too time consuming to run for all tests
-    //TODO - replace with a proper '.truncate' for all tests up top.
-    // beforeEach(function(done) {
-    //   var emptiedTables = [dbMethod.emptyUsers(),
-    //   dbMethod.emptyItems(), dbMethod.emptyRentals()];
-
-    //   Promise.all(emptiedTables)
-    //     .then(function(resp){
-    //       done()
-    //     })
-    // })
-
-
 
     it_ ('Should add a new user to the users table', function * (){
       yield dbMethod.addUser('jeffrey', '1234', 'jeffrey@netscape.net')

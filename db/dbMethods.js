@@ -1,63 +1,7 @@
-//write anything that accesses, adds to, or updates the database here.
 var db = require('./dbConfig.js');
-var config = require('../knexfile.js');  //or wherever knexfile ultimately is
+var config = require('../knexfile.js');
 var env =  process.env.NODE_ENV || 'development';  
-// var knex = require('knex')(config[env]); 
 var Promise = require('bluebird');
-
-
-// create the addUser method with promises  BLUEBIRD
-
-
-exports.emptyUsers = function(){
-	return new Promise(function(fulfill, reject){
-		var knex = require('knex')(config[env]); 
-		knex().del('*').from('users')
-			.then(function(response){
-				knex.destroy();
-				fulfill(response);
-			})
-			.catch(function(err){
-				knex.destroy();
-				console.err('problem emptying users table: ', err);
-				reject(err);
-			})
-	})
-}
-
-
-exports.emptyItems = function(){
-	return new Promise(function(fulfill, reject){
-		var knex = require('knex')(config[env]); 
-		knex().del('*').from('items')
-			.then(function(response){
-				knex.destroy();
-				fulfill(response);
-			})
-			.catch(function(err){
-				knex.destroy();
-				console.err('problem emptying items table: ', err);
-				reject(err);
-			})
-	})
-}
-
-
-exports.emptyRentals = function(){
-	return new Promise(function(fulfill, reject){
-		var knex = require('knex')(config[env]); 
-		knex().del('*').from('users')
-			.then(function(response){
-				knex.destroy();
-				fulfill(response);
-			})
-			.catch(function(err){
-				knex.destroy();
-				console.err('problem emptying rentals table: ', err);
-				reject(err);
-			})
-	})
-}
 
 
 exports.addUser = function(username, password, email){
