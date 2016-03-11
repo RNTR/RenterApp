@@ -22,6 +22,8 @@ exports.up = function(knex, Promise) {
             table.integer('item_owner')
                  .references('id')
                  .inTable('users');
+            table.dateTime('date_start');
+            table.dateTime('date_end');
             table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         }),
 
