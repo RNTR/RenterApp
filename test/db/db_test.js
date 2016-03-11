@@ -8,17 +8,42 @@ var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
 var knexCleaner = require('knex-cleaner');
 var dbMethod = require('../../db/dbMethods.js');
+var Promise = require('bluebird');
+
+
+//truncate empties each database table before each test.
+function truncate () {
+  var tables = ['users', 'items', 'rentals'];
+  return Promise.each(tables, function (table) {
+    return knex.raw('truncate table ' + table + ' cascade');
+  });
+};
 
 describe ("The Database", function() {
-  // beforeEach(function(done) {
-  //   //TODO: truncate, or dropdb + createdb
-  //   knexCleaner.clean(knex)
-  //     .then(function(){
-  //       done();
-  //     })
-  // })
+
+  beforeEach(function(done) {
+    truncate()
+    .then(function(resp){
+      done()
+    })
+  })
+
 
   describe("dbMethods.addUser", function() {
+    //only empties tables for this test - too time consuming to run for all tests
+    //TODO - replace with a proper '.truncate' for all tests up top.
+    // beforeEach(function(done) {
+    //   var emptiedTables = [dbMethod.emptyUsers(),
+    //   dbMethod.emptyItems(), dbMethod.emptyRentals()];
+
+    //   Promise.all(emptiedTables)
+    //     .then(function(resp){
+    //       done()
+    //     })
+    // })
+
+
+
     it_ ('Should add a new user to the users table', function * (){
       yield dbMethod.addUser('jeffrey', '1234', 'jeffrey@netscape.net')
         .then(function(resp){
