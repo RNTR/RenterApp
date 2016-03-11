@@ -72,7 +72,6 @@ exports.addItem = function(obj){
 		var knex = require('knex')(config[env]); 
 		knex.insert(obj).returning('id').into('items')
 			.then(function(response){
-				console.log('this is response: ', response)
 				knex.destroy();
 				fulfill(response);
 			})
@@ -97,11 +96,11 @@ exports.itemExists = function(id){
 				fulfill(false);
 			} else if (!!response[0].name){
 				fulfill(true);
-			} else {reject({'message': 'error checking if user exists', 'body': response})
+			} else {reject({'message': 'error checking if item exists', 'body': response})
 			}
 		})
 		.catch(function(err){
-			console.error('error checking if user exists', err)
+			console.error('error checking if item exists', err)
 			knex.destroy();
 			reject(err);
 		})

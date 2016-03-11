@@ -41,6 +41,7 @@ describe ("The Database", function() {
     it_ ('Should return true if a user exists', function * (){
       var id = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
         .then(function(userInfo){
+          console.log('this is the addUser response in userExists test: ', userInfo)
           return userInfo[0]})
 
       yield dbMethod.userExists(id)
