@@ -5,16 +5,31 @@ var GlobalNavBar = require('./GlobalNavBar')
 // add dependencies for places where data is being rendered.
 // for example, we will probably be using something like
 // var GlobalNavBar = require('./components/GlobalNavBar.jsx')
+
+
+// var App = React.createClass({
+//   render: function() {
+//     return (
+//       <div>
+//         <GlobalNavBar /> // Persistent NavBar
+//         {this.props.children} // Populates routes
+//       </div>
+//     );
+//   }
+// })
+
+
+
 var App = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <GlobalNavBar /> // Persistent NavBar
-        {this.props.children} // Populates routes
-      </div>
-    );
-  }
+	render: function(){
+		return (
+			<div>HELLO {this.props.children}</div>
+			)
+	}
+
 })
+
+var App = ReactDOM.render(App, document.getElementById('app'));
 
 modules.exports = App
 

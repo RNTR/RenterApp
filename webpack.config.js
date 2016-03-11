@@ -15,9 +15,23 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
+    { 
+    test: /\.jsx$/, 
+    exclude: /node_modules/, 
+    loader: "babel", 
+    query:
+      {
+        presets:['react']
+      }
+},
       { test: /\.css$/, loader: "style-loader!css-loader" }
     ]
   },
   plugins: [HTMLWebpackPluginConfig]
 };
+
+
+
+
+
+ // {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
