@@ -264,17 +264,35 @@ exports.dateIsInRange = function(itemId, start, end){
 	//TODO: should not allow owners to book their own items.
 }
 
-exports.bookItem = function(){
+exports.addRental = function(){
 	return new Promise(function(fulfill, reject){
 		fulfill('test')
 	})
 	//TODO: should not allow owners to book their own items.
 }
 
-exports.unbookItem = function(){
+exports.getRentalsByRenterID = function(){
 	return new Promise(function(fulfill, reject){
 		fulfill('test')
 	})
 }
 
+exports.removeRental = function(){
+	return new Promise(function(fulfill, reject){
+		fulfill('test')
+	})
+}
+
+// ----------- POST MVP ONLY BELOW THIS LINE --------------------
+exports.confirmRental = function(){
+	return new Promise(function(fulfill, reject){
+		fulfill('test')
+	})
+}
+
+exports.deConfirmRental = function(){
+	return new Promise(function(fulfill, reject){
+		fulfill('test')
+	})
+}
 

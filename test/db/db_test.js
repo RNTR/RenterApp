@@ -461,7 +461,6 @@ describe ("Database Query Functions:", function() {
         .then(function(bool){
             expect(bool).to.equal(false)
           })
-
     })
   })
 
@@ -810,7 +809,6 @@ describe ("Database Query Functions:", function() {
 
   describe("dbMethods.addRental", function() {
 
-
     xit_ ('Should add a rental to the rentals table', function * (){
 
     })
@@ -831,13 +829,36 @@ describe ("Database Query Functions:", function() {
   })
 
 
+ describe("dbMethods.getRentalsByRenterID", function() {
+    xit_ ('Should return an array of rentals', function * (){
+
+    })
+  })
+
+
   describe("dbMethods.removeRental", function() {
     xit_ ('Should delete an item from the rentals table', function * (){
 
     })
+  })
 
-    xit_ ("Should update a booked item's isConfirmed status to 'false'", function * (){
+
+  //POST MVP:
+  describe("dbMethods.confirmRental", function() {
+    xit_ ("Should set a rental's isConfirmed status to 'true'", function * (){
+
+    })
+
+    xit_ ("Should delete all unconfirmed conflicting rentals", function * (){
 
     })
   })
+
+  //POST MVP:
+  describe("dbMethods.deConfirmRental", function() {
+    xit_ ("Should set a rental's isConfirmed status to 'false'", function * (){
+
+    })
+  })
+
 })
