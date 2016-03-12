@@ -261,20 +261,9 @@ describe ("The Database", function() {
         'date_end': end
       }
 
-      var idOne = yield dbMethod.addItem(itemOne)
-        .then(function(resp){
-          return resp[0];
-        })
-
-      var idTwo = yield dbMethod.addItem(itemTwo)
-        .then(function(resp){
-          return resp[0];
-        })
-
-      var idThree = yield dbMethod.addItem(itemThree)
-        .then(function(resp){
-          return resp[0];
-        })
+      yield dbMethod.addItem(itemOne);
+      yield dbMethod.addItem(itemTwo);
+      yield dbMethod.addItem(itemThree);
 
       yield dbMethod.getItemsByZip(10507)
         .then(function(resp){
@@ -293,6 +282,8 @@ describe ("The Database", function() {
   describe("dbMethods.getItemsByNameAndZip", function() {
     xit_ ('should return all items with a certain name in a certain ZIP code', function * (){
       //is there a 'like' sql parameter to get close matches?
+
+
     })
     xit_ ('should NOT return items with the wrong ZIP code', function * (){
 
