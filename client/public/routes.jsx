@@ -3,7 +3,7 @@ var ReactRouter = require('react-router');
 // var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var Link = Router.Link;
-var App = require('./../App');
+var App = require('./../App.jsx');
 import { Router, RouterContext, match } from 'react-router';
 import { hashHistory } from 'react-router';
 <Router history={hashHistory} />
