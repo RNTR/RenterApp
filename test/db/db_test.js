@@ -397,11 +397,70 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.getItemByID", function() {
-    xit_ ("Should return a single item's information", function * (){
+    it_ ("Should return a single item's information", function * (){
 
+      var user = yield dbMethod.addUser('Hallilucious t. Abercrombe, Jr., Esquire', 'BUCKETSAUCE', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemID = yield dbMethod.addItem(itemObj)
+        .then(function(ID){
+          return ID[0];
+        })
+
+      yield dbMethod.getItemByID(itemID)
+        .then(function(item){
+            expect(item[0].name).to.equal('Lawn Mower')
+          })
     })
 
-    xit_ ("Should return false if an invalid ID is queried", function * (){
+    it_ ("Should return false if an unassigned ID is queried", function * (){
+
+      var user = yield dbMethod.addUser('Hallilucious t. Abercrombe, Jr., Esquire', 'BUCKETSAUCE', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemID = yield dbMethod.addItem(itemObj)
+        .then(function(ID){
+          return ID[0];
+        })
+
+      yield dbMethod.getItemByID(12345)
+        .then(function(bool){
+            expect(bool).to.equal(false)
+          })
 
     })
   })
