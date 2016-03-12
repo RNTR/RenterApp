@@ -7,7 +7,7 @@ var webpack = require('webpack');
 
 
 if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
-           
+
   var app = express();
   app.use('/', routes);
 
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
   // The Catch-all Route. Make sure this route is last.
   routes.get('/*', function(req, res){
     console.log('catch-all route triggered');
-    res.sendFile(path.join( __dirname + '/../index.html' ));
+    res.sendFile(path.join( __dirname + '/client/public/index.html' ));
   });
 
   // Start the server
@@ -31,4 +31,3 @@ if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
 else {  // i.e. when in Test mode...
   module.exports = routes;
 }
-     
