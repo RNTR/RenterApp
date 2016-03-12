@@ -68,6 +68,26 @@ describe ("The Database", function() {
     })
   })
 
+  describe("dbMethods.getUserByUsername", function() {
+    xit_ ("Should return a single user's information", function * (){
+
+    })
+
+    xit_ ("Should return false if an invalid username is queried", function * (){
+
+    })
+  })
+
+  describe("dbMethods.getUserByID", function() {
+    xit_ ("Should return a single user's information", function * (){
+
+    })
+
+    xit_ ("Should return false if an invalid ID is queried", function * (){
+
+    })
+  })
+
 
   describe("dbMethods.removeUser", function() {
     it_ ('Should delete a user from the users table', function * (){
@@ -340,11 +360,21 @@ describe ("The Database", function() {
 
           expect(zips).to.contain(10507);
           expect(zips).to.contain(78704);
-          // expect(zips).to.contain('12345');
-
         })
     })
   })
+
+
+  describe("dbMethods.getItemByID", function() {
+    xit_ ("Should return a single item's information", function * (){
+
+    })
+
+    xit_ ("Should return false if an invalid ID is queried", function * (){
+
+    })
+  })
+
 
   describe("dbMethods.dateHasBookConflicts", function() {
     it_ ('Should return true if there is a booking conflict for the date range', function * (){
@@ -562,7 +592,7 @@ describe ("The Database", function() {
 
 
   describe("dbMethods.dateIsInRange", function() {
-    xit_ ("Should return true if dates are within the item's date range", function * (){
+    it_ ("Should return true if dates are within the item's date range", function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -623,20 +653,79 @@ describe ("The Database", function() {
         })
     })
 
-    xit_ ("Should return false if dates violate the item's date range", function * (){
+    it_ ("Should return false if dates violate the item's date range", function * (){
+
+
+      var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var renter = yield dbMethod.addUser('Renter', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 0, 00, 0); // March 17th, 2016 at 12AM
+      var itemEnd = new Date(2016, 5, 1, 0, 00, 0); // June 1st, 2016 at 12AM
+      var rentalStart = new Date(2016, 2, 21, 0, 00, 0); //March 21st, 2016 at 12AM
+      var rentalEnd = new Date(2016, 4, 1, 0, 00, 0); //May 1st, 2016 at 12AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var rental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : rentalStart,
+        'date_end' : rentalEnd,
+        'is_confirmed' : 'true'
+      }
+
+      // manually insert a booking:
+      var db = require('knex')(config[env]); 
+      // db created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+
+      yield db.insert(rental).into('rentals')
+        .then(function(resp){
+          db.destroy();
+        })
+
+      var newRentStart = new Date(2016, 1, 19, 0, 00, 0);
+      var newRentEnd = new Date(2016, 2, 20, 0, 00, 0);
+
+      yield dbMethod.dateIsInRange(item, newRentStart, newRentEnd)
+        .then(function(bool){
+          expect(bool).to.equal(false);
+        })
 
     })
   })
 
 
-  describe("dbMethods.bookItem", function() {
+  describe("dbMethods.addRental", function() {
 
 
-    xit_ ('Should add a new rental to the rentals table if there are no date or booking conflicts', function * (){
+    xit_ ('Should add a rental to the rentals table', function * (){
 
     })
 
-    xit_ ('Should NOT add a new rental if there are date or booking conflicts', function * (){
+    xit_ ('Should NOT add a new rental if userID is invalid', function * (){
 
     })
 
@@ -652,7 +741,7 @@ describe ("The Database", function() {
   })
 
 
-  describe("dbMethods.unbookItem", function() {
+  describe("dbMethods.removeRental", function() {
     xit_ ('Should delete an item from the rentals table', function * (){
 
     })

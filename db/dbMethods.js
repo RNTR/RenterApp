@@ -22,6 +22,17 @@ exports.addUser = function(username, password, email){
 	})
 }
 
+exports.getUserByUsername = function(username){
+	return new Promise(function(fulfill, reject){
+		fulfill('test')
+	})
+}
+
+exports.getUserByID = function(ID){
+	return new Promise(function(fulfill, reject){
+		fulfill('test')
+	})
+}
 
 exports.removeUser = function(id){
 	return new Promise(function(fulfill, reject){
@@ -155,6 +166,12 @@ exports.getItemsByName = function(name){
 	})
 }
 
+exports.getItemByID = function(ID){
+	return new Promise(function(fulfill, reject){
+		fulfill('test')
+	})
+}
+
 exports.dateHasBookConflicts = function(itemId, start, end){
 	// TODO: return an array of conflicts instead of bool - tell users WHEN
 	// conflicts occur, not just that they exist.
@@ -180,21 +197,19 @@ exports.dateHasBookConflicts = function(itemId, start, end){
 exports.dateIsInRange = function(itemId, start, end){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
-		knex.select('*').from('items').where('id',itemId).whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
+		knex.select('*').from('items').where('id',itemId).whereNotBetween('date_start', [start, end]).whereNotBetween('date_end', [start, end])
 			.then(function(items){
 				knex.destroy();
 				if (items.length === 0){
-					console.log('not in range. ',items)
 					fulfill(false);
 				} else {
-					console.log('item in range: ',items)
 					fulfill(true);
 				}
 			})
 			.catch(function(err){
 				knex.destroy();
 				console.error('error checking booking conflicts: ', err);
-				reject(err)
+				reject(err);
 			})
 	})
 	//TODO: should not allow owners to book their own items.
