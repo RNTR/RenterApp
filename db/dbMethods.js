@@ -24,13 +24,45 @@ exports.addUser = function(username, password, email){
 
 exports.getUserByUsername = function(username){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('users').where('username', username)
+			.then(function(user){
+				knex.destroy();
+				if (user.length === 0){
+					fulfill(false);
+				} else if (user[0].username === username){
+					fulfill(user);
+				} else {
+					reject(user);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting user by username: ', err);
+				reject(err);
+			})
 	})
 }
 
 exports.getUserByID = function(ID){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('users').where('id', ID)
+			.then(function(user){
+				knex.destroy();
+				if (user.length === 0){
+					fulfill(false);
+				} else if (user[0].id === ID){
+					fulfill(user);
+				} else {
+					reject(user);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting user by ID: ', err);
+				reject(err);
+			})
 	})
 }
 
@@ -162,7 +194,6 @@ exports.getItemsByName = function(name){
 				console.error('error getting items by zipcode: ', err);
 				fulfill(err)
 			})
-
 	})
 }
 

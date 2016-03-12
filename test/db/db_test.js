@@ -69,22 +69,53 @@ describe ("Database Query Functions:", function() {
   })
 
   describe("dbMethods.getUserByUsername", function() {
-    xit_ ("Should return a single user's information", function * (){
+    it_ ("Should return a single user's information", function * (){
 
+      yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+
+      yield dbMethod.getUserByUsername('larry')
+        .then(function(user){
+          expect(user[0].username).to.equal('larry')
+        })
     })
 
-    xit_ ("Should return false if an invalid username is queried", function * (){
+    it_ ("Should return false if an unclaimed username is queried", function * (){
 
+      yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+
+      yield dbMethod.getUserByUsername('Michaelangelo')
+        .then(function(bool){
+          expect(bool).to.equal(false)
+        })
     })
   })
 
   describe("dbMethods.getUserByID", function() {
-    xit_ ("Should return a single user's information", function * (){
+    it_ ("Should return a single user's information", function * (){
+
+      var userID = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+        .then(function(resp){
+          return resp[0];
+        })
+
+      yield dbMethod.getUserByID(userID)
+        .then(function(user){
+          expect(user[0].username).to.equal('larry')
+        })
 
     })
 
-    xit_ ("Should return false if an invalid ID is queried", function * (){
+    it_ ("Should return false if an unassigned ID is queried", function * (){
 
+      var id = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      yield dbMethod.getUserByID(123456)
+        .then(function(bool){
+          expect(bool).to.equal(false)
+        })
     })
   })
 
