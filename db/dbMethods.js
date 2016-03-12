@@ -155,10 +155,40 @@ exports.getItemsByName = function(name){
 	})
 }
 
+exports.hasBookConflicts = function(start, end){
+	// TODO: return an array of conflicts instead of bool - tell users WHEN
+	// conflicts occur, not just that they exist.
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('rentals').whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
+			.then(function(items){
+				knex.destroy();
+				if (items.length === 0){
+					fulfill(false);
+				} else {
+					fulfill(true);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error checking booking conflicts: ', err);
+				fulfill(err)
+			})
+	})
+}
+
+exports.isInItemDateRange = function(){
+	return new Promise(function(fulfill, reject){
+		fulfill('test')
+	})
+	//TODO: should not allow owners to book their own items.
+}
+
 exports.bookItem = function(){
 	return new Promise(function(fulfill, reject){
 		fulfill('test')
 	})
+	//TODO: should not allow owners to book their own items.
 }
 
 exports.unbookItem = function(){
