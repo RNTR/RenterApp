@@ -27,6 +27,14 @@ describe ("Database Query Functions:", function() {
     })
   })
 
+  after(function(done) {
+    truncate()
+    .then(function(resp){
+      knex.destroy();
+      done();
+    })
+  });
+
 
   describe("dbMethods.addUser", function() {
 
@@ -744,7 +752,6 @@ describe ("Database Query Functions:", function() {
 
     it_ ("Should return false if dates violate the item's date range", function * (){
 
-
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
           return userID[0];
@@ -807,9 +814,136 @@ describe ("Database Query Functions:", function() {
   })
 
 
+ describe("dbMethods.getRentalsByRenterID", function() {
+    xit_ ('Should return an array of rentals', function * (){
+
+    })
+
+    xit_ ('Should return false if an unassigned renterID is queried', function * (){
+
+    })
+  })
+
+
+  describe("dbMethods.getRentalByRentalID", function() {
+
+    it_ ('Should return a single matching rental', function * (){
+
+        var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var renter = yield dbMethod.addUser('Renter', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 0, 00, 0); // March 17th, 2016 at 12AM
+      var itemEnd = new Date(2016, 5, 1, 0, 00, 0); // June 1st, 2016 at 12AM
+      var rentalStart = new Date(2016, 2, 21, 0, 00, 0); //March 21st, 2016 at 12AM
+      var rentalEnd = new Date(2016, 4, 1, 0, 00, 0); //May 1st, 2016 at 12AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var rental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : rentalStart,
+        'date_end' : rentalEnd,
+        'is_confirmed' : 'true'
+      }
+
+      // manually insert a booking:
+      var db = require('knex')(config[env]); 
+      // db created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+
+      var rentalID = yield db.insert(rental).into('rentals').returning('id')
+        .then(function(rentalID){
+          db.destroy();
+          return rentalID[0];
+        })
+
+      yield dbMethod.getRentalByRentalID(rentalID)
+        .then(function(rental){
+          expect(rental[0].user_id).to.equal(renter);
+        })
+    })
+
+    xit_ ('Should return false if an unassigned rentalID is queried', function * (){
+
+    })
+  })
+
   describe("dbMethods.addRental", function() {
 
     xit_ ('Should add a rental to the rentals table', function * (){
+
+      var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var renter = yield dbMethod.addUser('Renter', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 0, 00, 0); // March 17th, 2016 at 12AM
+      var itemEnd = new Date(2016, 5, 1, 0, 00, 0); // June 1st, 2016 at 12AM
+      var rentalStart = new Date(2016, 2, 21, 0, 00, 0); //March 21st, 2016 at 12AM
+      var rentalEnd = new Date(2016, 4, 1, 0, 00, 0); //May 1st, 2016 at 12AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var rental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : rentalStart,
+        'date_end' : rentalEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalID = yield dbMethod.addRental(rental)
+        .then(function(rentalID){
+          return rentalID[0];
+        })
+
+      yield dbMethod.getRentalByRentalID
+        .then(function(rentals){
+          expect(rentals[0].id).to.equal(rentalID)
+        })
 
     })
 
@@ -825,13 +959,6 @@ describe ("Database Query Functions:", function() {
     xit_ ("MVP ONLY: Should NOT add a new rental if item's 'isConfirmed' is set to 'true'", function * (){
         //NOT NECESARY.
         //TODO: delete 'isConfirmed' from schema
-    })
-  })
-
-
- describe("dbMethods.getRentalsByRenterID", function() {
-    xit_ ('Should return an array of rentals', function * (){
-
     })
   })
 

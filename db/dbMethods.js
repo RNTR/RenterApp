@@ -277,6 +277,30 @@ exports.getRentalsByRenterID = function(){
 	})
 }
 
+exports.getRentalByRentalID = function(ID){
+	return new Promise(function(fulfill, reject){
+
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('rentals').where('id', ID)
+			.then(function(rentals){
+				knex.destroy();
+				if (rentals.length === 0){
+					fulfill(false);
+				} else if (rentals[0].id === ID){
+					fulfill(rentals);
+				} else {
+					reject(rentals);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting rental by rental ID: ', err);
+				reject(err);
+			})
+
+	})
+}
+
 exports.removeRental = function(){
 	return new Promise(function(fulfill, reject){
 		fulfill('test')
