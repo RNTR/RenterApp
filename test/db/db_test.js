@@ -279,20 +279,70 @@ describe ("The Database", function() {
     })
   })
 
-  describe("dbMethods.getItemsByNameAndZip", function() {
-    xit_ ('should return all items with a certain name in a certain ZIP code', function * (){
-      //is there a 'like' sql parameter to get close matches?
-
-
-    })
-    xit_ ('should NOT return items with the wrong ZIP code', function * (){
-
-    })
-  })
-
   describe("dbMethods.getItemsByName", function() {
-    xit_ ('Should return all items with a certain name', function * (){
+    it_ ('Should return all items with a certain name', function * (){
       //is there a 'like' sql parameter to get close matches?
+
+      var user = yield dbMethod.addUser('Hallilucious t. Abercrombe, Jr., Esquire', 'BUCKETSAUCE', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemTwo = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '78704',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemThree = {
+        'name': 'Bee costume',
+        'address': '123 East Murphy Lane',
+        'zip': '12345',
+        'category': 'Holiday',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      yield dbMethod.addItem(itemOne);
+      yield dbMethod.addItem(itemTwo);
+      yield dbMethod.addItem(itemThree);
+
+      yield dbMethod.getItemsByName('Lawn Mower')
+        .then(function(resp){
+          var zips = [];
+          resp.forEach(function(x){
+            zips.push(x.zip)
+          })
+
+          expect(zips).to.contain(10507);
+          expect(zips).to.contain(78704);
+          // expect(zips).to.contain('12345');
+
+        })
     })
   })
 

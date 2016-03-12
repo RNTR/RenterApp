@@ -120,6 +120,8 @@ exports.removeItem = function(id){
 	})	
 }
 
+//TODO: search by first three chars of zipcode rather than whole thing - return all that start with the first 3 numbers.
+		// - Will hopefully increase # of search results.
 exports.getItemsByZip = function(zip){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
@@ -136,15 +138,20 @@ exports.getItemsByZip = function(zip){
 	})
 }
 
-exports.getItemsByNameAndZip = function(){
+exports.getItemsByName = function(name){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
-	})
-}
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('name', name)
+			.then(function(items){
+				knex.destroy();
+				fulfill(items)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting items by zipcode: ', err);
+				fulfill(err)
+			})
 
-exports.getItemsByName = function(){
-	return new Promise(function(fulfill, reject){
-		fulfill('test')
 	})
 }
 
