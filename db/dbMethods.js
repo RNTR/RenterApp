@@ -120,9 +120,19 @@ exports.removeItem = function(id){
 	})	
 }
 
-exports.getItemsByZip = function(){
+exports.getItemsByZip = function(zip){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('zip', zip)
+			.then(function(items){
+				knex.destroy();
+				fulfill(items)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting items by zipcode: ', err);
+				fulfill(err)
+			})
 	})
 }
 

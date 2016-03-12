@@ -52,7 +52,6 @@ describe ("The Database", function() {
     it_ ('Should return true if a user exists', function * (){
       var id = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
         .then(function(userInfo){
-          console.log('this is the addUser response in userExists test: ', userInfo)
           return userInfo[0]})
 
       yield dbMethod.userExists(id)
@@ -215,8 +214,79 @@ describe ("The Database", function() {
   })
 
   describe("dbMethods.getItemsByZip", function() {
-    xit_ ('should return all items in a certain ZIP code', function * (){
+    it_ ('should return all items in a certain ZIP code', function * (){
 
+
+      var user = yield dbMethod.addUser('Hallilucious t. Abercrombe, Jr., Esquire', 'BUCKETSAUCE', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemTwo = {
+        'name': 'Backoe',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemThree = {
+        'name': 'Bee costume',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var idOne = yield dbMethod.addItem(itemOne)
+        .then(function(resp){
+          return resp[0];
+        })
+
+      var idTwo = yield dbMethod.addItem(itemTwo)
+        .then(function(resp){
+          return resp[0];
+        })
+
+      var idThree = yield dbMethod.addItem(itemThree)
+        .then(function(resp){
+          return resp[0];
+        })
+
+      yield dbMethod.getItemsByZip(10507)
+        .then(function(resp){
+          var names = [];
+          resp.forEach(function(x){
+            names.push(x.name)
+          })
+
+          expect(names).to.contain('Lawn Mower');
+          expect(names).to.contain('Backoe');
+          expect(names).to.contain('Bee costume');
+        })
     })
   })
 
