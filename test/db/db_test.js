@@ -469,11 +469,100 @@ describe ("The Database", function() {
           expect(bool).to.equal(false);
         })
     })
+
+    it_ ('Should NOT detect booking conflicts for other objects', function * (){
+
+      var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var renter = yield dbMethod.addUser('Renter', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 0, 00, 0); // March 18th, 2016 at 12AM
+      var itemEnd = new Date(2016, 5, 1, 0, 00, 0); // June 2nd, 2016 at 12AM
+      var rentalStart = new Date(2016, 2, 21, 0, 00, 0); // March 22nd, 2016 at 12AM
+      var rentalEnd = new Date(2016, 4, 1, 0, 00, 0); // May 2nd, 2016 at 12AM
+      var diffRentStart = new Date(2016, 2, 19, 0, 00, 0); // March 20th, 2016 at 12AM 
+      var diffRentEnd = new Date(2016, 4, 21, 0, 00, 0); // May 22, 2016 at 12AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var differentItemObj = {
+        'name': 'Cotton Candy Machine',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var differentItem = yield dbMethod.addItem(differentItemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var rental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : rentalStart,
+        'date_end' : rentalEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var differentRental = {
+        'user_id' : renter,
+        'item_id' : differentItem,
+        'date_start' : diffRentStart,
+        'date_end' : diffRentEnd,
+        'is_confirmed' : 'true'
+      }
+
+      // manually insert a booking:
+      var db = require('knex')(config[env]); 
+      // db created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+
+      yield db.insert(rental).into('rentals')
+        .then(function(resp){
+          db.destroy();
+        })
+
+      var newRentStart = new Date(2016, 2, 19, 0, 00, 0);
+      var newRentEnd = new Date(2016, 2, 20, 0, 00, 0);
+
+      yield dbMethod.dateHasBookConflicts(item, newRentStart, newRentEnd)
+        .then(function(bool){
+          expect(bool).to.equal(false);
+        })
+    })
+
   })
 
 
   describe("dbMethods.dateIsInRange", function() {
-    xit_ ('Should return true if dates are within the items date range', function * (){
+    xit_ ("Should return true if dates are within the item's date range", function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -534,7 +623,7 @@ describe ("The Database", function() {
         })
     })
 
-    xit_ ("Should return false if dates violate the items date range", function * (){
+    xit_ ("Should return false if dates violate the item's date range", function * (){
 
     })
   })
@@ -543,19 +632,11 @@ describe ("The Database", function() {
   describe("dbMethods.bookItem", function() {
 
 
-    xit_ ('Should add a new rental to the rentals table if there is no date conflict with item start/end dates', function * (){
+    xit_ ('Should add a new rental to the rentals table if there are no date or booking conflicts', function * (){
 
     })
 
-    xit_ ('Should NOT add a new rental if rental dates conflict with item start/end dates', function * (){
-
-    })
-
-    xit_ ('Should add a new rental to the rentals table if there is no date conflict with another rental', function * (){
-
-    })
-
-    xit_ ('Should NOT add a new rental if a pre-existing booking has overlapping times', function * (){
+    xit_ ('Should NOT add a new rental if there are date or booking conflicts', function * (){
 
     })
 

@@ -180,12 +180,14 @@ exports.dateHasBookConflicts = function(itemId, start, end){
 exports.dateIsInRange = function(itemId, start, end){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
-		knex.select('*').from('items').where('item_id',itemId).whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
+		knex.select('*').from('items').where('id',itemId).whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
 			.then(function(items){
 				knex.destroy();
 				if (items.length === 0){
+					console.log('not in range. ',items)
 					fulfill(false);
 				} else {
+					console.log('item in range: ',items)
 					fulfill(true);
 				}
 			})
