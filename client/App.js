@@ -1,30 +1,17 @@
 var react = require('react');
 var reactDOM = require('react-dom');
-// add dependencies for places where data is being rendered.
-// for example, we will probably be using something like
-
-
 var GlobalNavBar = require('./components/GlobalNavBar.jsx')
 
 
 
-	window.globalStateUserId = null;
-	window.globalStateUsername = null;
-
-
-
-
-
-
-// We will need to create global React components here, for example -
  
-	GlobalNavBar = React.createElement(GlobalNavBar, {
-		signin: postRequests.signIn //(if we do it this way, we will also have to declare variables somewhere on this page requiring the page where the postRequests are made. )
-		signup: postRequest.signUp
-	})
+var navBar = React.createElement(GlobalNavBar, {
+	signin: postRequests.signIn //(if we do it this way, we will also have to declare variables somewhere on this page requiring the page where the postRequests are made. )
+	signup: postRequest.signUp
+})
 
 
-
+navBar = ReactDOM.render(navBar, document.getElementById('app'))
 
 
 
@@ -39,4 +26,4 @@ var GlobalNavBar = require('./components/GlobalNavBar.jsx')
 	
 	// componentVariableName = ReactDOM.render(componentVariableName, document.getElementById('where-this-goes-in-DOM'))
 
-	GlobalNavBar = ReactDOM.render(GlobalNavBar, document.getElementById('react-navBar'))
+	
