@@ -18,7 +18,7 @@ function truncate () {
   });
 };
 
-describe ("The Database", function() {
+describe ("Database Query Functions:", function() {
 
   beforeEach(function(done) {
     truncate()
