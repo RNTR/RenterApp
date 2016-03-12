@@ -155,12 +155,12 @@ exports.getItemsByName = function(name){
 	})
 }
 
-exports.hasBookConflicts = function(start, end){
+exports.dateHasBookConflicts = function(itemId, start, end){
 	// TODO: return an array of conflicts instead of bool - tell users WHEN
 	// conflicts occur, not just that they exist.
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
-		knex.select('*').from('rentals').whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
+		knex.select('*').from('rentals').where('item_id',itemId).whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
 			.then(function(items){
 				knex.destroy();
 				if (items.length === 0){
@@ -172,14 +172,28 @@ exports.hasBookConflicts = function(start, end){
 			.catch(function(err){
 				knex.destroy();
 				console.error('error checking booking conflicts: ', err);
-				fulfill(err)
+				reject(err)
 			})
 	})
 }
 
-exports.isInItemDateRange = function(){
+exports.dateIsInRange = function(itemId, start, end){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('item_id',itemId).whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
+			.then(function(items){
+				knex.destroy();
+				if (items.length === 0){
+					fulfill(false);
+				} else {
+					fulfill(true);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error checking booking conflicts: ', err);
+				reject(err)
+			})
 	})
 	//TODO: should not allow owners to book their own items.
 }
