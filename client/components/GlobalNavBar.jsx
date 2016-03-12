@@ -25,7 +25,7 @@ myProfile: function(){}, // link to user profile
 titleHome: function(){},  // link back to the home page
 
 render: function(){
-	return (<div>HELLO</div>);
+	return (<div>HELLO SUP</div>);
 }
 
 });
