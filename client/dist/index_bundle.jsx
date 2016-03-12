@@ -54,7 +54,12 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(159);
 	var routes = __webpack_require__(160);
-	var Link = Router.Link;
+	// var ReactRouter = require('react-router')
+	// var Route = ReactRouter.Route;
+	// var Routes = ReactRouter.Routes;
+	// var Link = ReactRouter.Link;
+	// var Link = Router.Link;
+
 
 	ReactDOM.render(routes, document.getElementById('app'));
 
@@ -19669,15 +19674,16 @@
 	var Route = ReactRouter.Route;
 	var Link = Router.Link;
 	// var HomePage = require('../../components/HomePage');
-	// var App = require('../../components/App');
+	var App = require('./../App');
 
 	var routes = React.createElement(
 	  Router,
-	  { component: App },
-	  React.createElement(Route, { path: '/', component: HomePage })
+	  { component: App }
+	  // ,
+	  // React.createElement(Route, { path: '/' })
 	);
 
-	modules.exports = routes;
+	module.exports = routes;
 
 /***/ },
 /* 161 */
