@@ -5,39 +5,39 @@ exports.up = function(knex, Promise) {
 
         knex.schema.createTable('users', function(table) {
             table.increments('id').primary();
-            table.string('username').unique();
-            table.string('password');
-            table.string('email');
+            table.string('username').unique().notNullable();
+            table.string('password').notNullable();
+            table.string('email').notNullable();
             table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         }),
 
         knex.schema.createTable('items', function(table){
             table.increments('id').primary();
-            table.string('name');
-            table.string('address');
-            table.integer('zip');
-            table.string('category');
-            table.integer('price');
-            table.string('photo');
-            table.integer('item_owner')
+            table.string('name').notNullable();
+            table.string('address') //this can be null until post-MVP
+            table.integer('zip').notNullable();
+            table.string('category').notNullable();
+            table.integer('price').notNullable();
+            table.string('photo').notNullable().defaultTo('http://www.ubeeco.com.au/products/g90eh7mvm.jpg')
+            table.integer('item_owner').notNullable()
                  .references('id')
                  .inTable('users');
-            table.dateTime('date_start');
-            table.dateTime('date_end');
+            table.dateTime('date_start').notNullable();
+            table.dateTime('date_end').notNullable();
             table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         }),
 
         knex.schema.createTable('rentals', function(table){
             table.increments('id').primary();
-            table.integer('user_id')
+            table.integer('user_id').notNullable()
                  .references('id')
                  .inTable('users');
-            table.integer('item_id')
+            table.integer('item_id').notNullable()
                  .references('id')
                  .inTable('items');
-            table.dateTime('date_start');
-            table.dateTime('date_end');
-            table.string('is_confirmed');
+            table.dateTime('date_start').notNullable();
+            table.dateTime('date_end').notNullable();
+            table.string('is_confirmed').notNullable().defaultTo('false');
             table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         })
     ])
