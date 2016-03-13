@@ -809,18 +809,120 @@ describe ("Database Query Functions:", function() {
         .then(function(bool){
           expect(bool).to.equal(false);
         })
-
     })
   })
 
 
  describe("dbMethods.getRentalsByRenterID", function() {
-    xit_ ('Should return an array of rentals', function * (){
+    it_ ('Should return an array of rentals', function * (){
 
+      var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var renter = yield dbMethod.addUser('Renter', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 0, 00, 0); // March 18th, 2016 at 12AM
+      var itemEnd = new Date(2016, 5, 1, 0, 00, 0); // June 2nd, 2016 at 12AM
+      var rentalStart = new Date(2016, 2, 21, 0, 00, 0); // March 22nd, 2016 at 12AM
+      var rentalEnd = new Date(2016, 4, 1, 0, 00, 0); // May 2nd, 2016 at 12AM
+      var diffRentStart = new Date(2016, 2, 19, 0, 00, 0); // March 20th, 2016 at 12AM 
+      var diffRentEnd = new Date(2016, 4, 21, 0, 00, 0); // May 22, 2016 at 12AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var differentItemObj = {
+        'name': 'Cotton Candy Machine',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var differentItem = yield dbMethod.addItem(differentItemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var rental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : rentalStart,
+        'date_end' : rentalEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var differentRental = {
+        'user_id' : renter,
+        'item_id' : differentItem,
+        'date_start' : diffRentStart,
+        'date_end' : diffRentEnd,
+        'is_confirmed' : 'true'
+      }
+
+      // manually insert a booking:
+      var db = require('knex')(config[env]); 
+      // db created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+
+      yield db.insert(rental).into('rentals')
+        .then(function(resp){
+          db.destroy();
+        })
+
+      var dbTwo = require('knex')(config[env]); 
+      // dbTwo created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+
+      yield dbTwo.insert(differentRental).into('rentals')
+        .then(function(resp){
+          dbTwo.destroy();
+        })
+
+      yield dbMethod.getRentalsByRenterID(renter)
+        .then(function(rentals){
+          expect(rentals).to.be.a('array');
+          expect(rentals.length).to.equal(2);
+
+          var itemIDs = [];
+          rentals.forEach(function(x){
+            itemIDs.push(x.item_id)
+          })
+
+          expect(itemIDs).to.contain(item);
+          expect(itemIDs).to.contain(differentItem);
+        })
     })
 
-    xit_ ('Should return false if an unassigned renterID is queried', function * (){
+    it_ ('Should return false if an unassigned renterID is queried', function * (){
 
+        yield dbMethod.getRentalsByRenterID(9999999)
+        .then(function(bool){
+          expect(bool).to.equal(false);
+        })
     })
   })
 
@@ -886,14 +988,18 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    xit_ ('Should return false if an unassigned rentalID is queried', function * (){
+    it_ ('Should return false if an unassigned rentalID is queried', function * (){
 
+      yield dbMethod.getRentalByRentalID(9999999)
+        .then(function(bool){
+          expect(bool).to.equal(false);
+        })
     })
   })
 
   describe("dbMethods.addRental", function() {
 
-    xit_ ('Should add a rental to the rentals table', function * (){
+    it_ ('Should add a rental to the rentals table', function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -940,7 +1046,7 @@ describe ("Database Query Functions:", function() {
           return rentalID[0];
         })
 
-      yield dbMethod.getRentalByRentalID
+      yield dbMethod.getRentalByRentalID(rentalID)
         .then(function(rentals){
           expect(rentals[0].id).to.equal(rentalID)
         })

@@ -261,19 +261,45 @@ exports.dateIsInRange = function(itemId, start, end){
 				reject(err);
 			})
 	})
-	//TODO: should not allow owners to book their own items.
 }
 
-exports.addRental = function(){
-	return new Promise(function(fulfill, reject){
-		fulfill('test')
+exports.addRental = function(obj){
+	return new Promise(function(fulfill, reject){	
+		var knex = require('knex')(config[env]); 
+		knex.insert(obj).returning('id').into('rentals')
+			.then(function(response){
+				knex.destroy();
+				fulfill(response);
+			})
+			.catch(function(err){
+				knex.destroy()
+				reject(err)
+			})
 	})
-	//TODO: should not allow owners to book their own items.
 }
 
-exports.getRentalsByRenterID = function(){
+exports.getRentalsByRenterID = function(ID){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
+
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('rentals').where('user_id', ID)
+			.then(function(rentals){
+				knex.destroy();
+				if (rentals.length === 0){
+					fulfill(false);
+				} else if (rentals[0].id && rentals[0].user_id){
+					fulfill(rentals);
+				} else {
+					reject(rentals);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting rental by renter ID: ', err);
+				reject(err);
+			})
+
+
 	})
 }
 
