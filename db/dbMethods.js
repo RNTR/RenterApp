@@ -22,6 +22,49 @@ exports.addUser = function(username, password, email){
 	})
 }
 
+exports.getUserByUsername = function(username){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('users').where('username', username)
+			.then(function(user){
+				knex.destroy();
+				if (user.length === 0){
+					fulfill(false);
+				} else if (user[0].username === username){
+					fulfill(user);
+				} else {
+					reject(user);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting user by username: ', err);
+				reject(err);
+			})
+	})
+}
+
+exports.getUserByID = function(ID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('users').where('id', ID)
+			.then(function(user){
+				knex.destroy();
+				if (user.length === 0){
+					fulfill(false);
+				} else if (user[0].id === ID){
+					fulfill(user);
+				} else {
+					reject(user);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting user by ID: ', err);
+				reject(err);
+			})
+	})
+}
 
 exports.removeUser = function(id){
 	return new Promise(function(fulfill, reject){
@@ -105,40 +148,231 @@ exports.itemExists = function(id){
 	})
 }
 
-exports.removeItem = function(){
+exports.removeItem = function(id){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.del('*').from('items').where('id', id)
+			.then(function(response){
+				knex.destroy();
+				fulfill(response)
+			})
+			.catch(function(err){
+				knex.destroy();
+				reject(err);
+			})
+	})	
+}
+
+//TODO: search by first three chars of zipcode rather than whole thing - return all that start with the first 3 numbers.
+		// - Will hopefully increase # of search results.
+exports.getItemsByZip = function(zip){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('zip', zip)
+			.then(function(items){
+				knex.destroy();
+				fulfill(items)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting items by zipcode: ', err);
+				fulfill(err)
+			})
+	})
+}
+
+exports.getItemsByName = function(name){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('name', name)
+			.then(function(items){
+				knex.destroy();
+				fulfill(items)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting items by zipcode: ', err);
+				fulfill(err)
+			})
+	})
+}
+
+exports.getItemByID = function(ID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('id', ID)
+			.then(function(item){
+				knex.destroy();
+				if (item.length === 0){
+					fulfill(false);
+				} else if (item[0].id === ID){
+					fulfill(item);
+				} else {
+					reject(item);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting item by ID: ', err);
+				reject(err);
+			})
+
+
+	})
+}
+
+exports.dateHasBookConflicts = function(itemId, start, end){
+	// TODO: return an array of conflicts instead of bool - tell users WHEN
+	// conflicts occur, not just that they exist.
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('rentals').where('item_id',itemId).whereBetween('date_start', [start, end]).orWhereBetween('date_end', [start, end])
+			.then(function(items){
+				knex.destroy();
+				if (items.length === 0){
+					fulfill(false);
+				} else {
+					fulfill(true);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error checking booking conflicts: ', err);
+				reject(err)
+			})
+	})
+}
+
+exports.dateIsInRange = function(itemId, start, end){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('id',itemId).whereNotBetween('date_start', [start, end]).whereNotBetween('date_end', [start, end])
+			.then(function(items){
+				knex.destroy();
+				if (items.length === 0){
+					fulfill(false);
+				} else {
+					fulfill(true);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error checking booking conflicts: ', err);
+				reject(err);
+			})
+	})
+}
+
+exports.addRental = function(obj){
+	return new Promise(function(fulfill, reject){	
+		var knex = require('knex')(config[env]); 
+		knex.insert(obj).returning('id').into('rentals')
+			.then(function(response){
+				knex.destroy();
+				fulfill(response);
+			})
+			.catch(function(err){
+				knex.destroy()
+				reject(err)
+			})
+	})
+}
+
+exports.getRentalsByRenterID = function(ID){
+	return new Promise(function(fulfill, reject){
+
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('rentals').where('user_id', ID)
+			.then(function(rentals){
+				knex.destroy();
+				if (rentals.length === 0){
+					fulfill(false);
+				} else if (rentals[0].id && rentals[0].user_id){
+					fulfill(rentals);
+				} else {
+					reject(rentals);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting rental by renter ID: ', err);
+				reject(err);
+			})
+
+
+	})
+}
+
+exports.getRentalByRentalID = function(ID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('rentals').where('id', ID)
+			.then(function(rentals){
+				knex.destroy();
+				if (rentals.length === 0){
+					fulfill(false);
+				} else if (rentals[0].id === ID){
+					fulfill(rentals);
+				} else {
+					reject(rentals);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting rental by rental ID: ', err);
+				reject(err);
+			})
+	})
+}
+
+exports.getRentalsByItemID = function(ID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('rentals').where('item_id', ID)
+			.then(function(rentals){
+				knex.destroy();
+				if (rentals.length === 0){
+					fulfill(false);
+				} else if (rentals[0].id && rentals[0].user_id){
+					fulfill(rentals);
+				} else {
+					reject(rentals);
+				}
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting rental by item ID: ', err);
+				reject(err);
+			})
+	})
+}
+
+exports.removeRental = function(ID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.del('*').from('rentals').where('id', ID)
+			.then(function(response){
+				knex.destroy();
+				fulfill(response)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('could not remove rental: ',err)
+				reject(err);
+			})
+	})
+}
+
+// ----------- POST MVP ONLY BELOW THIS LINE --------------------
+exports.confirmRental = function(){
 	return new Promise(function(fulfill, reject){
 		fulfill('test')
 	})
 }
 
-exports.getItemsByZip = function(){
+exports.deConfirmRental = function(){
 	return new Promise(function(fulfill, reject){
 		fulfill('test')
 	})
 }
-
-exports.getItemsByNameAndZip = function(){
-	return new Promise(function(fulfill, reject){
-		fulfill('test')
-	})
-}
-
-exports.getItemsByName = function(){
-	return new Promise(function(fulfill, reject){
-		fulfill('test')
-	})
-}
-
-exports.bookItem = function(){
-	return new Promise(function(fulfill, reject){
-		fulfill('test')
-	})
-}
-
-exports.unbookItem = function(){
-	return new Promise(function(fulfill, reject){
-		fulfill('test')
-	})
-}
-
 
