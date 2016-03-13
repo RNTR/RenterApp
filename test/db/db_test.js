@@ -10,7 +10,7 @@ var dbMethod = require('../../db/dbMethods.js');
 var Promise = require('bluebird');
 
 
-//Truncate empties the database tables. We call it once before each test.
+//Truncate empties the database tables. It is called once before each test and again after all have run.
 function truncate () {
   var tables = ['users', 'items', 'rentals'];
   return Promise.each(tables, function (table) {
@@ -37,7 +37,6 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.addUser", function() {
-
     it_ ('Should add a new user to the users table', function * (){
       yield dbMethod.addUser('jeffrey', '1234', 'jeffrey@netscape.net')
         .then(function(resp){
@@ -537,7 +536,6 @@ describe ("Database Query Functions:", function() {
       })
 
     it_ ('Should return false if date range has no booking conflicts', function * (){
-
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
           return userID[0];
@@ -751,7 +749,6 @@ describe ("Database Query Functions:", function() {
     })
 
     it_ ("Should return false if dates violate the item's date range", function * (){
-
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
           return userID[0];
@@ -928,7 +925,6 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.getRentalByRentalID", function() {
-
     it_ ('Should return a single matching rental', function * (){
 
         var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
@@ -997,8 +993,8 @@ describe ("Database Query Functions:", function() {
     })
   })
 
-  describe("dbMethods.addRental", function() {
 
+  describe("dbMethods.addRental", function() {
     it_ ('Should add a rental to the rentals table', function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
@@ -1050,48 +1046,79 @@ describe ("Database Query Functions:", function() {
         .then(function(rentals){
           expect(rentals[0].id).to.equal(rentalID)
         })
-
-    })
-
-    xit_ ('Should NOT add a new rental if userID is invalid', function * (){
-
-    })
-
-    xit_ ("MVP ONLY: Should update a booked item's isConfirmed status to 'true'" , function * (){
-        //NOT NECESARY.
-        //TODO: delete 'isConfirmed' from schema
-    })
-
-    xit_ ("MVP ONLY: Should NOT add a new rental if item's 'isConfirmed' is set to 'true'", function * (){
-        //NOT NECESARY.
-        //TODO: delete 'isConfirmed' from schema
     })
   })
 
 
   describe("dbMethods.removeRental", function() {
-    xit_ ('Should delete an item from the rentals table', function * (){
+    it_ ('Should delete an item from the rentals table', function * (){
 
+        var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var renter = yield dbMethod.addUser('Renter', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 0, 00, 0); // March 17th, 2016 at 12AM
+      var itemEnd = new Date(2016, 5, 1, 0, 00, 0); // June 1st, 2016 at 12AM
+      var rentalStart = new Date(2016, 2, 21, 0, 00, 0); //March 21st, 2016 at 12AM
+      var rentalEnd = new Date(2016, 4, 1, 0, 00, 0); //May 1st, 2016 at 12AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var rental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : rentalStart,
+        'date_end' : rentalEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalID = yield dbMethod.addRental(rental)
+        .then(function(rentalID){
+          return rentalID[0];
+        })
+
+      yield dbMethod.removeRental(rentalID);
+
+      yield dbMethod.getRentalByRentalID(rentalID)
+        .then(function(bool){
+          expect(bool).to.equal(false)
+        })
     })
   })
 
 
   //POST MVP:
-  describe("dbMethods.confirmRental", function() {
+  describe("POST-MVP: dbMethods.confirmRental", function() {
     xit_ ("Should set a rental's isConfirmed status to 'true'", function * (){
 
     })
-
-    xit_ ("Should delete all unconfirmed conflicting rentals", function * (){
-
-    })
   })
 
   //POST MVP:
-  describe("dbMethods.deConfirmRental", function() {
+  describe("POST-MVP: dbMethods.deConfirmRental", function() {
     xit_ ("Should set a rental's isConfirmed status to 'false'", function * (){
 
     })
   })
-
 })

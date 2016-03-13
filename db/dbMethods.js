@@ -305,7 +305,6 @@ exports.getRentalsByRenterID = function(ID){
 
 exports.getRentalByRentalID = function(ID){
 	return new Promise(function(fulfill, reject){
-
 		var knex = require('knex')(config[env]); 
 		knex.select('*').from('rentals').where('id', ID)
 			.then(function(rentals){
@@ -323,13 +322,22 @@ exports.getRentalByRentalID = function(ID){
 				console.error('error getting rental by rental ID: ', err);
 				reject(err);
 			})
-
 	})
 }
 
-exports.removeRental = function(){
+exports.removeRental = function(ID){
 	return new Promise(function(fulfill, reject){
-		fulfill('test')
+		var knex = require('knex')(config[env]); 
+		knex.del('*').from('rentals').where('id', ID)
+			.then(function(response){
+				knex.destroy();
+				fulfill(response)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('could not remove rental: ',err)
+				reject(err);
+			})
 	})
 }
 
