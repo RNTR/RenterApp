@@ -924,6 +924,136 @@ describe ("Database Query Functions:", function() {
   })
 
 
+ describe("dbMethods.getRentalsByItemID", function() {
+    it_ ('Should return an array of rentals containing only the correct item ID', function * (){
+
+      var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var renter = yield dbMethod.addUser('Renter', 'pass', 'test@test.com')
+        .then(function(userID){
+          return userID[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 0, 00, 0); // March 18th, 2016 at 12AM
+      var itemEnd = new Date(2016, 5, 1, 0, 00, 0); // June 2nd, 2016 at 12AM
+      var rentalStart = new Date(2016, 2, 21, 0, 00, 0); // March 22nd, 2016 at 12AM
+      var rentalEnd = new Date(2016, 4, 1, 0, 00, 0); // May 2nd, 2016 at 12AM
+      var diffRentStart = new Date(2016, 2, 19, 0, 00, 0); // March 20th, 2016 at 12AM 
+      var diffRentEnd = new Date(2016, 4, 21, 0, 00, 0); // May 22, 2016 at 12AM
+
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var differentItemObj = {
+        'name': 'Cotton Candy Machine',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': owner,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var item = yield dbMethod.addItem(itemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var differentItem = yield dbMethod.addItem(differentItemObj)
+        .then(function(itemID){
+          return itemID[0];
+        })
+
+      var rental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : rentalStart,
+        'date_end' : rentalEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var differentRental = {
+        'user_id' : renter,
+        'item_id' : differentItem,
+        'date_start' : diffRentStart,
+        'date_end' : diffRentEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var thirdRental = {
+        'user_id' : renter,
+        'item_id' : item,
+        'date_start' : diffRentStart,
+        'date_end' : diffRentEnd,
+        'is_confirmed' : 'true'
+      }
+
+      // manually insert bookings:
+      var db = require('knex')(config[env]); 
+      // db, dbTwo, and dbThree created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+
+      yield db.insert(rental).into('rentals')
+        .then(function(resp){
+          db.destroy();
+        })
+
+      var dbTwo = require('knex')(config[env]); 
+      yield dbTwo.insert(differentRental).into('rentals')
+        .then(function(resp){
+          dbTwo.destroy();
+        })
+
+      var dbThree = require('knex')(config[env]); 
+      yield dbThree.insert(thirdRental).into('rentals')
+        .then(function(resp){
+          dbThree.destroy();
+        })
+
+      yield dbMethod.getRentalsByItemID(item)
+        .then(function(rentals){
+          expect(rentals).to.be.a('array');
+          expect(rentals.length).to.equal(2);
+
+          var itemIDs = [];
+          var correctItemCount = 0;
+          rentals.forEach(function(x){
+            itemIDs.push(x.item_id)
+            if (x.item_id === item){
+              correctItemCount++;
+            }
+          })
+
+          expect(itemIDs).to.contain(item);
+          expect(itemIDs).not.to.contain(differentItem);
+          expect(correctItemCount).to.equal(2);
+        })
+    })
+
+    it_ ('Should return false if an unassigned item ID is queried', function * (){
+
+        yield dbMethod.getRentalsByRenterID(9999999)
+        .then(function(bool){
+          expect(bool).to.equal(false);
+        })
+    })
+  })
+
+
   describe("dbMethods.getRentalByRentalID", function() {
     it_ ('Should return a single matching rental', function * (){
 
@@ -1051,7 +1181,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.removeRental", function() {
-    it_ ('Should delete an item from the rentals table', function * (){
+    it_ ('Should delete a rental from the rentals table', function * (){
 
         var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
