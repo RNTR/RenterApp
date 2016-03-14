@@ -7,7 +7,7 @@ var webpack = require('webpack');
 
 
 
-//basic post route
+//basic get route
 routes.get('/', function (req, res) {
     res.sendFile(path.join( __dirname + '/client/public/index.html' ));
 });
