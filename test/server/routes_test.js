@@ -63,11 +63,34 @@ describe ("Server-Side Routing:", function() {
 
   describe("Users", function() {
     xit_ ("(POST, /signup) : should sign up new users", function * (){
+      var user = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+        email : 'test@test.com'
+      }
+
+      var body = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/signup')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('completed');
+          expect(response.body.user).to.exist;
+        })
+
+      //attempt to sign up with a claimed username
+    yield request(app)
+      .post('/signup')
+        .send(body)
+        .expect(400)
+        .expect(function(response) {
+          expect(response.body.status).to.equal('failed');
+          expect(response.body.message).to.equal('That username is taken.'); 
         })
     })
 
