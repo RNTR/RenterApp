@@ -130,6 +130,26 @@ describe ("Server-Side Routing:", function() {
             expect(response.body.status).to.equal('failed');
             expect(response.body.message).to.equal('User already signed in!'); 
           })
+
+      //attempt to sign in an unregisterd user
+      var unregUser = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+      }
+
+      var unregBody = {
+        'user' : unregUser,
+        'message' : 'here is a user.'
+      }
+
+      yield request(app)
+        .post('/login')
+          .send(unregBody)
+          .expect(400)
+          .expect(function(response) {
+            expect(response.body.status).to.equal('failed');
+            expect(response.body.message).to.equal('User does not exist'); 
+          })
     })
 
     xit_ ("(DELETE, /users) : should delete a user", function * (){
