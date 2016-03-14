@@ -96,6 +96,11 @@ describe ("Server-Side Routing:", function() {
     })
 
     xit_ ("(POST, /login) : should sign in existing users", function * (){
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
+
       var user = {
         username : 'MustardForBreakfast',
         password : 'password',
@@ -128,10 +133,15 @@ describe ("Server-Side Routing:", function() {
     })
 
     xit_ ("(DELETE, /users) : should delete a user", function * (){
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
 
       var user = {
         username : 'MustardForBreakfast',
-        password : 'password',
+        'userID' : userID, //not technically necessary - either uername or id works, as both are unique
+        password : 'password'
       }
 
       var body = {
@@ -150,8 +160,6 @@ describe ("Server-Side Routing:", function() {
     })
 
     xit_ ("(POST, /users) : should retrieve information about a single user", function * (){
-
-
       //add a user
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
         .then(function(IDArray){
@@ -168,18 +176,46 @@ describe ("Server-Side Routing:", function() {
         .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.status).to.equal('complete');
+          expect(response.body.status).to.equal('complete');
           expect(response.body.user).to.exist;
           expect(response.body.user.username).to.equal('MustardForBreakfast');
         })
     })
 
-    xit_ ("(GET, /logout) : should sign out a user", function * (){
+    xit_ ("(POST, /logout) : should log a user out", function * (){
+      //add a user
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
+
+      var user = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+      }
+
+      var loginBody = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
+      //log that user in
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/login')
+        .send(loginBody)
+
+      var body = {
+        'userID' : userID,
+        'message' : 'here is a user.'
+      }
+
+      yield request(app)
+        .post('/logout')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('logout successful.')
         })
     })
   })
