@@ -1,0 +1,56 @@
+.bar{
+ font-family: 'Helvetica', 'Arial';
+ font-size: 31px;
+ color: black;
+
+/* border: 1px solid black;*/
+} 
+
+.bar .signup {
+	top: 1.5%;
+	right: 20%;
+	font-size: 23px;
+	position: fixed;
+
+}
+
+.bar .listItem {
+	top: 1.5%;
+	right: 35%;
+	font-size: 23px;
+	position: fixed;
+}
+
+
+.bar .myProfile {
+	
+	font-size: 23px;
+	top: 1.5%;
+	right: 10%;
+	position: fixed;
+
+}
+
+.bar .title {
+	right: 90%;
+
+}
+
+.HomePageGreeting {
+	font-family: 'Helvetica', 'Arial';
+	font-size: 34px;
+	position: absolute;
+	top: 40%;
+	bottom: 60%;
+	right: 40%;
+	float: center;
+
+}
+
+.bar .searchbar {
+	font-size: 20px;
+	top: 1.5%;
+	right: 65%;
+	position: fixed;
+
+}

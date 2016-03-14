@@ -1,6 +1,5 @@
 var react = require('react');
 var Router = require('react-router');
-var Home = require('./components/Home')
 var Link = Router.Link
 import React from 'react'
 var style = {
@@ -8,15 +7,18 @@ var style = {
 }
 
 
-export default React.createClass({
-  render() {
-    return <div>About</div>
-  }
-})
+
 var HomePage = React.createClass({
-  render() {
+  getInitialState: function() {
+
+ return {}
+
+  },
+
+
+  render: function() {
     return (
-      <div>Welcome to RNTR</div>
+      <div className="HomePageGreeting">Welcome to RNTR!</div>
     );
   }
 })
