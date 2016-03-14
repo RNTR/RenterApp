@@ -281,12 +281,99 @@ describe ("Server-Side Routing:", function() {
         })
     }) 
 
-    xit_ ("(GET, /items) : should get searched items by name and zipcode", function * (){
+    xit_ ("(POST, /items/search) : should get searched items by name and zipcode", function * (){
+
+      var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userThree = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemTwo = {
+        'name': 'Lawn Mower',
+        'address': 'A different address',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userTwo,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemThree = {
+        'name': 'Lawn Mower',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userThree,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemFour = {
+        'name': 'Pickup Truck',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userThree,
+        'date_start': start,
+        'date_end': end
+      }
+
+      //add each item
+      yield dbMethod.addItem(itemOne);
+      yield dbMethod.addItem(itemTwo);
+      yield dbMethod.addItem(itemThree);
+      yield dbMethod.addItem(itemFour);
+
+      var body = {
+        searchTerm : 'Lawn Mower',
+        zipCode : '10507'
+      }
+
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/items/search')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.items).to.be.a('array');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('items retrieved.');
+          expect(response.body.items.length).to.equal(3);
+
+          var names = [];
+          response.body.items.forEach(function(x){
+            names.push(x.name);
+          })
+          expect(names).to.contain('Lawn Mower');
+          expect(names).not.to.contain('Pickup Truck')
         })
     })
 
