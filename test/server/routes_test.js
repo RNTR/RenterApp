@@ -59,6 +59,15 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
+      xit_ ("BLANK TEST", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test')
+        })
+    })
+
   })
 
 })
