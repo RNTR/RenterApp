@@ -1,19 +1,22 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var GlobalNavBar = require('./components/GlobalNavBar.jsx')
+var HomePage = require('./components/HomePage.jsx')
 
 
 
+var NavBar = React.createElement(GlobalNavBar, {
 
-var navBar = React.createElement(GlobalNavBar, {
-	// signin: postRequests.signIn, //(if we do it this way, we will also have to declare variables somewhere on this page requiring the page where the postRequests are made. )
-	// signup: postRequest.signUp
-})
+});
+
+var Home = React.createElement(HomePage, {
+  navbar: GlobalNavBar.render
+});
 
 
-navBar = ReactDOM.render(navBar, document.getElementById('app'))
+NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'))
 
-
+Home = ReactDOM.render(Home, document.getElementById('app'))
 
 
 // We will also use ReactDOM.render here. From the tyler mcginnis tutorial -
