@@ -8,6 +8,7 @@ var env = process.env.NODE_ENV;
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
 var Promise = require('bluebird');
+var dbMethod = require('../../db/dbMethods.js');
 
 
 //Truncate empties the database tables. It is called once before each test and again after all have run.
@@ -63,47 +64,178 @@ describe ("Server-Side Routing:", function() {
 
   describe("Users", function() {
     xit_ ("(POST, /signup) : should sign up new users", function * (){
+      var user = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+        email : 'test@test.com'
+      }
+
+      var body = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/signup')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('completed');
+          expect(response.body.user).to.exist;
+        })
+
+    //attempt to sign up with a claimed username
+    yield request(app)
+      .post('/signup')
+        .send(body)
+        .expect(400)
+        .expect(function(response) {
+          expect(response.body.status).to.equal('failed');
+          expect(response.body.message).to.equal('That username is taken.'); 
         })
     })
 
     xit_ ("(POST, /login) : should sign in existing users", function * (){
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
+
+      var user = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+      }
+
+      var body = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/login')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('completed');
+          expect(response.body.user).to.exist;
+          expect(response.body.user.username).to.equal('MustardForBreakfast')
         })
+
+      //attempt to sign in when already signed in
+      yield request(app)
+        .post('/login')
+          .send(body)
+          .expect(400)
+          .expect(function(response) {
+            expect(response.body.status).to.equal('failed');
+            expect(response.body.message).to.equal('User already signed in!'); 
+          })
+
+      //attempt to sign in an unregisterd user
+      var unregUser = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+      }
+
+      var unregBody = {
+        'user' : unregUser,
+        'message' : 'here is a user.'
+      }
+
+      yield request(app)
+        .post('/login')
+          .send(unregBody)
+          .expect(400)
+          .expect(function(response) {
+            expect(response.body.status).to.equal('failed');
+            expect(response.body.message).to.equal('User does not exist'); 
+          })
     })
 
     xit_ ("(DELETE, /users) : should delete a user", function * (){
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
+
+      var user = {
+        username : 'MustardForBreakfast',
+        'userID' : userID, //not technically necessary - either uername or id works, as both are unique
+        password : 'password'
+      }
+
+      var body = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .delete('/users')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('user deleted');
         })
     })
 
-    xit_ ("(GET, /users) : should get information about a single user", function * (){
+    xit_ ("(POST, /users) : should retrieve information about a single user", function * (){
+      //add a user
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
+
+      var body = {
+        'userID' : userID,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/users')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.user).to.exist;
+          expect(response.body.user.username).to.equal('MustardForBreakfast');
         })
     })
 
-    xit_ ("(GET, /logout) : should sign out a user", function * (){
+    xit_ ("(POST, /logout) : should log a user out", function * (){
+      //add a user
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
+
+      var user = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+      }
+
+      var loginBody = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
+      //log that user in
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/login')
+        .send(loginBody)
+
+      var body = {
+        'userID' : userID,
+        'message' : 'here is a user.'
+      }
+
+      yield request(app)
+        .post('/logout')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('logout successful.')
         })
     })
   })
