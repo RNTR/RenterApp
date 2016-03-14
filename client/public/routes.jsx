@@ -18,7 +18,7 @@ var UserPage = require('../components/UserPage.jsx');
 var routes = (
   <Router component={App}>
     <Route path="/" component={Home, NavBar, UserPage} />
-    <Route path='user' component={NavBar, UserPage} />
+    <Route path='/user' component={NavBar, UserPage} />
   </Router>
 )
 

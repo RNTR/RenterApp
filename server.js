@@ -30,6 +30,7 @@ if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
     res.sendFile(path.join( __dirname + '/client/public/index.html' ));
   });
 
+
   // Start the server
   var port = process.env.PORT || 4000;
   app.listen(port);
