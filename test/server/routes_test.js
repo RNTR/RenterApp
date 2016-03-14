@@ -18,7 +18,7 @@ function truncate () {
   });
 };
 
-describe ("Database Query Functions:", function() {
+describe ("Server-Side Routing:", function() {
 
   beforeEach(function(done) {
     truncate()
@@ -33,6 +33,15 @@ describe ("Database Query Functions:", function() {
       knex.destroy();
       done();
     })
+  })
 
 
-});
+  describe("Test test", function() {
+    it_ ("Should pass a basic test: 1+1=2", function * (){
+      expect(1+1).to.equal(2);
+    })
+  })
+
+
+
+})
