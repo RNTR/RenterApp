@@ -40,7 +40,7 @@ describe ("Server-Side Routing:", function() {
   })
 
 
-  describe("The server", function() {
+  describe("General", function() {
     it_ ("should serve an example endpoint", function * (){
       yield request(app)
         .get('/test/example_endpoint')
@@ -59,8 +59,10 @@ describe ("Server-Side Routing:", function() {
           expect(response.text).to.include('!DOCTYPE html>' || '!DOCTYPE html>\n'); //this may need to be deactivated... iffy test condition.
         })
     })
+  })
 
-      xit_ ("BLANK TEST", function * (){
+  describe("Users", function() {
+    xit_ ("(POST, /signup) : should sign up new users", function * (){
       yield request(app)
         .get('A ROUTE HERE')
         .expect(200)
@@ -69,6 +71,128 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
+    xit_ ("(POST, /login) : should sign in existing users", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+
+    xit_ ("(DELETE, /users) : should delete a user", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+
+    xit_ ("(GET, /users) : should get information about a single user", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+
+    xit_ ("(GET, /logout) : should sign out a user", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
   })
+
+  describe("Items", function() {
+    
+    xit_ ("(POST, /items) : should create a new item", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    }) 
+
+    xit_ ("(GET, /items) : should get searched items by name and zipcode", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+
+    xit_ ("(DELETE, /items) : should delete an item", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    }) 
+
+    xit_ ("(GET, /items/user) : should get items that a user owns", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })   
+
+    xit_ ("(GET, /items/user/is_renting) : should get items a user is renting", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+
+    xit_ ("(GET, /items/user/rented_from) : should get items being rented from a user", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    }) 
+  })
+
+  describe("Rentals", function() {
+    xit_ ("(POST, /bookings) : should make a new booking if no conflicts", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+
+    xit_ ("(GET, /bookings) : should get bookings for a given item", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+
+    xit_ ("(DELETE, /bookings) : should delete a booking", function * (){
+      yield request(app)
+        .get('A ROUTE HERE')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('test');
+        })
+    })
+  })
+
 
 })
