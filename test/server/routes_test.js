@@ -83,7 +83,7 @@ describe ("Server-Side Routing:", function() {
           expect(response.body.user).to.exist;
         })
 
-      //attempt to sign up with a claimed username
+    //attempt to sign up with a claimed username
     yield request(app)
       .post('/signup')
         .send(body)
@@ -95,20 +95,56 @@ describe ("Server-Side Routing:", function() {
     })
 
     xit_ ("(POST, /login) : should sign in existing users", function * (){
+      var user = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+      }
+
+      var body = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/login')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('completed');
+          expect(response.body.user).to.exist;
+          expect(response.body.user.username).to.equal('MustardForBreakfast')
         })
+
+      //attempt to sign in when already signed in
+      yield request(app)
+        .post('/login')
+          .send(body)
+          .expect(400)
+          .expect(function(response) {
+            expect(response.body.status).to.equal('failed');
+            expect(response.body.message).to.equal('User already signed in!'); 
+          })
     })
 
     xit_ ("(DELETE, /users) : should delete a user", function * (){
+
+      var user = {
+        username : 'MustardForBreakfast',
+        password : 'password',
+      }
+
+      var body = {
+        'user' : user,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .delete('/users')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('user deleted');
         })
     })
 
