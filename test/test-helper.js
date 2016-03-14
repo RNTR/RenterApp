@@ -5,8 +5,8 @@ process.env.NODE_ENV = 'test'
 // Example:
 //  var User = require(__server + '/models/user.js')
 //
-global.__server = __dirname + '/../server'
-global.__client = __dirname + '/../client'
+global.__server = __dirname + '/../server.js'
+global.__client = __dirname + '/../client' // NOTE: this isn't hooked up to anything right now. (Justin)
 
 //
 // Assertions

@@ -23,6 +23,7 @@
   "homepage": "https://github.com/RNTR/RenterApp#readme",
   "dependencies": {
     "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.0",
     "browserify-middleware": "^7.0.0",
     "express": "^4.13.4",
     "fontfaceobserver": "^1.6.4",
