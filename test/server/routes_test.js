@@ -46,7 +46,7 @@ describe ("Server-Side Routing:", function() {
         .get('/test/example_endpoint')
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('Hi there, your GET request has fulfilled!')
+          expect(response.body).to.include('Hi there, your GET request has fulfilled!');
         })
     })
 
@@ -55,7 +55,8 @@ describe ("Server-Side Routing:", function() {
         .get('/')
         .expect(200)
         .expect(function(response) {
-          expect(response.text).to.include('!DOCTYPE html>' || '!DOCTYPE html>\n')
+          expect(response.type).to.equal('text/html');
+          expect(response.text).to.include('!DOCTYPE html>' || '!DOCTYPE html>\n'); //this may need to be deactivated... iffy test condition.
         })
     })
 
@@ -64,7 +65,7 @@ describe ("Server-Side Routing:", function() {
         .get('A ROUTE HERE')
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test')
+          expect(response.body).to.include('test');
         })
     })
 
