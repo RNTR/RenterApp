@@ -243,11 +243,41 @@ describe ("Server-Side Routing:", function() {
   describe("Items", function() {
     
     xit_ ("(POST, /items) : should create a new item", function * (){
+
+      //add a user
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userID,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var body = {
+        'item' : itemObj,
+        'message' : 'here is an item.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/items')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.item).to.exist;
+          expect(response.body.status).to.equal('complete')
+          expect(response.body.message).to.equal('item added.')
+          expect(response.body.item.name).to.equal('Lawn Mower')
         })
     }) 
 
