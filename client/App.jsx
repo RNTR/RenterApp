@@ -1,7 +1,8 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var GlobalNavBar = require('./components/GlobalNavBar.jsx')
-var HomePage = require('./components/HomePage.jsx')
+var GlobalNavBar = require('./components/GlobalNavBar.jsx');
+var HomePage = require('./components/HomePage.jsx');
+var UserPage = require('./components/UserPage.jsx');
 
 
 
@@ -10,13 +11,29 @@ var NavBar = React.createElement(GlobalNavBar, {
 });
 
 var Home = React.createElement(HomePage, {
-  navbar: GlobalNavBar.render
+  // navbar: GlobalNavBar.render
 });
 
 
-NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'))
 
-Home = ReactDOM.render(Home, document.getElementById('app'))
+
+NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
+
+Home = ReactDOM.render(Home, document.getElementById('app'));
+
+
+
+
+
+
+
+
+var User = React.createElement(UserPage, {
+  navBar: GlobalNavBar.render
+});
+
+
+User = ReactDOM.render(User, document.getElementById('user'))
 
 
 // We will also use ReactDOM.render here. From the tyler mcginnis tutorial -

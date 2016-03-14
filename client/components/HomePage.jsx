@@ -1,6 +1,5 @@
 var react = require('react');
 var Router = require('react-router');
-// var Home = require('./components/Home')
 var Link = Router.Link
 import React from 'react'
 var style = {
