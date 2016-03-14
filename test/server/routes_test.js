@@ -50,6 +50,15 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
+    it_ ("should serve an html page on '/'", function * (){
+      yield request(app)
+        .get('/')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.text).to.include('!DOCTYPE html>' || '!DOCTYPE html>\n')
+        })
+    })
+
   })
 
 })

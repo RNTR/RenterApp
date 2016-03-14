@@ -6,16 +6,23 @@ var db = require('./db/dbConfig.js'); //database stuff (justin)
 var webpack = require('webpack');
 
 
+
+//basic post route
+routes.get('/', function (req, res) {
+    res.sendFile(path.join( __dirname + '/client/public/index.html' ));
+});
+
+//basic post route
+routes.post('/ENDPOINT HERE', function (req, res) {
+
+});
+
+
 if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
 
   var app = express();
   app.use( require('body-parser').json() )
   app.use('/', routes);
-
-  //basic post route
-  app.post('/ENDPOINT HERE', function (request, response) {
-
-  });
 
   // The Catch-all Route. Make sure this route is last.
   routes.get('/*', function(req, res){
