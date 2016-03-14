@@ -3,10 +3,10 @@ require('../test-helper.js');
 var chai = require('chai');
 var expect = require('chai').expect;
 var request = require('supertest');
+var routes = require('../../server.js');
 var env = process.env.NODE_ENV;
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
-var dbMethod = require('../../db/dbMethods.js');
 var Promise = require('bluebird');
 
 
@@ -19,6 +19,10 @@ function truncate () {
 };
 
 describe ("Server-Side Routing:", function() {
+
+  var app = TestHelper.createApp() //TestHelper is a global object declared in test-helper.js
+  app.use('/', routes)
+  app.testReady()
 
   beforeEach(function(done) {
     truncate()
@@ -36,12 +40,16 @@ describe ("Server-Side Routing:", function() {
   })
 
 
-  describe("Test test", function() {
-    it_ ("Should pass a basic test: 1+1=2", function * (){
-      expect(1+1).to.equal(2);
+  describe("The server", function() {
+    it_ ("should serve an example endpoint", function * (){
+      yield request(app)
+        .get('/test/example_endpoint')
+        .expect(200)
+        .expect(function(response) {
+          expect(response.body).to.include('Hi there, your GET request has fulfilled!')
+        })
     })
+
   })
-
-
 
 })

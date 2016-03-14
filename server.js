@@ -9,6 +9,7 @@ var webpack = require('webpack');
 if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
 
   var app = express();
+  app.use( require('body-parser').json() )
   app.use('/', routes);
 
   //basic post route
@@ -29,5 +30,9 @@ if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
 }
 
 else {  // i.e. when in Test mode...
+
+routes.get('/test/example_endpoint', function(req, res) {
+  res.send(['Hi there, your GET request has fulfilled!'])
+})
   module.exports = routes;
 }
