@@ -8,6 +8,7 @@ var env = process.env.NODE_ENV;
 var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
 var Promise = require('bluebird');
+var dbMethod = require('../../db/dbMethods.js');
 
 
 //Truncate empties the database tables. It is called once before each test and again after all have run.
@@ -148,12 +149,28 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(GET, /users) : should get information about a single user", function * (){
+    xit_ ("(POST, /users) : should retrieve information about a single user", function * (){
+
+
+      //add a user
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
+        .then(function(IDArray){
+          return IDArray[0];
+        })
+
+      var body = {
+        'userID' : userID,
+        'message' : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/users')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.status).to.equal('complete');
+          expect(response.body.user).to.exist;
+          expect(response.body.user.username).to.equal('MustardForBreakfast');
         })
     })
 
