@@ -2,7 +2,30 @@
  var Promise = require('bluebird');
 
 
- exports.getUserRoute = function(req){
+
+////// - USER FUNCTIONS - ///////
+
+
+
+exports.signupRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+ }
+
+exports.loginRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+ }
+
+exports.logoutRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+ }
+
+exports.getUserRoute = function(req){
  	return new Promise(function(fulfill, reject){
 	 	if (req.body.userID){
 	      dbMethod.getUserByID(req.body.userID)
@@ -36,3 +59,74 @@
 	})
  }
 
+exports.deleteUserRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+
+
+////// - ITEM FUNCTIONS - ///////
+
+
+
+exports.createItemRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+exports.searchItemsRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+exports.getOwnedRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+exports.isRentingRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+exports.rentedFromRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+exports.deleteItemRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+
+
+////// - RENTAL FUNCTIONS - ///////
+
+
+
+exports.createRentalRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+exports.rentalsForItemRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
+
+exports.deleteRentalRoute = function(req){
+ 	return new Promise(function(fulfill, reject){
+ 		fulfill('test')
+ 	})
+}
