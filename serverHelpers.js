@@ -98,7 +98,38 @@ exports.deleteUserRoute = function(reqBody){
 
 exports.createItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var item = reqBody.item;
+ 		dbMethod.addItem(item)
+ 			.then(function(response){
+ 				if (typeof response[0] === 'number'){
+ 					var newItem;
+ 					console.log(response[0]);
+ 					dbMethod.getItemByID(response[0])
+ 						.then(function(res){
+ 							newItem = res[0];
+ 							var body = {
+ 								status : 'complete',
+ 								message : 'item added.',
+ 								item : newItem
+ 							}
+ 							fulfill(body);
+ 						})
+ 				} else if (response === 'We do not have a record of that items owner.') {
+ 					var body = {
+ 						status : 'failed',
+ 						message : response
+ 					}
+ 					reject(body);
+ 				}
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error : err
+ 				}
+ 				reject(body)
+ 			})
  	})
 }
 

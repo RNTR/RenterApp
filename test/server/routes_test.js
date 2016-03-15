@@ -249,7 +249,7 @@ describe ("Server-Side Routing:", function() {
 
   describe("Items", function() {
     
-    xit_ ("(POST, /items) : should create a new item", function * (){
+    it_ ("(POST, /items) : should create a new item", function * (){
       //add a user
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
