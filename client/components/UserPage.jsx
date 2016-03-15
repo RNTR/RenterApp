@@ -31,7 +31,7 @@ render: function(){
 			 <div className='userGreeting'>Welcome, {this.props.getUserInfo().username}</div>
 			  <div className='yourStuffForRent'> Your stuff for rent: 
 			 
-			  	<div className='yourItemForRent'>TV</div>            
+			  	<div className='yourItemForRent'></div>            
 			  </div>
 			  	<div className='stuffYouAreRenting'>Stuff you are renting from others
 			  	  <div className='itemYouAreRenting'>ITEM YOU ARE RENTING</div>
@@ -56,3 +56,7 @@ module.exports = UserPage;
 // this.props.listings.map(function(listing) {
 // 			  		<ThingForRent listing={listing} />
 // 			  	})
+
+
+
+// {this.props.getUserItemsForRent()}

@@ -28,7 +28,8 @@ var Home = React.createElement(HomePage, {
 });
 
 var User = React.createElement(UserPage, {
-    getUserInfo: postRequests.getUserInfo
+    getUserInfo: postRequests.getUserInfo,
+    getUserItemsForRent: postRequests.getUserItemsForRent
 });
 
 var NewListing = React.createElement(MakeNewListing, {

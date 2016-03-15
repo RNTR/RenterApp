@@ -23,6 +23,17 @@ exports.getItem = function(){
 
 };
 
+exports.getUserItemsForRent = function(){
+
+  var items = {
+    item1: 'lawnmower',
+    item2: 'sewing machine'
+
+  };
+  return items;
+
+};
+
 exports.listNewItem = function(){};
 
 exports.requestRental = function(){};
