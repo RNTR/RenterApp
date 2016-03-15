@@ -423,7 +423,7 @@ describe ("Server-Side Routing:", function() {
         })
     }) 
 
-    xit_ ("(POST, /items/user) : should get items that a user owns", function * (){
+    it_ ("(POST, /items/user) : should get items that a user owns", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -634,7 +634,7 @@ describe ("Server-Side Routing:", function() {
       yield dbMethod.addRental(rentalFour);
 
       var body = {
-        rentingUser : userTwo,
+        userID : userTwo,
         message : 'here is a user.'
       }
 

@@ -94,6 +94,14 @@
 
   routes.post('/items/user', function (req, res){
     // retrieve items that a user owns.
+    //IN PROGRES...
+    helpers.getOwnedRoute(req.body)
+      .then(function(response){
+        res.status(200).send(response)
+      })
+      .catch(function(err){
+        res.status(500).send(err);
+      })
   })
 
   routes.post('/items/user/is_renting', function (req, res){

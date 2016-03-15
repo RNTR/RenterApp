@@ -86,7 +86,6 @@ exports.deleteUserRoute = function(reqBody){
  				}
  				reject(err);
  			})
-
  	})
 }
 
@@ -103,7 +102,6 @@ exports.createItemRoute = function(reqBody){
  			.then(function(response){
  				if (typeof response[0] === 'number'){
  					var newItem;
- 					console.log(response[0]);
  					dbMethod.getItemByID(response[0])
  						.then(function(res){
  							newItem = res[0];
@@ -162,7 +160,24 @@ exports.searchItemsRoute = function(reqBody){
 
 exports.getOwnedRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var userID = reqBody.user_id;
+ 		dbMethod.getItemsByOwnerID(userID)
+ 			.then(function(items){
+ 				var body = {
+ 					status : 'complete',
+ 					message : 'items retrieved.',
+ 					'items' : items
+ 				}
+ 				fulfill(body);
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error : err
+ 				}
+ 				reject(body);
+ 			})
  	})
 }
 
