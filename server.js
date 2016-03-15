@@ -8,7 +8,7 @@
   
   //generic GET route
   routes.get('/', function (req, res) {
-      res.sendFile(path.join( __dirname + '/client/public/index.html' ));
+      res.sendFile(path.join( __dirname + '/dist/index.html' ));
   });
  
  //generic POST route
@@ -25,7 +25,7 @@
    // The Catch-all Route. Make sure this route is last.
    routes.get('/*', function(req, res){
      console.log('catch-all route triggered');
-     res.sendFile(path.join( __dirname + '/client/public/index.html' ));
+     res.sendFile(path.join( __dirname + '/dist/index.html' ));
    });
  
    // Start the server
