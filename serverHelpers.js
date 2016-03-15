@@ -7,28 +7,28 @@
 
 
 
-exports.signupRoute = function(req){
+exports.signupRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
  }
 
-exports.loginRoute = function(req){
+exports.loginRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
  }
 
-exports.logoutRoute = function(req){
+exports.logoutRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
  }
 
-exports.getUserRoute = function(req){
+exports.getUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
-	 	if (req.body.userID){
-	      dbMethod.getUserByID(req.body.userID)
+	 	if (reqBody.userID){
+	      dbMethod.getUserByID(reqBody.userID)
 	        .then(function(response){
 	          body = {};
 	          body.user = {};
@@ -38,8 +38,8 @@ exports.getUserRoute = function(req){
 	          body.message = 'user retrieved.'
 	          fulfill(body);
 	        })
-	    } else if (req.body.username){
-	      dbMethod.getUserByID(req.body.username)
+	    } else if (reqBody.username){
+	      dbMethod.getUserByID(reqBody.username)
 	        .then(function(response){
 	          body = {};
 	          body.user = {};
@@ -59,9 +59,34 @@ exports.getUserRoute = function(req){
 	})
  }
 
-exports.deleteUserRoute = function(req){
+exports.deleteUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var user = reqBody.user;
+ 		var userID = user.userID;
+ 		dbMethod.removeUser(userID)
+ 			.then(function(response){
+ 				var obj = {};
+ 				if (response.length !== 0){
+ 					obj.status = 'complete';
+ 					obj.message = 'user deleted';
+ 					obj.user = user;
+ 					fulfill(obj);
+ 				} else {
+ 					obj.status = 'failed';
+ 					obj.message = 'user was not deleted - user did not exist';
+ 					reject(obj);
+ 				}
+ 			})
+ 			.catch(function(err){
+ 				//do something with err
+ 				console.log('error in helper: ',err)
+ 				var errorBody = {
+ 					status : 'failed',
+ 					message : 'internal error'
+ 				}
+ 				reject(err);
+ 			})
+
  	})
 }
 
@@ -71,37 +96,37 @@ exports.deleteUserRoute = function(req){
 
 
 
-exports.createItemRoute = function(req){
+exports.createItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.searchItemsRoute = function(req){
+exports.searchItemsRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.getOwnedRoute = function(req){
+exports.getOwnedRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.isRentingRoute = function(req){
+exports.isRentingRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.rentedFromRoute = function(req){
+exports.rentedFromRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.deleteItemRoute = function(req){
+exports.deleteItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
@@ -113,19 +138,19 @@ exports.deleteItemRoute = function(req){
 
 
 
-exports.createRentalRoute = function(req){
+exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.rentalsForItemRoute = function(req){
+exports.rentalsForItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.deleteRentalRoute = function(req){
+exports.deleteRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})

@@ -150,7 +150,7 @@ describe ("Server-Side Routing:", function() {
           })
     })
 
-    xit_ ("(DELETE, /users) : should delete a user", function * (){
+    it_ ("(DELETE, /users) : should delete a user", function * (){
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
         .then(function(IDArray){
           return IDArray[0];
@@ -158,7 +158,7 @@ describe ("Server-Side Routing:", function() {
 
       var user = {
         username : 'MustardForBreakfast',
-        'userID' : userID, //not technically necessary - either uername or id works, as both are unique
+        'userID' : userID,
         password : 'password'
       }
 
@@ -174,6 +174,15 @@ describe ("Server-Side Routing:", function() {
         .expect(function(response) {
           expect(response.body.status).to.equal('complete');
           expect(response.body.message).to.equal('user deleted');
+        })
+
+      yield request(app)
+        .delete('/users')
+        .send(body)
+        .expect(400)
+        .expect(function(response) {
+          expect(response.body.status).to.equal('failed');
+          expect(response.body.message).to.equal('user was not deleted - user did not exist');
         })
     })
 

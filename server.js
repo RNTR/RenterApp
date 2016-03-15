@@ -36,17 +36,28 @@
 
   routes.post('/users', function (req, res){
     // retrieve info about a single user.
-    helpers.getUserRoute(req)
+    helpers.getUserRoute(req.body)
       .then(function(response){
-        res.status(200).send(body)
+        res.status(200).send(response)
       })
       .catch(function(err){
-        res.status(400).send(error)
+        res.status(400).send(err)
       })
   })
 
   routes.delete('/users', function (req, res){
     // delete a user's account.
+    helpers.deleteUserRoute(req.body)
+      .then(function(response){
+        res.status(200).send(response)
+      })
+      .catch(function(err){
+        if (err.message = 'user was not deleted - user did not exist'){
+          res.status(400).send(err)
+        } else {
+          res.status(500).send(err)
+        }
+      })
   })
 
 
