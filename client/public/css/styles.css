@@ -100,6 +100,7 @@
 .yourStuffForRent .yourItemForRent {
 	position: relative;
 	font-size: 20px;
+	margin-left: 20px;
 }
 
 .stuffYouAreRenting {
@@ -119,6 +120,7 @@
 
 .stuffYouAreRenting .itemYouAreRenting {
 	font-size: 20px;
+	margin-left: 20px;
 
 }
 
@@ -136,4 +138,5 @@
 
 .stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
 	font-size: 20px;
+	margin-left: 20px;
 }
