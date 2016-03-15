@@ -177,7 +177,7 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(POST, /users) : should retrieve information about a single user", function * (){
+    it_ ("(POST, /users) : should retrieve information about a single user", function * (){
       //add a user
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
         .then(function(IDArray){

@@ -3,6 +3,7 @@
  var reactify = require('reactify');
  var routes = express.Router();
  var db = require('./db/dbConfig.js');
+ var dbMethod = require('./db/dbMethods.js')
  var webpack = require('webpack');
   
   
@@ -19,18 +20,47 @@
 
   routes.post('/signup', function (req, res){
     // sign up a new user.
+    // TODO... need auth stuff.
   })
 
   routes.post('/login', function (req, res){
     // log a user in.
+    // TODO... need auth stuff.
   })
 
   routes.post('/logout', function (req, res){
     // log a user out.
+    // TODO... need auth stuff.
   })
 
   routes.post('/users', function (req, res){
     // retrieve info about a single user.
+    if (req.body.userID){
+      dbMethod.getUserByID(req.body.userID)
+        .then(function(response){
+          body = {};
+          body.user = {};
+          body.user.username = response[0].username;
+          body.user.email = response[0].email
+          body.status = 'complete'
+          body.message = 'user retrieved.'
+          //"res.status is not a function"
+          res.status(200).send(body)
+        })
+    } else if (req.body.username){
+      dbMethod.getUserByUsername(req.body.username)
+        .then(function(response){
+          console.log('name response: ', response)
+          var body = {};
+          res.status(200).send(body)
+        })
+    } else {
+      var errorBody = {
+        status : 'failed',
+        message : 'invalid request format. Please send a valid "userID" or "username" '
+      }
+      res.status(400).send(errorBody)
+    }
   })
 
   routes.delete('/users', function (req, res){
