@@ -6,15 +6,90 @@
  var webpack = require('webpack');
   
   
-  //generic GET route
+  //Root GET route
   routes.get('/', function (req, res) {
       res.sendFile(path.join( __dirname + '/dist/index.html' ));
   });
- 
- //generic POST route
- routes.post('/ENDPOINT HERE', function (req, res) {
-  //take an action here.
- });
+
+
+
+  // ----- USER ROUTES -----
+
+
+
+  routes.post('/signup', function (req, res){
+    // sign up a new user.
+  })
+
+  routes.post('/login', function (req, res){
+    // log a user in.
+  })
+
+  routes.post('/logout', function (req, res){
+    // log a user out.
+  })
+
+  routes.post('/users', function (req, res){
+    // retrieve info about a single user.
+  })
+
+  routes.delete('/users', function (req, res){
+    // delete a user's account.
+  })
+
+
+
+  // ----- ITEM ROUTES -----
+
+
+
+  routes.post('/items', function (req, res){
+    // create a new item.
+  })
+
+  routes.post('/items/search', function (req, res){
+    // retrieve items that match a searched name and ZIP code
+  })
+
+  routes.post('/items/user', function (req, res){
+    // retrieve items that a user owns.
+  })
+
+  routes.post('/items/user/is_renting', function (req, res){
+    // retrieve items that a user is renting, will rent,
+    // or has rented from others.
+  })
+
+  routes.post('/items/user/rented_from', function (req, res){
+    // retrieve items being rented, that will be rented, or 
+    // that have been rented from a user
+  })
+
+  routes.delete('/items', function (req, res){
+    // delete an item.
+  })
+
+
+
+  // ----- RENTAL ROUTES -----
+
+
+
+routes.post('/bookings', function (req, res){
+    // add a rental if no conflicts, reject a rental
+    // if conflicts exist
+  })
+
+routes.post('/bookings/item', function (req, res){
+    // get all rentals for a given item
+  })
+
+routes.delete('/bookings', function (req, res){
+    // delete a rental.
+  })
+
+
+
  
  if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
  
