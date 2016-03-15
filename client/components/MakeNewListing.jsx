@@ -18,30 +18,31 @@ var MakeNewListing = React.createClass({
           <br/>
           <input placeholder="Enter Item Name"></input>
         </form>
-        <form>
+        <form className="newListing">
           <label>Item Description:</label>
           <br/>
-          <textarea rows="5" cols="25" placeholder="Enter Item Description"></textarea>
+          <textarea rows="5" cols="50" placeholder="Enter Item Description"></textarea>
         </form>
-        <form>
+        <form className="newListing">
           <label>Photo URL:</label>
           <br/>
           <input placeholder="Enter Photo URL"></input>
         </form>
-        <form>
+        <form className="newListing">
           <label>Dates Available:</label>
           <br/>
           <input type="date">First Available</input>
           <input type="date">Last Available</input>
         </form>
-        <form>
+        <form className="newListing">
           <label>Price:</label>
           <div>${this.props.price}/hr</div>
         </form>
-        <form>
+        <form className="newListing">
           <label>Zip Code:{this.props.location}</label>
+					<br/>
+					<button className="newListing">Create Listing!</button>
         </form>
-        <button>Create Listing!</button>
       </div>
     )
   }
