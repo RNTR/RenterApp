@@ -1,3 +1,6 @@
+
+												/**** GLOBAL NAV BAR ****/
+
 .bar{
  font-family: 'Helvetica', 'Arial';
  font-size: 31px;
@@ -36,6 +39,16 @@
 
 }
 
+.bar .searchbar {
+	font-size: 20px;
+	top: 1.5%;
+	right: 50%;
+	position: fixed;
+
+}
+
+												/**** HOME PAGE ****/
+
 .HomePageGreeting {
 	font-family: 'Helvetica', 'Arial';
 	font-size: 34px;
@@ -47,14 +60,48 @@
 
 }
 
-.bar .searchbar {
-	font-size: 20px;
-	top: 1.5%;
-	right: 50%;
-	position: fixed;
+
+.HomePageMain {
 
 }
 
-.HomePageMain {
+												/**** USER PAGE ****/
+
+.userGreeting {
+		font-size: 30px;
+	top: 20%;
+	right: 80%;
+	position: absolute;
+
+}
+
+.yourStuffForRent {
+	font-size:26px;
+	position: absolute;
+	top: 30%;
+	right:70%;
+	border: 1px solid black;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.yourStuffForRent .yourItemForRent {
+	position: relative;
+	font-size: 20px;
+}
+
+.stuffYouAreRenting {
+
+	font-size:26px;
+	position: absolute;
+	top:40%;
+	right:64%;
+	border: 1px solid black;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.stuffYouAreRenting .itemYouAreRenting {
+	font-size: 20px;
 
 }
