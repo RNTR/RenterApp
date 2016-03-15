@@ -5,6 +5,9 @@
  font-family: 'Avenir';
  font-size: 31px;
  color: black;
+ border-bottom: 1px dotted black;
+ margin-left: 10%;
+ margin-right:4%;
 
 /* border: 1px solid black;*/
 } 
@@ -70,9 +73,14 @@
 .userGreeting {
 	font-family: 'Avenir';
 	font-size: 30px;
-	top: 20%;
+	top: 30%;
 	right: 80%;
 	position: static;
+	border-bottom: .5px dotted black;
+	margin-top: 30px;
+	margin-bottom: 15px;
+	margin-left: 5%;
+	margin-right: 5%;
 
 }
 
@@ -82,9 +90,10 @@
 	position: static;
 	top: 30%;
 	right:70%;
-	border: .25px solid black;
+	border-bottom: .5px dotted black;
 	margin-left: auto;
     margin-right: auto;
+    margin-top: 15px;
 }
 
 .yourStuffForRent .yourItemForRent {
@@ -98,9 +107,10 @@
 	position: static;
 	top:40%;
 	right:64%;
-	border: .25px solid black;
+	border-bottom: .5px dotted black;
 	margin-left: auto;
     margin-right: auto;
+    margin-top: 15px;
 }
 
 .stuffYouAreRenting .itemYouAreRenting {
@@ -114,9 +124,10 @@
 	position: static;
 	top: 55%;
 	right:70%;
-	border: .25px solid black;
+	border-bottom: .5px dotted black;
 	margin-left: auto;
     margin-right: auto;
+    margin-top: 15px;
 }
 
 .stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
