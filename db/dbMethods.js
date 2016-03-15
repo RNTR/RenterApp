@@ -216,8 +216,6 @@ exports.getItemByID = function(ID){
 				console.error('error getting item by ID: ', err);
 				reject(err);
 			})
-
-
 	})
 }
 
