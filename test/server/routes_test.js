@@ -20,7 +20,6 @@ function truncate () {
 };
 
 describe ("Server-Side Routing:", function() {
-
   var app = TestHelper.createApp() //TestHelper is a global object declared in test-helper.js
   app.use('/', routes)
   app.testReady()
@@ -39,7 +38,6 @@ describe ("Server-Side Routing:", function() {
       done();
     })
   })
-
 
   describe("General", function() {
     it_ ("should serve an example endpoint", function * (){
@@ -243,7 +241,6 @@ describe ("Server-Side Routing:", function() {
   describe("Items", function() {
     
     xit_ ("(POST, /items) : should create a new item", function * (){
-
       //add a user
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
@@ -282,7 +279,6 @@ describe ("Server-Side Routing:", function() {
     }) 
 
     xit_ ("(POST, /items/search) : should get searched items by name and zipcode", function * (){
-
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -377,7 +373,6 @@ describe ("Server-Side Routing:", function() {
     })
 
     xit_ ("(DELETE, /items) : should delete an item", function * (){
-
       var user = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -659,7 +654,6 @@ describe ("Server-Side Routing:", function() {
     })
 
     xit_ ("(POST, /items/user/rented_from) : should get items being rented from a user", function * (){
-
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -809,32 +803,274 @@ describe ("Server-Side Routing:", function() {
 
   describe("Rentals", function() {
     xit_ ("(POST, /bookings) : should make a new booking if no conflicts", function * (){
+      var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 3, 00, 0); // March 18th, 2016 at 3AM
+      var itemEnd = new Date(2016, 5, 17, 5, 00, 0); // June 18th, 2016 at 5AM
+
+      var rentOneStart = new Date(2016, 2, 17, 3, 00, 0); // March 18th, 2016 at 3AM
+      var rentOneEnd = new Date(2016, 2, 20, 5, 00, 0); // March 21st, 2016 at 5AM
+
+      var rentTwoStart = new Date(2016, 2, 21, 3, 00, 0); // March 22nd, 2016 at 3AM
+      var rentTwoEnd = new Date(2016, 2, 25, 5, 00, 0); // March 26th, 2016 at 5AM
+
+      //collides with rentOneStart/rentOneEnd
+      var rentThreeStart = new Date(2016, 2, 20, 3, 00, 0); // March 21st, 2016 at 3AM
+      var rentThreeEnd = new Date(2016, 2, 22, 5, 00, 0); // March 23rd, 2016 at 5AM
+
+      var item = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      //add each item
+      var itemID = yield dbMethod.addItem(item)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var rentalOne = {
+        'user_id' : userTwo,
+        'item_id' : itemID,
+        'date_start' : rentOneStart,
+        'date_end' : rentOneEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalTwo = {
+        'user_id' : userTwo,
+        'item_id' : itemID,
+        'date_start' : rentTwoStart,
+        'date_end' : rentTwoEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalThree = {
+        'user_id' : userTwo,
+        'item_id' : itemID,
+        'date_start' : rentThreeStart,
+        'date_end' : rentThreeEnd,
+        'is_confirmed' : 'true'
+      }
+
+      yield dbMethod.addRental(rentalOne);
+
+      var rentalTwoBody = {
+        rental : rentalTwo,
+        message : 'this rental should not conflict.'
+      }
+
+      var rentalThreeBody = {
+        rental : rentalThree,
+        message: 'this rental SHOULD conflict.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/bookings')
+        .send(rentalTwoBody)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('rental created.');
+          expect(response.body.rental.user_id).to.equal(userTwo)
+        })
+
+      yield request(app)
+        .post('/bookings')
+        .send(rentalThreeBody)
+        .expect(409)
+        .expect(function(response) {
+          expect(response.body.status).to.equal('failed');
+          expect(response.body.message).to.equal('booking conflict detected.');
         })
     })
 
-    xit_ ("(GET, /bookings) : should get bookings for a given item", function * (){
+    xit_ ("(POST, /bookings/item) : should get bookings for a given item", function * (){
+      var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemStart = new Date(2016, 2, 17, 3, 00, 0); // March 18th, 2016 at 3AM
+      var itemEnd = new Date(2016, 5, 17, 5, 00, 0); // June 18th, 2016 at 5AM
+
+      var rentOneStart = new Date(2016, 2, 17, 3, 00, 0); // March 18th, 2016 at 3AM
+      var rentOneEnd = new Date(2016, 2, 20, 5, 00, 0); // March 21st, 2016 at 5AM
+
+      var rentTwoStart = new Date(2016, 2, 21, 3, 00, 0); // March 22nd, 2016 at 3AM
+      var rentTwoEnd = new Date(2016, 2, 25, 5, 00, 0); // March 26th, 2016 at 5AM
+
+
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      var itemTwo = {
+        'name': 'Pickup Truck',
+        'address': 'A different address',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': itemStart,
+        'date_end': itemEnd
+      }
+
+      //add each item
+      var itemIdOne = yield dbMethod.addItem(itemOne)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemIdTwo = yield dbMethod.addItem(itemTwo)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var rentalOne = {
+        'user_id' : userTwo,
+        'item_id' : itemIdOne,
+        'date_start' : rentOneStart,
+        'date_end' : rentOneEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalTwo = {
+        'user_id' : userTwo,
+        'item_id' : itemIdOne,
+        'date_start' : rentTwoStart,
+        'date_end' : rentTwoEnd,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalThree = {
+        'user_id' : userTwo,
+        'item_id' : itemIdTwo,
+        'date_start' : rentTwoStart,
+        'date_end' : rentTwoEnd,
+        'is_confirmed' : 'true'
+      }
+
+      yield dbMethod.addRental(rentalOne);
+      yield dbMethod.addRental(rentalTwo);
+      yield dbMethod.addRental(rentalThree);
+
+      var body = {
+        itemID : itemIdOne,
+        message : 'here is an item - show me the rentals for it.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/bookings/item')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('rentals retrieved.');
+          expect(response.body.rentals).to.be.a('array');
+          expect(response.body.rentals.length).to.equal(2)
+          expect(response.body.rentals[0].renterID).to.exist;
+
+          var itemIDs = [];
+          response.body.rentals.forEach(function(x){
+            itemNames.push(x.userID)
+          })
+
+          expect(itemIDs).to.contain(itemIdOne);
+          expect(itemNames).not.to.contain(itemIdTwo)
         })
     })
 
     xit_ ("(DELETE, /bookings) : should delete a booking", function * (){
+    var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 18th, 2016 at 3AM
+      var end = new Date(2016, 5, 17, 5, 00, 0); // June 18th, 2016 at 5AM
+
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemIdOne = yield dbMethod.addItem(itemOne)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var rentalOne = {
+        'user_id' : userTwo,
+        'item_id' : itemIdOne,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalID = yield dbMethod.addRental(rentalOne)
+        .then(function(rentalIDArray){
+          return rentalIDArray[0];
+        })
+
+      var body = {
+        'rentalID' : rentalID,
+        message : 'here is a rental. Please delete it.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .delete('/bookings')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('rental deleted.');
+          expect(response.body.rentalID).to.equal(rentalID);
+        })
+
+      //rental should not be there anymore if we look for it.
+      yield dbMethod.getRentalByRentalID(rentalID)
+        .then(function(bool){
+          expect.bool.to.equal(false);
         })
     })
   })
-
-
 })
