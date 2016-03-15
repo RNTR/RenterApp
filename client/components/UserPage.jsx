@@ -11,7 +11,7 @@ getInitialState: function(){
 },
 
 componentDidMount: function(){
-	return console.log(this.props.getUser().username);
+	return console.log(this.props.getUserInfo().username);
 },
 
 navBar: function(){}, //load globalNavBar
@@ -28,8 +28,9 @@ getCurrentRentedItems: function(){},
 
 render: function(){
 	return (<div className='userPage'>
-			 <div className='userGreeting'>Welcome, {this.componentDidMount}</div>
+			 <div className='userGreeting'>Welcome, {this.props.getUserInfo().username}</div>
 			  <div className='yourStuffForRent'> Your stuff for rent: 
+			 
 			  	<div className='yourItemForRent'>TV</div>            
 			  </div>
 			  	<div className='stuffYouAreRenting'>Stuff you are renting from others
@@ -50,3 +51,8 @@ render: function(){
 
 
 module.exports = UserPage;
+
+
+// this.props.listings.map(function(listing) {
+// 			  		<ThingForRent listing={listing} />
+// 			  	})
