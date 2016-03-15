@@ -287,7 +287,7 @@ describe ("Server-Side Routing:", function() {
         })
     }) 
 
-    xit_ ("(POST, /items/search) : should get searched items by name and zipcode", function * (){
+    it_ ("(POST, /items/search) : should get searched items by name and zipcode", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];

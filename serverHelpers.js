@@ -135,7 +135,28 @@ exports.createItemRoute = function(reqBody){
 
 exports.searchItemsRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var name = reqBody.searchTerm;
+ 		var zip = reqBody.zipCode;
+ 		dbMethod.getItemsByName(name)
+ 			.then(function(items){
+ 				var results = items.filter(function(x){
+ 					return x.zip.toString() === zip;
+ 				})
+ 				var body = {
+ 					status : 'complete',
+ 					message : 'items retrieved.',
+ 					'items' : results
+ 				}
+ 				fulfill(body);
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error : err
+ 				}
+ 				reject(body);
+ 			})
  	})
 }
 
