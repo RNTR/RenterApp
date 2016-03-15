@@ -10,7 +10,7 @@
  margin-right:4%;
 
 /* border: 1px solid black;*/
-} 
+}
 
 .bar .signup {
 	top: 1.5%;
@@ -29,7 +29,7 @@
 
 
 .bar .myProfile {
-	
+
 	font-size: 23px;
 	top: 1.5%;
 	right: 5%;
@@ -139,4 +139,9 @@
 .stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
 	font-size: 20px;
 	margin-left: 20px;
+}
+
+.newListing {
+  font-family: 'Avenir';
+  font-size: 18px;
 }

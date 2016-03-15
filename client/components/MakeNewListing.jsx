@@ -12,7 +12,7 @@ listItem: function(){},  // post.js has a listNewItem function
 
 render: function(){
 	return ( <div className="newlisting">
-	<form>
+	<form className="newListing">
 		<label>Item Name:</label>
 		<br/>
 		<input placeholder="Enter Item Name"></input>
