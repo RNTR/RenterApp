@@ -2,7 +2,7 @@
 												/**** GLOBAL NAV BAR ****/
 
 .bar{
- font-family: 'Helvetica', 'Arial';
+ font-family: 'Avenir';
  font-size: 31px;
  color: black;
 
@@ -50,7 +50,7 @@
 												/**** HOME PAGE ****/
 
 .HomePageGreeting {
-	font-family: 'Helvetica', 'Arial';
+	font-family: 'Avenir';
 	font-size: 34px;
 	position: absolute;
 	top: 40%;
@@ -68,19 +68,21 @@
 												/**** USER PAGE ****/
 
 .userGreeting {
-		font-size: 30px;
+	font-family: 'Avenir';
+	font-size: 30px;
 	top: 20%;
 	right: 80%;
-	position: absolute;
+	position: static;
 
 }
 
 .yourStuffForRent {
+	font-family: 'Avenir';
 	font-size:26px;
-	position: absolute;
+	position: static;
 	top: 30%;
 	right:70%;
-	border: 1px solid black;
+	border: .25px solid black;
 	margin-left: auto;
     margin-right: auto;
 }
@@ -91,12 +93,12 @@
 }
 
 .stuffYouAreRenting {
-
+	font-family: 'Avenir';
 	font-size:26px;
-	position: absolute;
+	position: static;
 	top:40%;
 	right:64%;
-	border: 1px solid black;
+	border: .25px solid black;
 	margin-left: auto;
     margin-right: auto;
 }
@@ -104,4 +106,19 @@
 .stuffYouAreRenting .itemYouAreRenting {
 	font-size: 20px;
 
+}
+
+.stuffOthersAreRentingFromYou {
+	font-family: 'Avenir';
+	font-size:26px;
+	position: static;
+	top: 55%;
+	right:70%;
+	border: .25px solid black;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
+	font-size: 20px;
 }

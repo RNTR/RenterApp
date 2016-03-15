@@ -33,6 +33,9 @@ render: function(){
 			  	<div className='stuffYouAreRenting'>Stuff you are renting from others
 			  	  <div className='itemYouAreRenting'>ITEM YOU ARE RENTING</div>
 			  	</div>
+			  	  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you
+			  	    <div className='itemBeingRentedFromYou'>ITEM BEING RENTED</div>
+			  	  </div>
 
 
 			</div>);
