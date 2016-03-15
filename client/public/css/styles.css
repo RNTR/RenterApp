@@ -1,7 +1,13 @@
+
+												/**** GLOBAL NAV BAR ****/
+
 .bar{
- font-family: 'Helvetica', 'Arial';
+ font-family: 'Avenir';
  font-size: 31px;
  color: black;
+ border-bottom: 1px solid orange;
+ margin-left: 10%;
+ margin-right:4%;
 
 /* border: 1px solid black;*/
 } 
@@ -36,8 +42,18 @@
 
 }
 
+.bar .searchbar {
+	font-size: 20px;
+	top: 1.5%;
+	right: 50%;
+	position: fixed;
+
+}
+
+												/**** HOME PAGE ****/
+
 .HomePageGreeting {
-	font-family: 'Helvetica', 'Arial';
+	font-family: 'Avenir';
 	font-size: 34px;
 	position: absolute;
 	top: 40%;
@@ -47,14 +63,80 @@
 
 }
 
-.bar .searchbar {
-	font-size: 20px;
-	top: 1.5%;
-	right: 50%;
-	position: fixed;
-
-}
 
 .HomePageMain {
 
+}
+
+												/**** USER PAGE ****/
+
+.userGreeting {
+	font-family: 'Avenir';
+	font-size: 30px;
+	top: 30%;
+	right: 80%;
+	position: static;
+	/*border-bottom: .5px dotted black;*/
+	margin-top: 30px;
+	margin-bottom: 80px;
+	margin-left: 5%;
+	margin-right: 5%;
+
+}
+
+.yourStuffForRent {
+	font-family: 'Avenir';
+	font-size:26px;
+	position: static;
+	top: 30%;
+	right:70%;
+/*	border-bottom: .5px dotted black;*/
+	margin-left: 15px;
+    margin-right: auto;
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+
+.yourStuffForRent .yourItemForRent {
+	position: relative;
+	font-size: 20px;
+	margin-left: 20px;
+}
+
+.stuffYouAreRenting {
+	font-family: 'Avenir';
+	font-size:26px;
+	position: static;
+	top:40%;
+	right:64%;
+/*	border-bottom: .5px dotted black;*/
+
+	margin-left: 15px;
+    margin-right: auto;
+    margin-top: 15px;
+    margin-bottom: 40px;
+
+}
+
+.stuffYouAreRenting .itemYouAreRenting {
+	font-size: 20px;
+	margin-left: 20px;
+
+}
+
+.stuffOthersAreRentingFromYou {
+	font-family: 'Avenir';
+	font-size:26px;
+	position: static;
+	top: 55%;
+	right:70%;
+/*	border-bottom: .5px dotted black;*/
+	margin-left: 15px;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+.stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
+	font-size: 20px;
+	margin-left: 20px;
 }
