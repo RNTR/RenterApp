@@ -144,4 +144,6 @@
 .newListing {
   font-family: 'Avenir';
   font-size: 18px;
+  margin: 0 auto;
+  text-align: center;
 }
