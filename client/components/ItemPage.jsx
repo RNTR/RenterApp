@@ -11,19 +11,21 @@ getInitialState: function(){
 },
 
 componentDidMount: function(){
-	return console.log(this.props.getItem);
+	return {};
 },
 
-getItems: function(){}, //get.js has a getItems function
+getItems: function(){
+	return this.props.getItem
+}, 
 
 requestRental: function(){}, //post.js has a requestRental function
 
 render: function(){
 	return ( 
 		<div className="itemPage">
-		  <div className="itemName">ITEM NAME {this.props.getItem}</div>
-		  <div className="itemPhoto">Photo here {this.props.getItem.itemPhoto}</div>
-		  <div className='itemDescription'>Item description {this.props.getItem.itemDescription}</div>
+		  <div className="itemName">ITEM NAME</div>
+		  <div className="itemPhoto">Photo here</div>
+		  <div className='itemDescription'>Item description <p></p></div>
 		  <div className='itemAvailability'>Item availability</div>
 		  <div className='itemPrice'>Item price</div>
 

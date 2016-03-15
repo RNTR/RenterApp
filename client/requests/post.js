@@ -17,8 +17,9 @@ exports.getItem = function(){
     itemName: 'REAL, LIVE POSSUMS',
     itemDescription: "THEY ARE POSSUMS",
     itemPhoto: 'http://i.imgur.com/70Exu7d.jpg'
-  }
+  };
 
+  return fakeItem;
 
 };
 
