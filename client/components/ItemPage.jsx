@@ -21,7 +21,7 @@ requestRental: function(){}, //post.js has a requestRental function
 render: function(){
 	return ( 
 		<div className="itemPage">
-		  <div className="itemName">ITEM NAME {this.props.getItem.itemName}</div>
+		  <div className="itemName">ITEM NAME {this.props.getItem}</div>
 		  <div className="itemPhoto">Photo here {this.props.getItem.itemPhoto}</div>
 		  <div className='itemDescription'>Item description {this.props.getItem.itemDescription}</div>
 		  <div className='itemAvailability'>Item availability</div>
