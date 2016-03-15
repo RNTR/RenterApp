@@ -243,56 +243,566 @@ describe ("Server-Side Routing:", function() {
   describe("Items", function() {
     
     xit_ ("(POST, /items) : should create a new item", function * (){
+
+      //add a user
+      var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemObj = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userID,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var body = {
+        'item' : itemObj,
+        'message' : 'here is an item.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/items')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.item).to.exist;
+          expect(response.body.status).to.equal('complete')
+          expect(response.body.message).to.equal('item added.')
+          expect(response.body.item.name).to.equal('Lawn Mower')
         })
     }) 
 
-    xit_ ("(GET, /items) : should get searched items by name and zipcode", function * (){
+    xit_ ("(POST, /items/search) : should get searched items by name and zipcode", function * (){
+
+      var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userThree = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemTwo = {
+        'name': 'Lawn Mower',
+        'address': 'A different address',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userTwo,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemThree = {
+        'name': 'Lawn Mower',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userThree,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemFour = {
+        'name': 'Pickup Truck',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userThree,
+        'date_start': start,
+        'date_end': end
+      }
+
+      //add each item
+      yield dbMethod.addItem(itemOne);
+      yield dbMethod.addItem(itemTwo);
+      yield dbMethod.addItem(itemThree);
+      yield dbMethod.addItem(itemFour);
+
+      var body = {
+        searchTerm : 'Lawn Mower',
+        zipCode : '10507'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/items/search')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.items).to.be.a('array');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('items retrieved.');
+          expect(response.body.items.length).to.equal(3);
+
+          var names = [];
+          response.body.items.forEach(function(x){
+            names.push(x.name);
+          })
+          expect(names).to.contain('Lawn Mower');
+          expect(names).not.to.contain('Pickup Truck')
         })
     })
 
     xit_ ("(DELETE, /items) : should delete an item", function * (){
+
+      var user = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var item = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemID = yield dbMethod.addItem(item)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var body = {
+        'item_id' : itemID,
+        'user_id' : user,
+        'password' : 'password'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .delete('/items')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete')
+          expect(response.body.message).to.equal('item deleted.')
+          expect(response.body.itemID).to.equal(itemID)
         })
     }) 
 
-    xit_ ("(GET, /items/user) : should get items that a user owns", function * (){
+    xit_ ("(POST, /items/user) : should get items that a user owns", function * (){
+      var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemTwo = {
+        'name': 'Pickup Truck',
+        'address': 'A different address',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemThree = {
+        'name': 'An entire army of opossums',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemFour = {
+        'name': 'Fire Hydrant',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userTwo,
+        'date_start': start,
+        'date_end': end
+      }
+
+      //add each item
+      yield dbMethod.addItem(itemOne);
+      yield dbMethod.addItem(itemTwo);
+      yield dbMethod.addItem(itemThree);
+      yield dbMethod.addItem(itemFour);
+
+      var body = {
+        user_id : userOne,
+        message : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/items/user')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('items retrieved.');
+          expect(response.body.items).to.be.a('array');
+
+          var itemNames = [];
+          response.body.items.forEach(function(x){
+            itemNames.push(x.name)
+          })
+
+          expect(itemNames).to.contain('Lawn Mower');
+          expect(itemNames).to.contain('Pickup Truck');
+          expect(itemNames).to.contain('An entire army of opossums')
+          expect(itemNames).not.to.contain('Fire Hydrant')
         })
     })   
 
-    xit_ ("(GET, /items/user/is_renting) : should get items a user is renting", function * (){
+    xit_ ("(POST, /items/user/is_renting) : should get items a user is renting", function * (){
+      var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemTwo = {
+        'name': 'Pickup Truck',
+        'address': 'A different address',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemThree = {
+        'name': 'An entire army of opossums',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemFour = {
+        'name': 'Fire Hydrant',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userTwo,
+        'date_start': start,
+        'date_end': end
+      }
+
+      //add each item
+      var itemIdOne = yield dbMethod.addItem(itemOne)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemIdTwo = yield dbMethod.addItem(itemTwo)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemIdThree = yield dbMethod.addItem(itemThree)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemIdFour = yield dbMethod.addItem(itemFour)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var rentalOne = {
+        'user_id' : userTwo,
+        'item_id' : itemIdOne,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalTwo = {
+        'user_id' : userTwo,
+        'item_id' : itemIdTwo,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalThree = {
+        'user_id' : userTwo,
+        'item_id' : itemIdThree,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalFour = {
+        'user_id' : userOne,
+        'item_id' : itemIdFour,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      yield dbMethod.addRental(rentalOne);
+      yield dbMethod.addRental(rentalTwo);
+      yield dbMethod.addRental(rentalThree);
+      yield dbMethod.addRental(rentalFour);
+
+      var body = {
+        rentingUser : userTwo,
+        message : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/items/user/is_renting')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('items retrieved.');
+          expect(response.body.rentals).to.be.a('array');
+          expect(response.body.rentals[0].renterID).to.exist;
+          expect(response.body.rentals[0].ownerID).to.exist;
+          expect(response.body.rentals[0].item).to.exist;
+
+          var itemNames = [];
+          response.body.rentals.forEach(function(x){
+            itemNames.push(x.item.name)
+          })
+
+          expect(itemNames).to.contain('Lawn Mower');
+          expect(itemNames).to.contain('Pickup Truck');
+          expect(itemNames).to.contain('An entire army of opossums')
+          expect(itemNames).not.to.contain('Fire Hydrant')
         })
     })
 
-    xit_ ("(GET, /items/user/rented_from) : should get items being rented from a user", function * (){
+    xit_ ("(POST, /items/user/rented_from) : should get items being rented from a user", function * (){
+
+      var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+      var userTwo = yield dbMethod.addUser('Duckworth', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var itemOne = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemTwo = {
+        'name': 'Pickup Truck',
+        'address': 'A different address',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemThree = {
+        'name': 'An entire army of opossums',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userOne,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemFour = {
+        'name': 'Fire Hydrant',
+        'address': 'Somewhere else',
+        'zip': '10507',
+        'category': 'Lawn and Garden',
+        'price': '10',
+        'photo': 'null',
+        'item_owner': userTwo,
+        'date_start': start,
+        'date_end': end
+      }
+
+      //add each item
+      var itemIdOne = yield dbMethod.addItem(itemOne)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemIdTwo = yield dbMethod.addItem(itemTwo)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemIdThree = yield dbMethod.addItem(itemThree)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var itemIdFour = yield dbMethod.addItem(itemFour)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var rentalOne = {
+        'user_id' : userTwo,
+        'item_id' : itemIdOne,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalTwo = {
+        'user_id' : userTwo,
+        'item_id' : itemIdTwo,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalThree = {
+        'user_id' : userTwo,
+        'item_id' : itemIdThree,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      var rentalFour = {
+        'user_id' : userOne,
+        'item_id' : itemIdFour,
+        'date_start' : start,
+        'date_end' : end,
+        'is_confirmed' : 'true'
+      }
+
+      yield dbMethod.addRental(rentalOne);
+      yield dbMethod.addRental(rentalTwo);
+      //NOTE: rentalThree is NOT here.
+      yield dbMethod.addRental(rentalFour);
+
+      var body = {
+        rentingUser : userOne,
+        message : 'here is a user.'
+      }
+
       yield request(app)
-        .get('A ROUTE HERE')
+        .post('/items/user/rented_from')
+        .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body).to.include('test');
+          expect(response.body.status).to.equal('complete');
+          expect(response.body.message).to.equal('items retrieved.');
+          expect(response.body.rentals).to.be.a('array');
+          expect(response.body.rentals[0].renterID).to.exist;
+          expect(response.body.rentals[0].ownerID).to.exist;
+          expect(response.body.rentals[0].item).to.exist;
+
+          var itemNames = [];
+          response.body.rentals.forEach(function(x){
+            itemNames.push(x.item.name)
+          })
+
+          expect(itemNames).to.contain('Lawn Mower');
+          expect(itemNames).to.contain('Pickup Truck');
+          expect(itemNames).not.to.contain('An entire army of opossums')
+          expect(itemNames).not.to.contain('Fire Hydrant')
         })
     }) 
   })
