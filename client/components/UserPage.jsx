@@ -7,9 +7,11 @@ var Link = Router.Link
 var UserPage = React.createClass({
 
 getInitialState: function(){
-	return {
-		username: 'tim' // this might need to refer to window.globalStateUserId to see what user is currently logged in. will need to check on this.
-	};
+	 return {};
+},
+
+componentDidMount: function(){
+	return console.log(this.props.getUserInfo().username);
 },
 
 navBar: function(){}, //load globalNavBar
@@ -26,8 +28,9 @@ getCurrentRentedItems: function(){},
 
 render: function(){
 	return (<div className='userPage'>
-			 <div className='userGreeting'>Welcome, USER</div>
+			 <div className='userGreeting'>Welcome, {this.props.getUserInfo().username}</div>
 			  <div className='yourStuffForRent'> Your stuff for rent: 
+			 
 			  	<div className='yourItemForRent'>TV</div>            
 			  </div>
 			  	<div className='stuffYouAreRenting'>Stuff you are renting from others
@@ -48,3 +51,8 @@ render: function(){
 
 
 module.exports = UserPage;
+
+
+// this.props.listings.map(function(listing) {
+// 			  		<ThingForRent listing={listing} />
+// 			  	})

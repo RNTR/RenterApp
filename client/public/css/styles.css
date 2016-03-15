@@ -141,9 +141,63 @@
 	margin-left: 20px;
 }
 
+
 .newListing {
   font-family: 'Avenir';
   font-size: 18px;
   margin: 0 auto;
   text-align: center;
 }
+
+												/**** USER PAGE ****/
+
+.itemPage {
+	font-family: 'Avenir'
+}
+
+.itemPage .itemName {
+	font-size:26px;
+	position: static;
+/*	border-bottom: .5px dotted black;*/
+	margin-left: 65px;
+    margin-right: auto;
+    margin-top: 115px;
+
+}
+
+.itemPage .itemPhoto {
+	margin-left: 800px;
+	margin-top: 115px;
+	margin-right: auto;
+	position:static;
+
+}
+
+.itemPage .itemDescription {
+	margin-left: 65px;
+	margin-top: 120px;
+	margin-right: auto;
+	position:static;
+
+}
+
+.itemPage .itemAvailability {
+
+}
+
+.itemPage .itemPrice {
+
+}
+
+.itemPage .rentItemDiv {
+
+}
+
+.itemPage .rentItemDiv .bookingCalendarDiv {
+
+}
+
+.itemPage .rentItemDiv .bookItemButton {
+
+}
+

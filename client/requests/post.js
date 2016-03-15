@@ -1,32 +1,27 @@
 require('./request-helpers.js'); // Headers
 require('whatwg-fetch');  // http://github.github.io/fetch/
 
-exports.signup = function(info) {
-  return fetch('signup', {
-    method: 'POST',
-    headers: requestHeaders,   // requestHeaders located in /request-helpers.js
-    body: JSON.stringify(info)
-  })
-  .then(function(response) {
-    console.log('response in post.js', response)
-    return response.json();  
-  })
-  .then(function(data) {
-    if(data.error) {
-      location.reload();
-    }
-    window.globalStateUserId = data.id;             //these are located in App.js
-    window.globalToken = data.token;
-    window.globalStateUserName = data.username;
-  })
-  .catch(function(error) {
-    if( error) {
-      console.log("ERROR:", error)
-    }
-  })
+exports.getUserInfo = function(){
+  
+  var userInfo = {
+    username: 'HYPOTHETICAL THEORETICAL FAKE NOT REAL NAME'
+  }
+
+  return userInfo;
+
 };
 
-exports.signin = function(){};
+exports.getItem = function(){
+
+  var fakeItem = {
+    itemName: 'REAL, LIVE POSSUMS',
+    itemDescription: "THEY ARE POSSUMS",
+    itemPhoto: 'http://i.imgur.com/70Exu7d.jpg'
+  };
+
+  return fakeItem;
+
+};
 
 exports.listNewItem = function(){};
 
