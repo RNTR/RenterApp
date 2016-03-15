@@ -1,7 +1,7 @@
 var react = require('react');
 var Router = require('react-router');
-var Link = Router.Link
 import React from 'react'
+import { Link } from 'react-router'
 var style = {
   backgroundImage: "url('http://www.staywallpaper.com/wp-content/uploads/2016/01/hd-wallpapers-STAY030.jpg')"
 }
@@ -18,7 +18,10 @@ var HomePage = React.createClass({
 
   render: function() {
     return (
-      <div className="HomePageGreeting">Welcome to RNTR!</div>
+      <div className="HomePageMain">
+      	<div className="HomePageGreeting">Welcome to RNTR!</div>
+      </div>
+      
     );
   }
 })

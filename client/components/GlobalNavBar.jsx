@@ -3,7 +3,6 @@ var ReactDOM = require('react-dom');
 var Router = require('react-router');
 var Link = Router.Link 
 
-// add additional dependencies
 
 var GlobalNavBar = React.createClass({
 

@@ -36,7 +36,7 @@ NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 
 Home = ReactDOM.render(Home, document.getElementById('app'));
 
-User = ReactDOM.render(User, document.getElementById('user'))
+// User = ReactDOM.render(User, document.getElementById('user'))
 
 
 /***********************************************************/
