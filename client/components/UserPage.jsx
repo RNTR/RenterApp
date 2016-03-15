@@ -25,7 +25,8 @@ getListedItems: function(){},
 getCurrentRentedItems: function(){},
 
 render: function(){
-	return (<div className='userPage'>USERPAGE</div>);
+	return (<div className='userPage'>USERPAGE!!!!!!</div>);
+
 }
 
 });

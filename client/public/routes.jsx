@@ -19,12 +19,30 @@ var routes = (
   <Router component={App}>
     <Route path="/" component={NavBar, Home} />
     <Route path='user' component={NavBar, UserPage} />
-    <Route path='new' component={NavBar /*component name*/} /> 					// the component for makeNewListing needs to be rendered on App.jsx 
+    <Route path='new' component={NavBar, MakeNewListing} /> 				
 	<Route path='results' component={NavBar /*component name*/} /> 				// the component for searchResults needs to be rendered on App.jsx
 	<Route path='item' component={NavBar /*component name*/} /> 					// the component for itemPage needs to be rendered on App.jsx
 	<Route path='login' component={NavBar /*component name*/} /> 				    // the component for login needs to be rendered on App.jsx
   </Router>	
 )
+
+
+// render((
+//   <Router component={App}>
+//     <Route path="/" component={NavBar, Home} />
+//     <Route path='user' component={NavBar, UserPage} />
+//     <Route path='new' component={NavBar, MakeNewListing} /> 					
+// 	<Route path='results' component={NavBar /*component name*/} /> 				
+// 	<Route path='item' component={NavBar /*component name*/} /> 				
+// 	<Route path='login' component={NavBar /*component name*/} /> 				   
+//   </Router>	
+// ), document.body)
+
+
+// const router = ReactRouter.create({
+//   routes: routes,
+//   location: ReactRouter.HistoryLocation
+// });
 
 
 

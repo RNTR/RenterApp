@@ -27,11 +27,11 @@ titleHome: function(){},  // link back to the home page
  render: function() {
     return (
       <div className="bar">
-      	<div className='title'>RNTR</div>
-      		<div className="signup">Sign Up/Sign In</div>
-      			<div className="listItem">List an Item</div>
-      				<div className="myProfile">My Profile</div>
-      					<input className='searchbar' placeholder='Search Items'></input>
+       <div className='title'>RNTR</div>
+        <div className="signup">Sign Up/Sign In</div>
+      	 <div className="listItem">List an Item</div>
+      	  <div className="myProfile">My Profile</div>
+      	   <input className='searchbar' placeholder='Search Items'></input>
 
       </div>
 
