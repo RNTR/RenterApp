@@ -149,17 +149,45 @@ routes.delete('/items', function (req, res){
 
 
 routes.post('/bookings', function (req, res){
-    // add a rental if: 
+  // add a rental if: 
       // a) there are no other conflicting rentals
       // b) rental dates lie within item start/end dates
+  helpers.createRentalRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      if (err.message === 'rental conflicts with an existing booking.'){
+        res.status(409).send(err)
+      } else if (err.message === 'booking conflict detected.'){
+        res.status(409).send(err)
+      } else {
+        res.status(500).send(err);
+      }
+    })
   })
 
 routes.post('/bookings/item', function (req, res){
-    // get all rentals for a given item
+  // get all rentals for a given item
+  helpers.rentalsForItemRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+
   })
 
 routes.delete('/bookings', function (req, res){
     // delete a rental.
+  helpers.deleteRentalRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
   })
 
 
