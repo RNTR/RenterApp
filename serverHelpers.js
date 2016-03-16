@@ -183,7 +183,47 @@ exports.getOwnedRoute = function(reqBody){
 
 exports.isRentingRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		//get a list of rentals, each with an item
+ 		//object in it.
+ 		var renterID = reqBody.userID;
+ 		dbMethod.getRentalsByRenterID(renterID)
+ 			.then(function(results){
+ 				var rentals = results;
+ 				var items = [];
+
+ 				rentals.forEach(function(x){
+ 					items.push(new Promise(function(res, rej){
+ 						var itemID = x.item_id
+ 						dbMethod.getItemByID(itemID)
+ 							.then(function(resp){
+ 								res(resp[0]);
+ 							})	
+ 							.catch(function(err){
+ 								console.error('error grabbing item in async : ', err)
+ 								rej(err);
+ 							})
+ 					}))
+ 				})
+
+ 				Promise.all(items)
+ 					.then(function(){
+ 						//pack item objects inside the appropriate rental objects
+ 						for (var i=0; i<rentals.length; i++){
+ 							for (var j=0; j<items.length; j++){
+ 								if (rentals[i].item_id === items[j]._settledValue.id){
+ 									rentals[i].item = items[j]._settledValue;
+ 								}
+ 							}
+ 						}
+
+ 						var body = {
+ 							status : 'complete',
+ 							message : 'rentals retrieved (with objects inside)',
+ 							rentalsWithItems : rentals
+ 						}
+ 						fulfill(body)
+ 					})
+ 			})
  	})
 }
 

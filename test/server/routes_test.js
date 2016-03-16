@@ -515,7 +515,7 @@ describe ("Server-Side Routing:", function() {
         })
     })   
 
-    xit_ ("(POST, /items/user/is_renting) : should get items a user is renting", function * (){
+    it_ ("(POST, /items/user/is_renting) : should get items a user is renting", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -644,14 +644,13 @@ describe ("Server-Side Routing:", function() {
         .expect(200)
         .expect(function(response) {
           expect(response.body.status).to.equal('complete');
-          expect(response.body.message).to.equal('items retrieved.');
-          expect(response.body.rentals).to.be.a('array');
-          expect(response.body.rentals[0].renterID).to.exist;
-          expect(response.body.rentals[0].ownerID).to.exist;
-          expect(response.body.rentals[0].item).to.exist;
+          expect(response.body.message).to.equal('rentals retrieved (with objects inside)');
+          expect(response.body.rentalsWithItems).to.be.a('array');
+          expect(response.body.rentalsWithItems[0].user_id).to.exist;
+          expect(response.body.rentalsWithItems[0].item).to.exist;
 
           var itemNames = [];
-          response.body.rentals.forEach(function(x){
+          response.body.rentalsWithItems.forEach(function(x){
             itemNames.push(x.item.name)
           })
 
