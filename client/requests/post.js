@@ -60,7 +60,7 @@ exports.stuffBeingRentedFromUser = function(){
 
 exports.searchResults = function() {
   var results = {
-    result: "Lawnmower"
+    result: ["Lawnmower", "Leaf Blower", "PS4", "TV"]
   }
   return results;
 }
