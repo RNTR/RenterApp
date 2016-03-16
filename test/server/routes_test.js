@@ -661,7 +661,7 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(POST, /items/user/rented_from) : should get items being rented from a user", function * (){
+    it_ ("(POST, /items/user/rented_from) : should get items being rented from a user", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -780,7 +780,7 @@ describe ("Server-Side Routing:", function() {
       yield dbMethod.addRental(rentalFour);
 
       var body = {
-        rentingUser : userOne,
+        owner : userOne,
         message : 'here is a user.'
       }
 
@@ -790,21 +790,22 @@ describe ("Server-Side Routing:", function() {
         .expect(200)
         .expect(function(response) {
           expect(response.body.status).to.equal('complete');
-          expect(response.body.message).to.equal('items retrieved.');
-          expect(response.body.rentals).to.be.a('array');
-          expect(response.body.rentals[0].renterID).to.exist;
-          expect(response.body.rentals[0].ownerID).to.exist;
-          expect(response.body.rentals[0].item).to.exist;
+          expect(response.body.message).to.equal('items retrieved (with arrays of rentals inside)');
+          expect(response.body.itemsWithRentals).to.be.a('array');
+          expect(response.body.itemsWithRentals[0].rentals).to.exist;
+          expect(response.body.itemsWithRentals[0].item_owner).to.exist;
 
-          var itemNames = [];
-          response.body.rentals.forEach(function(x){
-            itemNames.push(x.item.name)
+          var rentedNames = [];
+          response.body.itemsWithRentals.forEach(function(x){
+            if (x.rentals.length > 0){
+              rentedNames.push(x.name)
+            }
           })
 
-          expect(itemNames).to.contain('Lawn Mower');
-          expect(itemNames).to.contain('Pickup Truck');
-          expect(itemNames).not.to.contain('An entire army of opossums')
-          expect(itemNames).not.to.contain('Fire Hydrant')
+          expect(rentedNames).to.contain('Lawn Mower');
+          expect(rentedNames).to.contain('Pickup Truck');
+          expect(rentedNames).not.to.contain('An entire army of opossums')
+          expect(rentedNames).not.to.contain('Fire Hydrant')
         })
     }) 
   })

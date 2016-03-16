@@ -181,10 +181,12 @@ exports.getOwnedRoute = function(reqBody){
  	})
 }
 
+// consider refactoring 'isRentingRoute': instead of returning rentals w/ an 'item' 
+// property, return items (no dupes) w/ a 'rentals' property (an array of rental arrays).
+// More sensible, and is consistent with 'rentedFromRoute'. -Justin
 exports.isRentingRoute = function(reqBody){
+ //get a list of rentals, each with an item object in it.
  	return new Promise(function(fulfill, reject){
- 		//get a list of rentals, each with an item
- 		//object in it.
  		var renterID = reqBody.userID;
  		dbMethod.getRentalsByRenterID(renterID)
  			.then(function(results){
@@ -236,8 +238,56 @@ exports.isRentingRoute = function(reqBody){
 }
 
 exports.rentedFromRoute = function(reqBody){
+//get a list of items, each with an array of rentals in it.
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var ownerID = reqBody.owner
+ 		dbMethod.getItemsByOwnerID(ownerID)
+ 			.then(function(results){
+ 				var items = results;
+ 				var rentalArrays = [];
+
+ 				items.forEach(function(x){
+ 					rentalArrays.push(new Promise(function(res, rej){
+ 						var itemID = x.id
+ 						dbMethod.getRentalsByItemID(itemID)
+ 							.then(function(resp){
+ 								res(resp);
+ 							})	
+ 							.catch(function(err){
+ 								rej(err);
+ 							})
+ 					}))
+ 				})
+
+ 				Promise.all(rentalArrays)
+ 					.then(function(){
+ 						//pack rentals arrays inside the appropriate item objects
+ 						for (var i=0; i<items.length; i++){
+ 							for (var j=0; j<rentalArrays.length; j++){
+ 								if (!!rentalArrays[j]._settledValue && items[i].id === rentalArrays[j]._settledValue[0].item_id){
+ 									items[i].rentals = rentalArrays[j]._settledValue;
+ 								} else {
+ 									items[i].rentals = items[i].rentals || [];
+ 								}
+ 							}
+ 						}
+ 						var body = {
+ 							status : 'complete',
+ 							message : 'items retrieved (with arrays of rentals inside)',
+ 							itemsWithRentals : items
+ 						}
+ 						fulfill(body)
+ 					})
+
+ 					.catch(function(err){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'could not retrieve items being rented by others',
+ 							error : err
+ 						}
+ 						reject(body);
+ 					})
+ 			})
  	})
 }
 

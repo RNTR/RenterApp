@@ -118,6 +118,14 @@
   routes.post('/items/user/rented_from', function (req, res){
     // retrieve items being rented, that will be rented, or 
     // that have been rented from a user
+    helpers.rentedFromRoute(req.body)
+      .then(function(response){
+        res.status(200).send(response)
+      })
+      .catch(function(err){
+        console.error('this went wrong: ', err)
+        res.status(500).send(err);
+      })
   })
 
   routes.delete('/items', function (req, res){
