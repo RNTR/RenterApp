@@ -74,10 +74,10 @@ NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 
 // NewListing = ReactDOM.render(NewListing, document.getElementById('newlisting'))
 
-User = ReactDOM.render(User, document.getElementById('user'));
+// User = ReactDOM.render(User, document.getElementById('user'));
 
 // Item = ReactDOM.render(Item, document.getElementById('item'));
 
-// Results = ReactDOM.render(Results, document.getElementById('results'))
+Results = ReactDOM.render(Results, document.getElementById('results'))
 
 /***********************************************************/

@@ -73,9 +73,17 @@ exports.stuffBeingRentedFromUser = function(){
   return item;
 };
 
+// Dummy search result data
 exports.searchResults = function() {
   var results = {
     result: ["Lawnmower", "Leaf Blower", "PS4", "TV"]
   }
   return results;
+};
+
+exports.searchLocation = function() {
+  var location = {
+    result: ["San Francisco", "Dallas", "Los Angeles", "New York"]
+  }
+  return location;
 }
