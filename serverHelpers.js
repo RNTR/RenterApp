@@ -7,28 +7,28 @@
 
 
 
-exports.signupRoute = function(req){
+exports.signupRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
  }
 
-exports.loginRoute = function(req){
+exports.loginRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
  }
 
-exports.logoutRoute = function(req){
+exports.logoutRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
  }
 
-exports.getUserRoute = function(req){
+exports.getUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
-	 	if (req.body.userID){
-	      dbMethod.getUserByID(req.body.userID)
+	 	if (reqBody.userID){
+	      dbMethod.getUserByID(reqBody.userID)
 	        .then(function(response){
 	          body = {};
 	          body.user = {};
@@ -38,8 +38,8 @@ exports.getUserRoute = function(req){
 	          body.message = 'user retrieved.'
 	          fulfill(body);
 	        })
-	    } else if (req.body.username){
-	      dbMethod.getUserByID(req.body.username)
+	    } else if (reqBody.username){
+	      dbMethod.getUserByID(reqBody.username)
 	        .then(function(response){
 	          body = {};
 	          body.user = {};
@@ -59,9 +59,33 @@ exports.getUserRoute = function(req){
 	})
  }
 
-exports.deleteUserRoute = function(req){
+exports.deleteUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var user = reqBody.user;
+ 		var userID = user.userID;
+ 		dbMethod.removeUser(userID)
+ 			.then(function(response){
+ 				var obj = {};
+ 				if (response.length !== 0){
+ 					obj.status = 'complete';
+ 					obj.message = 'user deleted';
+ 					obj.user = user;
+ 					fulfill(obj);
+ 				} else {
+ 					obj.status = 'failed';
+ 					obj.message = 'user was not deleted - user did not exist';
+ 					reject(obj);
+ 				}
+ 			})
+ 			.catch(function(err){
+ 				//do something with err
+ 				console.log('error in helper: ',err)
+ 				var errorBody = {
+ 					status : 'failed',
+ 					message : 'internal error'
+ 				}
+ 				reject(err);
+ 			})
  	})
 }
 
@@ -71,37 +95,203 @@ exports.deleteUserRoute = function(req){
 
 
 
-exports.createItemRoute = function(req){
+exports.createItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var item = reqBody.item;
+ 		dbMethod.addItem(item)
+ 			.then(function(response){
+ 				if (typeof response[0] === 'number'){
+ 					var newItem;
+ 					dbMethod.getItemByID(response[0])
+ 						.then(function(res){
+ 							newItem = res[0];
+ 							var body = {
+ 								status : 'complete',
+ 								message : 'item added.',
+ 								item : newItem
+ 							}
+ 							fulfill(body);
+ 						})
+ 				} else if (response === 'We do not have a record of that items owner.') {
+ 					var body = {
+ 						status : 'failed',
+ 						message : response
+ 					}
+ 					reject(body);
+ 				}
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error : err
+ 				}
+ 				reject(body)
+ 			})
  	})
 }
 
-exports.searchItemsRoute = function(req){
+exports.searchItemsRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var name = reqBody.searchTerm;
+ 		var zip = reqBody.zipCode;
+ 		dbMethod.getItemsByName(name)
+ 			.then(function(items){
+ 				var results = items.filter(function(x){
+ 					return x.zip.toString() === zip;
+ 				})
+ 				var body = {
+ 					status : 'complete',
+ 					message : 'items retrieved.',
+ 					'items' : results
+ 				}
+ 				fulfill(body);
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error : err
+ 				}
+ 				reject(body);
+ 			})
  	})
 }
 
-exports.getOwnedRoute = function(req){
+exports.getOwnedRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var userID = reqBody.user_id;
+ 		dbMethod.getItemsByOwnerID(userID)
+ 			.then(function(items){
+ 				var body = {
+ 					status : 'complete',
+ 					message : 'items retrieved.',
+ 					'items' : items
+ 				}
+ 				fulfill(body);
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error : err
+ 				}
+ 				reject(body);
+ 			})
  	})
 }
 
-exports.isRentingRoute = function(req){
+// consider refactoring 'isRentingRoute': instead of returning rentals w/ an 'item' 
+// property, return items (no dupes) w/ a 'rentals' property (an array of rental arrays).
+// More sensible, and is consistent with 'rentedFromRoute'. -Justin
+exports.isRentingRoute = function(reqBody){
+ //get a list of rentals, each with an item object in it.
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var renterID = reqBody.userID;
+ 		dbMethod.getRentalsByRenterID(renterID)
+ 			.then(function(results){
+ 				var rentals = results;
+ 				var items = [];
+
+ 				rentals.forEach(function(x){
+ 					items.push(new Promise(function(res, rej){
+ 						var itemID = x.item_id
+ 						dbMethod.getItemByID(itemID)
+ 							.then(function(resp){
+ 								res(resp[0]);
+ 							})	
+ 							.catch(function(err){
+ 								rej(err);
+ 							})
+ 					}))
+ 				})
+
+ 				Promise.all(items)
+ 					.then(function(){
+ 						//pack item objects inside the appropriate rental objects
+ 						for (var i=0; i<rentals.length; i++){
+ 							for (var j=0; j<items.length; j++){
+ 								if (rentals[i].item_id === items[j]._settledValue.id){
+ 									rentals[i].item = items[j]._settledValue;
+ 								}
+ 							}
+ 						}
+
+ 						var body = {
+ 							status : 'complete',
+ 							message : 'rentals retrieved (with objects inside)',
+ 							rentalsWithItems : rentals
+ 						}
+ 						fulfill(body)
+ 					})
+
+ 					.catch(function(err){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'could not retrieve items a user is renting',
+ 							error : err
+ 						}
+ 						reject(body);
+ 					})
+ 			})
  	})
 }
 
-exports.rentedFromRoute = function(req){
+exports.rentedFromRoute = function(reqBody){
+//get a list of items, each with an array of rentals in it.
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var ownerID = reqBody.owner
+ 		dbMethod.getItemsByOwnerID(ownerID)
+ 			.then(function(results){
+ 				var items = results;
+ 				var rentalArrays = [];
+
+ 				items.forEach(function(x){
+ 					rentalArrays.push(new Promise(function(res, rej){
+ 						var itemID = x.id
+ 						dbMethod.getRentalsByItemID(itemID)
+ 							.then(function(resp){
+ 								res(resp);
+ 							})	
+ 							.catch(function(err){
+ 								rej(err);
+ 							})
+ 					}))
+ 				})
+
+ 				Promise.all(rentalArrays)
+ 					.then(function(){
+ 						//pack rentals arrays inside the appropriate item objects
+ 						for (var i=0; i<items.length; i++){
+ 							for (var j=0; j<rentalArrays.length; j++){
+ 								if (!!rentalArrays[j]._settledValue && items[i].id === rentalArrays[j]._settledValue[0].item_id){
+ 									items[i].rentals = rentalArrays[j]._settledValue;
+ 								} else {
+ 									items[i].rentals = items[i].rentals || [];
+ 								}
+ 							}
+ 						}
+ 						var body = {
+ 							status : 'complete',
+ 							message : 'items retrieved (with arrays of rentals inside)',
+ 							itemsWithRentals : items
+ 						}
+ 						fulfill(body)
+ 					})
+
+ 					.catch(function(err){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'could not retrieve items being rented by others',
+ 							error : err
+ 						}
+ 						reject(body);
+ 					})
+ 			})
  	})
 }
 
-exports.deleteItemRoute = function(req){
+exports.deleteItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
@@ -113,19 +303,19 @@ exports.deleteItemRoute = function(req){
 
 
 
-exports.createRentalRoute = function(req){
+exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.rentalsForItemRoute = function(req){
+exports.rentalsForItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})
 }
 
-exports.deleteRentalRoute = function(req){
+exports.deleteRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		fulfill('test')
  	})

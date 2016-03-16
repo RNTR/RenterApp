@@ -197,6 +197,22 @@ exports.getItemsByName = function(name){
 	})
 }
 
+exports.getItemsByOwnerID = function(ID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('item_owner', ID)
+			.then(function(items){
+				knex.destroy();
+				fulfill(items)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting items by owner: ', err);
+				fulfill(err)
+			})
+	})
+}
+
 exports.getItemByID = function(ID){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
@@ -216,8 +232,6 @@ exports.getItemByID = function(ID){
 				console.error('error getting item by ID: ', err);
 				reject(err);
 			})
-
-
 	})
 }
 

@@ -150,7 +150,7 @@ describe ("Server-Side Routing:", function() {
           })
     })
 
-    xit_ ("(DELETE, /users) : should delete a user", function * (){
+    it_ ("(DELETE, /users) : should delete a user", function * (){
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
         .then(function(IDArray){
           return IDArray[0];
@@ -158,7 +158,7 @@ describe ("Server-Side Routing:", function() {
 
       var user = {
         username : 'MustardForBreakfast',
-        'userID' : userID, //not technically necessary - either uername or id works, as both are unique
+        'userID' : userID,
         password : 'password'
       }
 
@@ -174,6 +174,15 @@ describe ("Server-Side Routing:", function() {
         .expect(function(response) {
           expect(response.body.status).to.equal('complete');
           expect(response.body.message).to.equal('user deleted');
+        })
+
+      yield request(app)
+        .delete('/users')
+        .send(body)
+        .expect(400)
+        .expect(function(response) {
+          expect(response.body.status).to.equal('failed');
+          expect(response.body.message).to.equal('user was not deleted - user did not exist');
         })
     })
 
@@ -240,7 +249,7 @@ describe ("Server-Side Routing:", function() {
 
   describe("Items", function() {
     
-    xit_ ("(POST, /items) : should create a new item", function * (){
+    it_ ("(POST, /items) : should create a new item", function * (){
       //add a user
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
@@ -278,7 +287,7 @@ describe ("Server-Side Routing:", function() {
         })
     }) 
 
-    xit_ ("(POST, /items/search) : should get searched items by name and zipcode", function * (){
+    it_ ("(POST, /items/search) : should get searched items by name and zipcode", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -414,7 +423,7 @@ describe ("Server-Side Routing:", function() {
         })
     }) 
 
-    xit_ ("(POST, /items/user) : should get items that a user owns", function * (){
+    it_ ("(POST, /items/user) : should get items that a user owns", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -506,7 +515,7 @@ describe ("Server-Side Routing:", function() {
         })
     })   
 
-    xit_ ("(POST, /items/user/is_renting) : should get items a user is renting", function * (){
+    it_ ("(POST, /items/user/is_renting) : should get items a user is renting", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -625,7 +634,7 @@ describe ("Server-Side Routing:", function() {
       yield dbMethod.addRental(rentalFour);
 
       var body = {
-        rentingUser : userTwo,
+        userID : userTwo,
         message : 'here is a user.'
       }
 
@@ -635,14 +644,13 @@ describe ("Server-Side Routing:", function() {
         .expect(200)
         .expect(function(response) {
           expect(response.body.status).to.equal('complete');
-          expect(response.body.message).to.equal('items retrieved.');
-          expect(response.body.rentals).to.be.a('array');
-          expect(response.body.rentals[0].renterID).to.exist;
-          expect(response.body.rentals[0].ownerID).to.exist;
-          expect(response.body.rentals[0].item).to.exist;
+          expect(response.body.message).to.equal('rentals retrieved (with objects inside)');
+          expect(response.body.rentalsWithItems).to.be.a('array');
+          expect(response.body.rentalsWithItems[0].user_id).to.exist;
+          expect(response.body.rentalsWithItems[0].item).to.exist;
 
           var itemNames = [];
-          response.body.rentals.forEach(function(x){
+          response.body.rentalsWithItems.forEach(function(x){
             itemNames.push(x.item.name)
           })
 
@@ -653,7 +661,7 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(POST, /items/user/rented_from) : should get items being rented from a user", function * (){
+    it_ ("(POST, /items/user/rented_from) : should get items being rented from a user", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -772,7 +780,7 @@ describe ("Server-Side Routing:", function() {
       yield dbMethod.addRental(rentalFour);
 
       var body = {
-        rentingUser : userOne,
+        owner : userOne,
         message : 'here is a user.'
       }
 
@@ -782,21 +790,22 @@ describe ("Server-Side Routing:", function() {
         .expect(200)
         .expect(function(response) {
           expect(response.body.status).to.equal('complete');
-          expect(response.body.message).to.equal('items retrieved.');
-          expect(response.body.rentals).to.be.a('array');
-          expect(response.body.rentals[0].renterID).to.exist;
-          expect(response.body.rentals[0].ownerID).to.exist;
-          expect(response.body.rentals[0].item).to.exist;
+          expect(response.body.message).to.equal('items retrieved (with arrays of rentals inside)');
+          expect(response.body.itemsWithRentals).to.be.a('array');
+          expect(response.body.itemsWithRentals[0].rentals).to.exist;
+          expect(response.body.itemsWithRentals[0].item_owner).to.exist;
 
-          var itemNames = [];
-          response.body.rentals.forEach(function(x){
-            itemNames.push(x.item.name)
+          var rentedNames = [];
+          response.body.itemsWithRentals.forEach(function(x){
+            if (x.rentals.length > 0){
+              rentedNames.push(x.name)
+            }
           })
 
-          expect(itemNames).to.contain('Lawn Mower');
-          expect(itemNames).to.contain('Pickup Truck');
-          expect(itemNames).not.to.contain('An entire army of opossums')
-          expect(itemNames).not.to.contain('Fire Hydrant')
+          expect(rentedNames).to.contain('Lawn Mower');
+          expect(rentedNames).to.contain('Pickup Truck');
+          expect(rentedNames).not.to.contain('An entire army of opossums')
+          expect(rentedNames).not.to.contain('Fire Hydrant')
         })
     }) 
   })
