@@ -27,27 +27,40 @@ exports.logoutRoute = function(reqBody){
 
 exports.getUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
-	 	if (reqBody.userID){
+	 	if (reqBody.userID && typeof reqBody.userID === 'number'){
 	      dbMethod.getUserByID(reqBody.userID)
 	        .then(function(response){
-	          body = {};
-	          body.user = {};
-	          body.user.username = response[0].username;
-	          body.user.email = response[0].email
-	          body.status = 'complete'
-	          body.message = 'user retrieved.'
-	          fulfill(body);
+	        	var body = {};
+	        	if (response === false){
+	        		body.status = 'failed';
+	        		body.message = 'could not find that user.';
+	        		reject(body);
+	        	} else {
+	          		body.user = {};
+	          		body.user.username = response[0].username;
+	          		body.user.email = response[0].email
+	          		body.status = 'complete'
+	         		body.message = 'user retrieved.'
+	          		fulfill(body);
+	          	}
 	        })
-	    } else if (reqBody.username){
-	      dbMethod.getUserByID(reqBody.username)
+	    } else if (reqBody.username && typeof reqBody.username === 'string'){
+	      dbMethod.getUserByUsername(reqBody.username)
 	        .then(function(response){
-	          body = {};
-	          body.user = {};
-	          body.user.username = response[0].username;
-	          body.user.email = response[0].email
-	          body.status = 'complete'
-	          body.message = 'user retrieved.'
-	          fulfill(body);
+	        	var body = {};
+	        	if (response === false){
+	        		body.status = 'failed';
+	        		body.message = 'could not find that user.';
+	        		reject(body);
+	        	} else{
+		          	body.user = {};
+		          	body.user.id = response[0].id;
+		          	body.user.username = response[0].username;
+		          	body.user.email = response[0].email
+		          	body.status = 'complete'
+		          	body.message = 'user retrieved.'
+		          	fulfill(body);
+	      		}
 	        })
 	    } else {
 	      var errorBody = {
@@ -61,31 +74,40 @@ exports.getUserRoute = function(reqBody){
 
 exports.deleteUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		var user = reqBody.user;
- 		var userID = user.userID;
- 		dbMethod.removeUser(userID)
- 			.then(function(response){
- 				var obj = {};
- 				if (response.length !== 0){
- 					obj.status = 'complete';
- 					obj.message = 'user deleted';
- 					obj.user = user;
- 					fulfill(obj);
- 				} else {
- 					obj.status = 'failed';
- 					obj.message = 'user was not deleted - user did not exist';
- 					reject(obj);
- 				}
- 			})
- 			.catch(function(err){
- 				//do something with err
- 				console.log('error in helper: ',err)
- 				var errorBody = {
- 					status : 'failed',
- 					message : 'internal error'
- 				}
- 				reject(err);
- 			})
+ 		if (reqBody.user && typeof reqBody.user.userID === 'number'){
+	 		var user = reqBody.user;
+	 		var userID = user.userID;
+	 		dbMethod.removeUser(userID)
+	 			.then(function(response){
+	 				var obj = {};
+	 				if (response.length !== 0){
+	 					obj.status = 'complete';
+	 					obj.message = 'user deleted';
+	 					obj.user = user;
+	 					fulfill(obj);
+	 				} else {
+	 					obj.status = 'failed';
+	 					obj.message = 'user was not deleted - user did not exist';
+	 					reject(obj);
+	 				}
+	 			})
+	 			.catch(function(err){
+	 				//do something with err
+	 				console.log('error in helper: ',err)
+	 				var errorBody = {
+	 					status : 'failed',
+	 					message : 'internal error',
+	 					error : err
+	 				}
+	 				reject(errorBody);
+	 			})
+	 	} else {
+	 		var errorBody = {
+	 			status : 'failed',
+	 			message : 'invalid input. Please provide a valid "user" object containing a "userID"',
+	 			}
+	 		reject(errorBody);
+	 	}
  	})
 }
 

@@ -56,7 +56,7 @@ routes.delete('/users', function (req, res){
       res.status(200).send(response)
     })
     .catch(function(err){
-      if (err.message = 'user was not deleted - user did not exist'){
+      if (err.message === 'user was not deleted - user did not exist' || err.message === 'invalid input.'){
         res.status(400).send(err)
       } else {
         res.status(500).send(err)
