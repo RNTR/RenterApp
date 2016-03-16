@@ -76,14 +76,15 @@ exports.stuffBeingRentedFromUser = function(){
 // Dummy search result data
 exports.searchResults = function() {
   var results = {
-    result: ["Lawnmower", "Leaf Blower", "PS4", "TV"]
+    item: ["Lawnmower", "Leaf Blower", "PS4", "TV"],
+    imageUrl: ["https://upload.wikimedia.org/wikipedia/commons/f/f4/John_Deere_lawn_mower.JPG"]
   }
   return results;
 };
 
 exports.searchLocation = function() {
   var location = {
-    result: ["San Francisco", "Dallas", "Los Angeles", "New York"]
+    city: ["San Francisco", "Dallas", "Los Angeles", "New York"]
   }
   return location;
 }
