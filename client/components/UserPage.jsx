@@ -28,17 +28,20 @@ getCurrentRentedItems: function(){},
 
 render: function(){
 	return (<div className='userPage'>
-			 <div className='userGreeting'>Welcome, {this.props.getUserInfo().username}</div>
-			  <div className='yourStuffForRent'> Your stuff for rent: 
 			 
-			  	<div className='yourItemForRent'></div>            
+			  <div className='userGreeting'>Welcome, {this.props.getUserInfo().username}</div>
+			  
+			  <div className='yourStuffForRent'> Your stuff for rent: 
+			  	<div className='yourItemForRent'>{this.props.getUserItemsForRent()}</div>            
 			  </div>
-			  	<div className='stuffYouAreRenting'>Stuff you are renting from others
-			  	  <div className='itemYouAreRenting'>ITEM YOU ARE RENTING</div>
-			  	</div>
-			  	  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you
-			  	    <div className='itemBeingRentedFromYou'>ITEM BEING RENTED</div>
-			  	  </div>
+			  	
+			  <div className='stuffYouAreRenting'>Stuff you are renting from others
+			  	<div className='itemYouAreRenting'>{this.props.getStuffRentedFromOthers()}</div>
+			  </div>
+			  	  
+			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you
+			  	<div className='itemBeingRentedFromYou'>{this.props.stuffBeingRentedFromUser()}</div>
+			  </div>
 
 
 			</div>);
@@ -59,4 +62,3 @@ module.exports = UserPage;
 
 
 
-// {this.props.getUserItemsForRent()}

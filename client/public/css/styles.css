@@ -3,28 +3,31 @@
 
 .bar{
  font-family: 'Avenir';
- font-size: 31px;
+ font-size: 34px;
  color: black;
  border-bottom: 1px solid orange;
  margin-left: 10%;
- margin-right:4%;
+ margin-right:9%;
+ margin-top:2%;
 
 /* border: 1px solid black;*/
 }
 
 .bar .signup {
 	top: 1.5%;
-	right: 15%;
+	right: 20%;
 	font-size: 23px;
 	position: fixed;
+	margin-top: 1%;
 
 }
 
 .bar .listItem {
 	top: 1.5%;
-	right: 30%;
+	right: 35%;
 	font-size: 23px;
 	position: fixed;
+	margin-top: 1%;
 }
 
 
@@ -32,25 +35,39 @@
 
 	font-size: 23px;
 	top: 1.5%;
-	right: 5%;
+	right: 10%;
 	position: fixed;
+	margin-top: 1%;
 
 }
 
 .bar .title {
 	right: 90%;
-
 }
 
 .bar .searchbar {
-	font-size: 20px;
+	font-style: italic;
+	font-size: 23px;
+	font-color: red;
 	top: 1.5%;
-	right: 50%;
+	right: 55%;
 	position: fixed;
-
+	margin-top: 1%;
+	border: none;
 }
 
 												/**** HOME PAGE ****/
+
+#home {
+
+
+}
+
+.HomePageMain {
+
+	
+}
+
 
 .HomePageGreeting {
 	font-family: 'Avenir';
@@ -60,13 +77,11 @@
 	bottom: 60%;
 	right: 40%;
 	float: center;
-
 }
 
 
-.HomePageMain {
 
-}
+
 
 												/**** USER PAGE ****/
 
@@ -149,14 +164,14 @@
   text-align: center;
 }
 
-												/**** USER PAGE ****/
+												/**** ITEM PAGE ****/
 
 .itemPage {
 	font-family: 'Avenir'
 }
 
 .itemPage .itemName {
-	font-size:26px;
+	font-size:30px;
 	position: static;
 /*	border-bottom: .5px dotted black;*/
 	margin-left: 65px;
@@ -166,38 +181,64 @@
 }
 
 .itemPage .itemPhoto {
-	margin-left: 800px;
-	margin-top: 115px;
+	margin-left: 350px;
+	margin-top: 100px;
 	margin-right: auto;
 	position:static;
+	box-shadow: 2px 2px 2px 2px #888888;
+	display: inline-block;
 
 }
 
 .itemPage .itemDescription {
+	font-size: 13px;
 	margin-left: 65px;
-	margin-top: 120px;
-	margin-right: auto;
+	margin-top: 80px;
+	margin-right: 400px;
 	position:static;
 
 }
 
 .itemPage .itemAvailability {
 
+	font-size: 23px;
+	margin-left: 65px;
+	margin-top: 40px;
+	margin-right: 400px;
+	position:static;
+
 }
 
 .itemPage .itemPrice {
+	font-size: 23px;
+	margin-left: 65px;
+	margin-top: 40px;
+	margin-right: 400px;
+	position:static;
 
 }
 
 .itemPage .rentItemDiv {
-
+	font-size: 23px;
+	margin-left: 65px;
+	margin-top: 40px;
+	margin-right: 400px;
+	position:static;
 }
 
 .itemPage .rentItemDiv .bookingCalendarDiv {
-
+	font-size: 23px;
+	margin-left: 85px;
+	margin-top: 40px;
+	margin-right: 400px;
+	position:static;
 }
 
 .itemPage .rentItemDiv .bookItemButton {
-
+	font-size: 23px;
+	margin-left: 85px;
+	margin-top: 40px;
+	margin-right: 400px;
+	position:static;
 }
 

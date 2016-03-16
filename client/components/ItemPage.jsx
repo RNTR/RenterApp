@@ -23,16 +23,16 @@ requestRental: function(){}, //post.js has a requestRental function
 render: function(){
 	return ( 
 		<div className="itemPage">
-		  <div className="itemName">ITEM NAME</div>
-		  <div className="itemPhoto">Photo here</div>
-		  <div className='itemDescription'>Item description <p></p></div>
-		  <div className='itemAvailability'>Item availability</div>
-		  <div className='itemPrice'>Item price</div>
-
+		  <div className="itemName">{this.props.getItem().itemName}</div>
+		  <div className="itemPhoto"><img src= {this.props.getItem().itemPhoto}/></div>
+		  <div className='itemDescription'>{this.props.getItem().itemDescription}</div>
+		  <div className='itemDetails'>
+		  	<div className='itemAvailability'>Item availability</div>
+			<div className='itemPrice'>Item price</div>
+		  </div>
 		  <div className='rentItemDiv'> Rent this item!
 		  	<div className='bookingCalendarDiv'>Booking calendar</div>
 		  	<div className='bookItemButton'>Book this item!</div>
-
 		  </div>
 
 		</div>  )
