@@ -7,7 +7,10 @@ var SearchResults = React.createClass({
 
   render: function() {
     return (
-      <div className="results">TEST!!!!, {this.props.searchResults().result}</div>
+			<div className="results">
+				<div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION:{this.props.location}</div>
+				<div className="results">{this.props.searchResults().result}</div>
+			</div>
     )
   }
 });
