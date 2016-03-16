@@ -811,7 +811,7 @@ describe ("Server-Side Routing:", function() {
   })
 
   describe("Rentals", function() {
-    xit_ ("(POST, /bookings) : should make a new booking if no conflicts", function * (){
+    it_ ("(POST, /bookings) : should make a new booking if no conflicts", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
