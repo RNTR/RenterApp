@@ -319,9 +319,10 @@ exports.deleteItemRoute = function(reqBody){
  				console.log('error in helper: ',err)
  				var errorBody = {
  					status : 'failed',
- 					message : 'internal error'
+ 					message : 'internal error',
+ 					error : err
  				}
- 				reject(err);
+ 				reject(errorBody);
  			})
  	})
 }
@@ -404,12 +405,58 @@ exports.createRentalRoute = function(reqBody){
 
 exports.rentalsForItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var itemID = reqBody.itemID;
+ 		dbMethod.getRentalsByItemID(itemID)
+ 			.then(function(rentals){
+ 				var body = {
+ 					status : 'complete',
+ 					message : 'rentals retrieved.',
+ 					'rentals' : rentals
+ 				}
+ 				fulfill(body);
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error : err
+ 				}
+ 				reject(body);
+ 			})
  	})
 }
 
 exports.deleteRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+		var rentalID = reqBody.rentalID;
+ 		var userID = reqBody.userID;
+ 		var pw = reqBody.password;
+
+ 		// TODO: when AUTH in place, use username and password to authenticate
+ 		// prior to deleting a rental.
+
+ 		dbMethod.removeRental(rentalID)
+ 			.then(function(response){
+ 				var obj = {};
+ 				if (response.length !== 0){
+ 					obj.status = 'complete';
+ 					obj.message = 'rental deleted.';
+ 					obj.rentalID = response[0].id;
+ 					fulfill(obj);
+ 				} else {
+ 					obj.status = 'failed';
+ 					obj.message = 'item was not deleted - item did not exist';
+ 					reject(obj);
+ 				}
+ 			})
+ 			.catch(function(err){
+ 				//do something with err
+ 				var errorBody = {
+ 					status : 'failed',
+ 					message : 'internal error',
+ 					error: err
+ 				}
+ 				reject(errorBody);
+ 			})
  	})
 }

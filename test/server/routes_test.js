@@ -908,7 +908,7 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(POST, /bookings/item) : should get bookings for a given item", function * (){
+    it_ ("(POST, /bookings/item) : should get bookings for a given item", function * (){
       var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -1005,19 +1005,19 @@ describe ("Server-Side Routing:", function() {
           expect(response.body.message).to.equal('rentals retrieved.');
           expect(response.body.rentals).to.be.a('array');
           expect(response.body.rentals.length).to.equal(2)
-          expect(response.body.rentals[0].renterID).to.exist;
+          expect(response.body.rentals[0].user_id).to.exist;
 
           var itemIDs = [];
           response.body.rentals.forEach(function(x){
-            itemNames.push(x.userID)
+            itemIDs.push(x.item_id);
           })
 
           expect(itemIDs).to.contain(itemIdOne);
-          expect(itemNames).not.to.contain(itemIdTwo)
+          expect(itemIDs).not.to.contain(itemIdTwo);
         })
     })
 
-    xit_ ("(DELETE, /bookings) : should delete a booking", function * (){
+    it_ ("(DELETE, /bookings) : should delete a booking", function * (){
     var userOne = yield dbMethod.addUser('MustardForBreakfast', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
@@ -1078,7 +1078,7 @@ describe ("Server-Side Routing:", function() {
       //rental should not be there anymore if we look for it.
       yield dbMethod.getRentalByRentalID(rentalID)
         .then(function(bool){
-          expect.bool.to.equal(false);
+          expect(bool).to.equal(false);
         })
     })
   })
