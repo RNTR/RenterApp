@@ -8,6 +8,7 @@ var ItemPage = require('./components/ItemPage.jsx');
 var postRequests = require('./requests/post.js');
 var getRequests = require('./requests/get.js');
 var deleteRequests = require('./requests/delete.js');
+var SearchResults = require('./components/SearchResults.jsx')
 
 
 
@@ -25,13 +26,13 @@ var Home = React.createElement(HomePage, {
 });
 
 var User = React.createElement(UserPage, {
-    
+
     getUserInfo: postRequests.getUserInfo,
-    
+
     getUserItemsForRent: postRequests.getUserItemsForRent,
-    
+
     getStuffRentedFromOthers:postRequests.getStuffRentedFromOthers,
-    
+
     stuffBeingRentedFromUser:postRequests.stuffBeingRentedFromUser
 
 });
@@ -43,6 +44,10 @@ var NewListing = React.createElement(MakeNewListing, {
 var Item = React.createElement(ItemPage, {
     getItem: postRequests.getItem
 });
+
+var Results = React.createElement(SearchResults, {
+
+})
 
 
 /***********************************************************/
@@ -62,5 +67,7 @@ NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 // User = ReactDOM.render(User, document.getElementById('user'));
 
 // Item = ReactDOM.render(Item, document.getElementById('item'));
+
+Results = ReactDOM.render(Results, document.getElementById('results'))
 
 /***********************************************************/

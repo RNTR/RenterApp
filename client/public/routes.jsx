@@ -13,16 +13,17 @@ var HomePage = require('../components/HomePage.jsx');
 var UserPage = require('../components/UserPage.jsx');
 var MakeNewListing = require('../components/MakeNewListing.jsx');
 var Item = require('../components/ItemPage.jsx');
+var SearchResults = require('../components/SearchResults.jsx')
 
 var routes = (
   <Router history={hashHistory} component={App}>
     <Route path="/" component={NavBar, HomePage} />
     <Route path='/user' component={NavBar, UserPage} />
-    <Route path='/new' component={NavBar, MakeNewListing} /> 				
-	<Route path='/results' component={NavBar  /*component name*/} /> 				// the component for searchResults needs to be rendered on App.jsx
-	<Route path='/item' component={NavBar, Item} /> 				
+    <Route path='/new' component={NavBar, MakeNewListing} />
+	<Route path='/results' component={NavBar, SearchResults  /*component name*/} /> 				// the component for searchResults needs to be rendered on App.jsx
+	<Route path='/item' component={NavBar, Item} />
 	<Route path='/login' component={NavBar /*component name*/} /> 				    // the component for login needs to be rendered on App.jsx
-  </Router>	
+  </Router>
 )
 
 
@@ -30,11 +31,11 @@ var routes = (
 //   <Router component={App}>
 //     <Route path="/" component={NavBar, Home} />
 //     <Route path='user' component={NavBar, UserPage} />
-//     <Route path='new' component={NavBar, MakeNewListing} /> 					
-// 	<Route path='results' component={NavBar /*component name*/} /> 				
-// 	<Route path='item' component={NavBar /*component name*/} /> 				
-// 	<Route path='login' component={NavBar /*component name*/} /> 				   
-//   </Router>	
+//     <Route path='new' component={NavBar, MakeNewListing} />
+// 	<Route path='results' component={NavBar /*component name*/} />
+// 	<Route path='item' component={NavBar /*component name*/} />
+// 	<Route path='login' component={NavBar /*component name*/} />
+//   </Router>
 // ), document.body)
 
 
@@ -46,7 +47,3 @@ var routes = (
 
 
 module.exports = routes;
-
-
-
-
