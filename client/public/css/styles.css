@@ -278,7 +278,7 @@
   margin: 0 auto;
   text-align: center;
   padding-top: 20px;
-	border-bottom: 5px solid orange;
+	border-bottom: 1px solid orange;
 }
 .resultsContainer {
 	font-family: 'Avenir';
@@ -287,5 +287,5 @@
 	margin: 0 auto;
 	text-align: center;
 	padding-top: 20px;
-	border-bottom: 5px solid orange;
+	border-bottom: 1px solid orange;
 }

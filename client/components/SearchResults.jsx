@@ -15,15 +15,15 @@ var SearchResults = React.createClass({
         </div>
         <div className="resultsContainer">
           <div>{this.props.searchResults().item[1]}</div>
-          <div>{this.props.searchResults().imageUrl[1]}</div>
+          <a href={this.props.searchResults().imageUrl[1]}>Pic Link</a>
         </div>
         <div className="resultsContainer">
           <div>{this.props.searchResults().item[2]}</div>
-          <div>{this.props.searchResults().imageUrl[2]}</div>
+          <a href={this.props.searchResults().imageUrl[2]}>Pic Link</a>
         </div>
         <div className="resultsContainer">
           <div>{this.props.searchResults().item[3]}</div>
-          <div>{this.props.searchResults().imageUrl[3]}</div>
+          <a href={this.props.searchResults().imageUrl[3]}>Pic Link</a>
         </div>
       </div>
     )
