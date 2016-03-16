@@ -7,140 +7,144 @@
  var helpers = require('./serverHelpers.js')
  var webpack = require('webpack');
   
+
   
-  //Root GET route
-  routes.get('/', function (req, res) {
-      res.sendFile(path.join( __dirname + '/dist/index.html' ));
-  });
+// ------------ BASE ROUTE -----------
 
 
 
-  // ----- USER ROUTES -----
+routes.get('/', function (req, res) {
+  res.sendFile(path.join( __dirname + '/dist/index.html' ));
+});
 
 
 
-  routes.post('/signup', function (req, res){
-    // sign up a new user.
-    // TODO... need auth stuff.
-  })
+// ------------ USER ROUTES -----------
 
-  routes.post('/login', function (req, res){
-    // log a user in.
-    // TODO... need auth stuff.
-  })
 
-  routes.post('/logout', function (req, res){
-    // log a user out.
-    // TODO... need auth stuff.
-  })
 
-  routes.post('/users', function (req, res){
-    // retrieve info about a single user.
-    helpers.getUserRoute(req.body)
-      .then(function(response){
-        res.status(200).send(response)
-      })
-      .catch(function(err){
+routes.post('/signup', function (req, res){
+  // sign up a new user.
+  // TODO... need auth stuff.
+})
+
+routes.post('/login', function (req, res){
+  // log a user in.
+  // TODO... need auth stuff.
+})
+
+routes.post('/logout', function (req, res){
+  // log a user out.
+  // TODO... need auth stuff.
+})
+
+routes.post('/users', function (req, res){
+  // retrieve info about a single user.
+  helpers.getUserRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(400).send(err)
+    })
+})
+
+routes.delete('/users', function (req, res){
+  // delete a user's account.
+  helpers.deleteUserRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      if (err.message = 'user was not deleted - user did not exist'){
         res.status(400).send(err)
-      })
-  })
-
-  routes.delete('/users', function (req, res){
-    // delete a user's account.
-    helpers.deleteUserRoute(req.body)
-      .then(function(response){
-        res.status(200).send(response)
-      })
-      .catch(function(err){
-        if (err.message = 'user was not deleted - user did not exist'){
-          res.status(400).send(err)
-        } else {
-          res.status(500).send(err)
-        }
-      })
-  })
+      } else {
+        res.status(500).send(err)
+      }
+    })
+})
 
 
 
-  // ----- ITEM ROUTES -----
+// ------------ ITEM ROUTES ------------
 
 
 
-  routes.post('/items', function (req, res){
-    // create a new item.
-    helpers.createItemRoute(req.body)
-      .then(function(response){
-        res.status(200).send(response)
-      })
-      .catch(function(err){
-        if (err.message === 'We do not have a record of that items owner.'){
-          res.status(400).send(err)
-        } else {
-          res.status(500).send(err)
-        }
-      })
-  })
+routes.post('/items', function (req, res){
+  // create a new item.
+  helpers.createItemRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      if (err.message === 'We do not have a record of that items owner.'){
+        res.status(400).send(err)
+      } else {
+        res.status(500).send(err)
+      }
+    })
+})
 
-  routes.post('/items/search', function (req, res){
-    // retrieve items that match a searched name and ZIP code
-    helpers.searchItemsRoute(req.body)
-      .then(function(response){
-        res.status(200).send(response)
-      })
-      .catch(function(err){
-        res.status(500).send(err);
-      })
-  })
+routes.post('/items/search', function (req, res){
+  // retrieve items that match a searched name and ZIP code
+  helpers.searchItemsRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+})
 
-  routes.post('/items/user', function (req, res){
-    // retrieve items that a user owns.
-    helpers.getOwnedRoute(req.body)
-      .then(function(response){
-        res.status(200).send(response)
-      })
-      .catch(function(err){
-        res.status(500).send(err);
-      })
-  })
+routes.post('/items/user', function (req, res){
+  // retrieve items that a user owns.
+  helpers.getOwnedRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+})
 
-  routes.post('/items/user/is_renting', function (req, res){
-    // retrieve items that a user is renting, will rent,
-    // or has rented from others.
-    helpers.isRentingRoute(req.body)
-      .then(function(response){
-        res.status(200).send(response)
-      })
-      .catch(function(err){
-        res.status(500).send(err);
-      })
-  })
+routes.post('/items/user/is_renting', function (req, res){
+  // retrieve items that a user is renting, will rent,
+  // or has rented from others, along with rental info.
+  helpers.isRentingRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+})
 
-  routes.post('/items/user/rented_from', function (req, res){
-    // retrieve items being rented, that will be rented, or 
-    // that have been rented from a user
-    helpers.rentedFromRoute(req.body)
-      .then(function(response){
-        res.status(200).send(response)
-      })
-      .catch(function(err){
-        console.error('this went wrong: ', err)
-        res.status(500).send(err);
-      })
-  })
+routes.post('/items/user/rented_from', function (req, res){
+  // retrieve items being rented, that will be rented, or 
+  // that have been rented FROM a user, along with rental info.
+  helpers.rentedFromRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(500).send(err);
+    })
+})
 
-  routes.delete('/items', function (req, res){
-    // delete an item.
-  })
-
+routes.delete('/items', function (req, res){
+  // delete an item.
+})
 
 
-  // ----- RENTAL ROUTES -----
+
+// ------------- RENTAL ROUTES ------------
 
 
 
 routes.post('/bookings', function (req, res){
-    // add a rental if no conflicts, reject a rental
-    // if conflicts exist
+    // add a rental if: 
+      // a) there are no other conflicting rentals
+      // b) rental dates lie within item start/end dates
   })
 
 routes.post('/bookings/item', function (req, res){
@@ -153,29 +157,32 @@ routes.delete('/bookings', function (req, res){
 
 
 
- 
- if (process.env.NODE_ENV !== 'test') {   // i.e. when in Development mode...
- 
-   var app = express();
-   app.use( require('body-parser').json() )
-   app.use('/', routes);
- 
-   // The Catch-all Route. Make sure this route is last.
-   routes.get('/*', function(req, res){
-     console.log('catch-all route triggered');
-     res.sendFile(path.join( __dirname + '/dist/index.html' ));
-   });
- 
-   // Start the server
-   var port = process.env.PORT || 4000;
-   app.listen(port);
-   console.log("Listening on port", port);
- }
- 
- else {  // i.e. when in Test mode...
- 
- routes.get('/test/example_endpoint', function(req, res) {
+// ------------ SERVER CONFIG ------------
+
+
+
+// When in Development mode...
+if (process.env.NODE_ENV !== 'test') {   
+
+  var app = express();
+  app.use( require('body-parser').json() )
+  app.use('/', routes);
+
+  // The Catch-all Route. Make sure this route is after all others.
+  routes.get('/*', function(req, res){
+   res.sendFile(path.join( __dirname + '/dist/index.html' ));
+  });
+
+  var port = process.env.PORT || 4000;
+  app.listen(port);
+  console.log("Listening on port", port);
+}
+
+// When in Test mode...
+else {  
+
+  routes.get('/test/example_endpoint', function(req, res) {
    res.send(['Hi there, your GET request has fulfilled!'])
- })
+  })
    module.exports = routes;
- }
+}
