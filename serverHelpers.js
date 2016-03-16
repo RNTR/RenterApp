@@ -199,7 +199,6 @@ exports.isRentingRoute = function(reqBody){
  								res(resp[0]);
  							})	
  							.catch(function(err){
- 								console.error('error grabbing item in async : ', err)
  								rej(err);
  							})
  					}))
@@ -222,6 +221,15 @@ exports.isRentingRoute = function(reqBody){
  							rentalsWithItems : rentals
  						}
  						fulfill(body)
+ 					})
+
+ 					.catch(function(err){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'could not retrieve items a user is renting',
+ 							error : err
+ 						}
+ 						reject(body);
  					})
  			})
  	})
