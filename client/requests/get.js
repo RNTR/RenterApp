@@ -13,3 +13,6 @@ function getRentedItems(){}
 
 function getMyListedItems(){};
 
+exports.goHome = function(){
+	alert('get.js exports.goHome')
+}
