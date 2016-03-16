@@ -8,7 +8,11 @@ module.exports = knex;
 
 knex.migrate.latest([config])
 	.then(function(x){
-		knex.destroy();
+		knex.seed.run()
+		.then(function(y){
+			knex.destroy();		
+		})
+
 	})
 	.catch(function(err){
 		console.error('migration error', err);
