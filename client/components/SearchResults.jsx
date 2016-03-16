@@ -12,18 +12,22 @@ var SearchResults = React.createClass({
         <div className="resultsContainer">
           <div>{this.props.searchResults().item[0]}</div>
           <a href={this.props.searchResults().imageUrl[0]}>Pic Link</a>
+          <div>${this.props.searchResults().price[0]}/day</div>
         </div>
         <div className="resultsContainer">
           <div>{this.props.searchResults().item[1]}</div>
           <a href={this.props.searchResults().imageUrl[1]}>Pic Link</a>
+            <div>${this.props.searchResults().price[1]}/day</div>
         </div>
         <div className="resultsContainer">
           <div>{this.props.searchResults().item[2]}</div>
           <a href={this.props.searchResults().imageUrl[2]}>Pic Link</a>
+            <div>${this.props.searchResults().price[2]}/day</div>
         </div>
         <div className="resultsContainer">
           <div>{this.props.searchResults().item[3]}</div>
           <a href={this.props.searchResults().imageUrl[3]}>Pic Link</a>
+            <div>${this.props.searchResults().price[3]}/day</div>
         </div>
       </div>
     )
