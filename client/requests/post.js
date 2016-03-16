@@ -6,7 +6,7 @@ require('whatwg-fetch');  // http://github.github.io/fetch/
 
 
 exports.getUserInfo = function(){
-  
+
   var userInfo = {
     username: 'HYPOTHETICAL THEORETICAL FAKE NOT REAL NAME'
   }
@@ -57,3 +57,10 @@ exports.stuffBeingRentedFromUser = function(){
   var item = 'thing in requests/post.js'
   return item;
 };
+
+exports.searchResults = function() {
+  var results = {
+    result: "Lawnmower"
+  }
+  return results;
+}

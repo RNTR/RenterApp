@@ -7,7 +7,7 @@ var SearchResults = React.createClass({
 
   render: function() {
     return (
-      <div>TEST!!!!</div>
+      <div>TEST!!!!, {this.props.searchResults().result}</div>
     )
   }
 });
