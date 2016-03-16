@@ -7,9 +7,9 @@ module.exports = {
     connection: {
       database: 'RNTR_dev'
     }
-    //, seeds: {
-    //   directory: './seeds/'
-    // }
+    , seeds: {
+      directory: './seeds'
+    }
   },
 
   test: {
