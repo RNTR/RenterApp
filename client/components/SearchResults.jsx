@@ -13,3 +13,16 @@ var SearchResults = React.createClass({
 });
 
 module.exports = SearchResults;
+
+
+// Render multiple components
+// render: function() {
+//     var results = this.props.results;
+//     return (
+//       <ol>
+//         {results.map(function(result) {
+//           return <li key={result.id}>{result.text}</li>;
+//         })}
+//       </ol>
+//     );
+//   }
