@@ -293,7 +293,36 @@ exports.rentedFromRoute = function(reqBody){
 
 exports.deleteItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+		var itemID = reqBody.item_id;
+ 		var userID = reqBody.user_id;
+ 		var pw = reqBody.password;
+
+ 		// TODO: when AUTH in place, use username and password to authenticate
+ 		// prior to deleting an item.
+
+ 		dbMethod.removeItem(itemID)
+ 			.then(function(response){
+ 				var obj = {};
+ 				if (response.length !== 0){
+ 					obj.status = 'complete';
+ 					obj.message = 'item deleted.';
+ 					obj.itemID = response[0].id;
+ 					fulfill(obj);
+ 				} else {
+ 					obj.status = 'failed';
+ 					obj.message = 'user was not deleted - user did not exist';
+ 					reject(obj);
+ 				}
+ 			})
+ 			.catch(function(err){
+ 				//do something with err
+ 				console.log('error in helper: ',err)
+ 				var errorBody = {
+ 					status : 'failed',
+ 					message : 'internal error'
+ 				}
+ 				reject(err);
+ 			})
  	})
 }
 

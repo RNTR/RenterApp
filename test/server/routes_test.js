@@ -381,7 +381,7 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(DELETE, /items) : should delete an item", function * (){
+    it_ ("(DELETE, /items) : should delete an item", function * (){
       var user = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
         .then(function(idArray){
           return idArray[0];
