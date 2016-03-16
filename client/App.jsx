@@ -13,9 +13,6 @@ var deleteRequests = require('./requests/delete.js');
 
 
 
-
-
-
 /***********************************************************/
 
 
@@ -24,15 +21,23 @@ var NavBar = React.createElement(GlobalNavBar, {
 });
 
 var Home = React.createElement(HomePage, {
-  // navbar: GlobalNavBar.render
+
 });
 
 var User = React.createElement(UserPage, {
-    getUserInfo: postRequests.getUserInfo
+    
+    getUserInfo: postRequests.getUserInfo,
+    
+    getUserItemsForRent: postRequests.getUserItemsForRent,
+    
+    getStuffRentedFromOthers:postRequests.getStuffRentedFromOthers,
+    
+    stuffBeingRentedFromUser:postRequests.stuffBeingRentedFromUser
+
 });
 
 var NewListing = React.createElement(MakeNewListing, {
-  // navBar: GlobalNavBar.render
+
 });
 
 var Item = React.createElement(ItemPage, {
@@ -45,20 +50,16 @@ var Item = React.createElement(ItemPage, {
 
 
 
-
-
-
-
 /***********************************************************/
 
 
 NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 
-// Home = ReactDOM.render(Home, document.getElementById('app'));
+// Home = ReactDOM.render(Home, document.getElementById('home'));
 
 // NewListing = ReactDOM.render(NewListing, document.getElementById('newlisting'))
 
-User = ReactDOM.render(User, document.getElementById('user'));
+// User = ReactDOM.render(User, document.getElementById('user'));
 
 // Item = ReactDOM.render(Item, document.getElementById('item'));
 
