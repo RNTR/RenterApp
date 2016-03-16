@@ -65,7 +65,7 @@
 
 .HomePageMain {
 
-	
+
 }
 
 
@@ -156,14 +156,6 @@
 	margin-left: 20px;
 }
 
-
-.newListing {
-  font-family: 'Avenir';
-  font-size: 18px;
-  margin: 0 auto;
-  text-align: center;
-}
-
 												/**** ITEM PAGE ****/
 
 .itemPage {
@@ -242,3 +234,22 @@
 	position:static;
 }
 
+/*NEW LISTING*/
+
+.newListing {
+  font-family: 'Avenir';
+  font-size: 24px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 20px;
+}
+
+/*SEARCH RESULTS*/
+
+.results {
+  font-family: 'Avenir';
+  font-size: 24px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 20px;
+}
