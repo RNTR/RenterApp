@@ -7,8 +7,8 @@ var SearchResults = React.createClass({
 
   render: function() {
     return (
-      <div className="results">
-        <div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION >{this.props.location}</div>
+      <div>
+        <div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION: {this.props.searchLocation().result[0].toUpperCase()}</div>
         <div className="results">{this.props.searchResults().result[0]}</div>
         <div className="results">{this.props.searchResults().result[1]}</div>
         <div className="results">{this.props.searchResults().result[2]}</div>
@@ -31,3 +31,25 @@ module.exports = SearchResults;
 // 		</ol>
 // 	);
 // }
+
+// Template
+// const rows = this.props.shelters.map((shelter) => {
+//   if (shelter.shelterName.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0) {
+//     return (
+//       <div key={shelter.shelterID} className="shelterCard">
+//         <Link to={'/shelterprofile/' + shelter.shelterName}>
+//           <div>
+//           <p></p>
+//               <p>
+//               <div className="shelterInfo">
+//               {shelter.shelterName}
+//              <div> organizied by {shelter.organizationName} located at {shelter.locationName}</div>
+//             </div>
+//             </p>
+//
+//           </div>
+//         </Link>
+//       </div>
+//     );
+//   }
+// });

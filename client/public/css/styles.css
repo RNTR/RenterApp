@@ -12,7 +12,7 @@
 	min-width: 1045px;
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-color: #f0f5f5;
+	background-color: #D3C6C6;
 
 }
 
@@ -273,8 +273,10 @@
 
 .results {
   font-family: 'Avenir';
+	width: 600px;
   font-size: 24px;
   margin: 0 auto;
   text-align: center;
   padding-top: 20px;
+	border-bottom: 5px solid orange;
 }

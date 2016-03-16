@@ -56,7 +56,8 @@ var Item = React.createElement(ItemPage, {
 });
 
 var Results = React.createElement(SearchResults, {
-  searchResults: postRequests.searchResults
+  searchResults: postRequests.searchResults,
+	searchLocation: postRequests.searchLocation
 })
 
 
