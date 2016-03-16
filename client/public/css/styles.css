@@ -1,5 +1,20 @@
 
 												/**** GLOBAL NAV BAR ****/
+.site{
+/*	background: url(http://i.imgur.com/tMutkTV.gif);
+	z-index: -1;*/
+	position: absolute;
+	right: 0;
+	left: 0;
+	top: 0;
+	height: 1000px;
+	overflow: hidden;
+	min-width: 1045px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: #f0f5f5;
+
+}
 
 .bar{
  font-family: 'Avenir';
@@ -9,12 +24,14 @@
  margin-left: 10%;
  margin-right:9%;
  margin-top:2%;
+ position: static;
+
 
 /* border: 1px solid black;*/
 }
 
 .bar .signup {
-	top: 1.5%;
+	top: 2.5%;
 	right: 20%;
 	font-size: 23px;
 	position: fixed;
@@ -23,7 +40,7 @@
 }
 
 .bar .listItem {
-	top: 1.5%;
+	top: 2.5%;
 	right: 35%;
 	font-size: 23px;
 	position: fixed;
@@ -34,7 +51,7 @@
 .bar .myProfile {
 
 	font-size: 23px;
-	top: 1.5%;
+	top: 2.5%;
 	right: 10%;
 	position: fixed;
 	margin-top: 1%;
@@ -43,23 +60,28 @@
 
 .bar .title {
 	right: 90%;
+/*	text-shadow: 1px 1px green;*/
+	font-size: 39px;
+	font-family: 'nougatine';
+	position: static;
 }
 
 .bar .searchbar {
 	font-style: italic;
 	font-size: 23px;
 	font-color: red;
-	top: 1.5%;
+	top: 2.5%;
 	right: 55%;
 	position: fixed;
 	margin-top: 1%;
-	border: none;
+	border: 1px solid #b3cce6;
+/*	background-color: #f0f5f5;*/
 }
 
 												/**** HOME PAGE ****/
 
 #home {
-
+	background-color: #7a7a52;
 
 }
 
@@ -71,12 +93,15 @@
 
 .HomePageGreeting {
 	font-family: 'Avenir';
+	font-color: green;
+	text-shadow: 1px 1px white;
 	font-size: 34px;
 	position: absolute;
 	top: 40%;
 	bottom: 60%;
 	right: 40%;
 	float: center;
+
 }
 
 

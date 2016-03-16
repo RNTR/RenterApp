@@ -10,15 +10,12 @@ getInitialState: function(){
 	return {};
 },
 
-signup: function(){},
 
 login: function(){},
 
 logout: function(){},
 
 searchbar: function(){},
-
-listItem: function(){},  // post.js has a listNewItem function
 
 myProfile: function(){}, // link to user profile
 
@@ -27,11 +24,11 @@ titleHome: function(){},  // link back to the home page
  render: function() {
     return (
       <div className="bar">
-       <div className='title'>RNTR</div>
-        <div className="signup">Sign Up/Sign In</div>
-      	 <div className="listItem">List an Item</div>
-      	  <div className="myProfile">My Profile</div>
-      	   <input className='searchbar' placeholder='Search Items'></input>
+       <div className='title' /*onClick={this.props.goHome}*/>RNTR</div>
+        <div className="signup" onClick={this.props.signupClick}>Sign Up/Sign In</div>
+      	 <div className="listItem" onClick={this.props.listItem}>List an Item</div>
+      	  <div className="myProfile" onClick={this.props.goToProfile}>My Profile</div>
+      	   <input className='searchbar' placeholder='Search Items' on={this.props.handleSubmit}></input>
 
       </div>
 
