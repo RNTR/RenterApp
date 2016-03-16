@@ -161,7 +161,7 @@ routes.delete('/bookings', function (req, res){
 
 
 
-// When in Development mode...
+// When in Development or Production mode...
 if (process.env.NODE_ENV !== 'test') {   
 
   var app = express();
