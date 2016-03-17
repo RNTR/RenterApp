@@ -235,9 +235,29 @@ exports.getOwnedRoute = function(reqBody){
 exports.isRentingRoute = function(reqBody){
  //get a list of rentals, each with an item object in it.
  	return new Promise(function(fulfill, reject){
+
+	 	if (!!!reqBody.userID || typeof reqBody.userID !== 'number'){
+	 		var body = {
+	 			status : 'failed',
+	 			message : 'invalid format. Make sure you sent a valid userID.'
+	 		}
+	 		reject(body);
+	 	}
+
  		var renterID = reqBody.userID;
  		dbMethod.getRentalsByRenterID(renterID)
  			.then(function(results){
+
+ 				if (!results){
+ 					var body = {
+	 					status : 'completed',
+	 					message : 'No rentals found for that user.',
+	 					rentalsWithItems : []
+	 				}
+	 				reject(body);
+	 				return;
+ 				} 
+
  				var rentals = results;
  				var items = [];
 
