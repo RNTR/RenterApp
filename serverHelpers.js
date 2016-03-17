@@ -503,7 +503,6 @@ exports.rentalsForItemRoute = function(reqBody){
 		 	reject(body)
  		}
 
-
  		var itemID = reqBody.itemID;
  		dbMethod.getRentalsByItemID(itemID)
  			.then(function(rentals){
@@ -527,6 +526,14 @@ exports.rentalsForItemRoute = function(reqBody){
 
 exports.deleteRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (!!!reqBody.rentalID || typeof reqBody.rentalID !== 'number'){
+		 	var body = {
+				status : 'failed',
+				message : 'invalid format. Make sure you entered a valid rentalID, userID, and password'
+			}
+			reject(body);
+ 		}
+
 		var rentalID = reqBody.rentalID;
  		var userID = reqBody.userID;
  		var pw = reqBody.password;
