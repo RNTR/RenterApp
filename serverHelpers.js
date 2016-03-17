@@ -161,18 +161,17 @@ exports.createItemRoute = function(reqBody){
  	})
 }
 
-exports.searchItemsRoute = function(reqBody){ //needs a check
+exports.searchItemsRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		if (reqBody.searchTerm && typeof reqBody.searchTerm === 'string' 
- 			&& reqBody.zipCode && (typeof reqBody.zipCode === 'string' ||
- 			typeof reqBody.zipCode === 'number')){
+ 			&& reqBody.zipCode && typeof reqBody.zipCode === 'number'){
 
 	 		var name = reqBody.searchTerm;
 	 		var zip = reqBody.zipCode;
-	 		dbMethod.getItemsByName(name)
+	 		dbMethod.getItemsByNameLike(name)
 	 			.then(function(items){
 	 				var results = items.filter(function(x){
-	 					return x.zip.toString() === zip;
+	 					return x.zip === zip;
 	 				})
 	 				var body = {
 	 					status : 'complete',
