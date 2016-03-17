@@ -252,9 +252,9 @@ exports.isRentingRoute = function(reqBody){
  					var body = {
 	 					status : 'completed',
 	 					message : 'No rentals found for that user.',
-	 					console.log('no items found route triggered.')
 	 					rentalsWithItems : []
 	 				}
+	 				console.log('no items found route triggered.')
 	 				fulfill(body);
 	 				return;
  				} 
