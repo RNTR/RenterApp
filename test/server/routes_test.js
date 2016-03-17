@@ -789,7 +789,6 @@ describe ("Server-Side Routing:", function() {
         .send(body)
         .expect(200)
         .expect(function(response) {
-          console.log('this is response in the is_renting test: ', response)
           expect(response.body.status).to.equal('complete');
           expect(response.body.message).to.equal('items retrieved (with arrays of rentals inside)');
           expect(response.body.itemsWithRentals).to.be.a('array');
