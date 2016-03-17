@@ -8,9 +8,7 @@ var ItemPage = require('./components/ItemPage.jsx');
 var postRequests = require('./requests/post.js');
 var getRequests = require('./requests/get.js');
 var deleteRequests = require('./requests/delete.js');
-var SearchResults = require('./components/SearchResults.jsx')
-
-
+var SearchResults = require('./components/SearchResults.jsx');
 
 
 
@@ -82,3 +80,16 @@ NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 Results = ReactDOM.render(Results, document.getElementById('results'))
 
 /***********************************************************/
+
+
+class App extends React.Component{
+    render() {
+        return (
+            <div>
+                <GlobalNavBar />
+            </div>    
+        )
+    }
+}
+
+export default App;
