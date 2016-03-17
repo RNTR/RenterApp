@@ -7,42 +7,10 @@
  var helpers = require('./serverHelpers.js')
  var webpack = require('webpack');
  var app = express();
- var config = require('./webpack.config.dev.js')
+ var config = require('./webpack.config.js')
  // var bundle = require('./dist/index_bundle.jsx')  
  // var frontEnd = require('./client')
  
-// -------------- WEBPACK ----------------
-
-// returns a Compiler instance
-var compiler = webpack(config);
-
-compiler.run(function(err, stats) {
-   console.log("Errors: ", stats.hasErrors())  
-});
-// or
-compiler.watch({ // watch options:
-    aggregateTimeout: 300, // wait so long for more changes
-    poll: true // use polling instead of native watchers
-    // pass a number to set the polling interval
-}, function(err, stats) {
-    // ...
-});
- 
-
-app.use(require('webpack-dev-middleware')(compiler, {
-   noInfo: true,
-   publicPath: config.output.publicPath
- }));
- 
- app.use(require('webpack-hot-middleware')(compiler));
- 
-
-
-
-var assetFolder = path.resolve(__dirname, './dist');
-
-routes.use(express.static(assetFolder));
-
 
   
 // ------------ BASE ROUTE -----------
@@ -238,6 +206,44 @@ routes.delete('/bookings', function (req, res){
 
 // When in Development or Production mode...
 if (process.env.NODE_ENV !== 'test') {   
+
+
+// --- WEBPACK ---
+
+
+  // returns a Compiler instance
+  var compiler = webpack(config);
+
+  compiler.run(function(err, stats) {
+     console.log("Errors: ", stats.hasErrors())  
+  });
+  // or
+  compiler.watch({ // watch options:
+      aggregateTimeout: 300, // wait so long for more changes
+      poll: true // use polling instead of native watchers
+      // pass a number to set the polling interval
+  }, function(err, stats) {
+      // ...
+  });
+   
+
+  app.use(require('webpack-dev-middleware')(compiler, {
+     noInfo: true,
+     publicPath: config.output.publicPath
+   }));
+   
+   app.use(require('webpack-hot-middleware')(compiler));
+   
+
+
+
+  var assetFolder = path.resolve(__dirname, './dist');
+
+  routes.use(express.static(assetFolder));
+
+
+// --- EXPRESS CONFIG ---
+
 
   var app = express();
   app.use( require('body-parser').json() )
