@@ -341,6 +341,7 @@ exports.rentedFromRoute = function(reqBody){
 
 exports.deleteItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (reqBody.item_id && typeof reqBody.item_id === 'number'){
 		var itemID = reqBody.item_id;
  		var userID = reqBody.user_id;
  		var pw = reqBody.password;
@@ -355,10 +356,11 @@ exports.deleteItemRoute = function(reqBody){
  					obj.status = 'complete';
  					obj.message = 'item deleted.';
  					obj.itemID = response[0].id;
+ 					obj.itemName = response[0].name;
  					fulfill(obj);
  				} else {
  					obj.status = 'failed';
- 					obj.message = 'user was not deleted - user did not exist';
+ 					obj.message = 'item was not deleted - item did not exist';
  					reject(obj);
  				}
  			})
@@ -372,6 +374,13 @@ exports.deleteItemRoute = function(reqBody){
  				}
  				reject(errorBody);
  			})
+ 		} else {
+ 			var errorBody = {
+ 					status : 'failed',
+ 					message : 'invalid format. Make sure you provided a valid item_id, user_id, and password.',
+ 				}
+ 			reject(errorBody);
+ 		}
  	})
 }
 
