@@ -7,10 +7,7 @@
  var helpers = require('./serverHelpers.js')
  var webpack = require('webpack');
  var app = express();
- var config = require('./webpack.config.js')
- // var bundle = require('./dist/index_bundle.jsx')  
- // var frontEnd = require('./client')
- 
+
 
   
 // ------------ BASE ROUTE -----------
@@ -209,6 +206,8 @@ if (process.env.NODE_ENV !== 'test') {
 
 
 // --- WEBPACK ---
+ var config = require('./webpack.config.js')
+ 
 
 
   // returns a Compiler instance
