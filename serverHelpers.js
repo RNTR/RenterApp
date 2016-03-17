@@ -254,7 +254,6 @@ exports.isRentingRoute = function(reqBody){
 	 					message : 'No rentals found for that user.',
 	 					rentalsWithItems : []
 	 				}
-	 				console.log('no items found route triggered.')
 	 				fulfill(body);
 	 				return;
  				} 
@@ -291,6 +290,7 @@ exports.isRentingRoute = function(reqBody){
  							message : 'rentals retrieved (with objects inside)',
  							rentalsWithItems : rentals
  						}
+ 						console.log('fulfilling the happy route, is_renting: ', body)
  						fulfill(body)
  					})
 
