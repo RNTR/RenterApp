@@ -119,69 +119,89 @@ exports.deleteUserRoute = function(reqBody){
 
 exports.createItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		var item = reqBody.item;
- 		dbMethod.addItem(item)
- 			.then(function(response){
- 				if (typeof response[0] === 'number'){
- 					var newItem;
- 					dbMethod.getItemByID(response[0])
- 						.then(function(res){
- 							newItem = res[0];
- 							var body = {
- 								status : 'complete',
- 								message : 'item added.',
- 								item : newItem
- 							}
- 							fulfill(body);
- 						})
- 				} else if (response === 'We do not have a record of that items owner.') {
- 					var body = {
- 						status : 'failed',
- 						message : response
- 					}
- 					reject(body);
- 				}
- 			})
- 			.catch(function(err){
- 				var body = {
- 					status : 'failed',
- 					message : 'internal error',
- 					error : err
- 				}
- 				reject(body)
- 			})
+ 		if (reqBody.item && typeof reqBody.item.name === 'string'){
+	 		var item = reqBody.item;
+	 		dbMethod.addItem(item)
+	 			.then(function(response){
+	 				if (typeof response[0] === 'number'){
+	 					var newItem;
+	 					dbMethod.getItemByID(response[0])
+	 						.then(function(res){
+	 							newItem = res[0];
+	 							var body = {
+	 								status : 'complete',
+	 								message : 'item added.',
+	 								item : newItem
+	 							}
+	 							fulfill(body);
+	 						})
+	 				} else if (response === 'We do not have a record of that items owner.') {
+	 					var body = {
+	 						status : 'failed',
+	 						message : response
+	 					}
+	 					reject(body);
+	 				}
+	 			})
+	 			.catch(function(err){
+	 				var body = {
+	 					status : 'failed',
+	 					message : 'error. make sure you provided the correct information in the request body.',
+	 					error : err
+	 				}
+	 				reject(body);
+	 			})
+	 	} else {
+	 		var body = {
+	 			status : 'failed',
+	 			message : 'invalid request format. make sure you provided an item object with name, address, zip, category, price, photo, item_owner, date_start, and date_end fields.'
+	 		}
+	 		reject(body);
+	 	}
  	})
 }
 
-exports.searchItemsRoute = function(reqBody){
+exports.searchItemsRoute = function(reqBody){ //needs a check
  	return new Promise(function(fulfill, reject){
- 		var name = reqBody.searchTerm;
- 		var zip = reqBody.zipCode;
- 		dbMethod.getItemsByName(name)
- 			.then(function(items){
- 				var results = items.filter(function(x){
- 					return x.zip.toString() === zip;
- 				})
- 				var body = {
- 					status : 'complete',
- 					message : 'items retrieved.',
- 					'items' : results
- 				}
- 				fulfill(body);
- 			})
- 			.catch(function(err){
- 				var body = {
- 					status : 'failed',
- 					message : 'internal error',
- 					error : err
- 				}
- 				reject(body);
- 			})
+ 		if (reqBody.searchTerm && typeof reqBody.searchTerm === 'string' 
+ 			&& reqBody.zipCode && (typeof reqBody.zipCode === 'string' ||
+ 			typeof reqBody.zipCode === 'number')){
+
+	 		var name = reqBody.searchTerm;
+	 		var zip = reqBody.zipCode;
+	 		dbMethod.getItemsByName(name)
+	 			.then(function(items){
+	 				var results = items.filter(function(x){
+	 					return x.zip.toString() === zip;
+	 				})
+	 				var body = {
+	 					status : 'complete',
+	 					message : 'items retrieved.',
+	 					'items' : results
+	 				}
+	 				fulfill(body);
+	 			})
+	 			.catch(function(err){
+	 				var body = {
+	 					status : 'failed',
+	 					message : 'internal error',
+	 					error : err
+	 				}
+	 				reject(body);
+	 			})
+ 		} else {
+ 			var body = {
+ 				status : 'failed',
+ 				message : 'invalid input. Make sure you supplied a valid searchTerm and zipCode.'
+ 			}
+ 			reject(body);
+ 		}
  	})
 }
 
 exports.getOwnedRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (reqBody.user_id && typeof reqBody.user_id === 'number'){
  		var userID = reqBody.user_id;
  		dbMethod.getItemsByOwnerID(userID)
  			.then(function(items){
@@ -200,6 +220,13 @@ exports.getOwnedRoute = function(reqBody){
  				}
  				reject(body);
  			})
+ 		} else {
+		 	var body = {
+				status : 'failed',
+				message : 'invalid input. Make sure you supplied a valid user_id'
+			}
+			reject(body);
+ 		}
  	})
 }
 
