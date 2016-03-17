@@ -6,7 +6,43 @@
  var dbMethod = require('./db/dbMethods.js')
  var helpers = require('./serverHelpers.js')
  var webpack = require('webpack');
-  
+ var app = express();
+ var config = require('./webpack.config.dev.js')
+ // var bundle = require('./dist/index_bundle.jsx')  
+ // var frontEnd = require('./client')
+ 
+// -------------- WEBPACK ----------------
+
+// returns a Compiler instance
+var compiler = webpack(config);
+
+compiler.run(function(err, stats) {
+   console.log("Errors: ", stats.hasErrors())  
+});
+// or
+compiler.watch({ // watch options:
+    aggregateTimeout: 300, // wait so long for more changes
+    poll: true // use polling instead of native watchers
+    // pass a number to set the polling interval
+}, function(err, stats) {
+    // ...
+});
+ 
+
+app.use(require('webpack-dev-middleware')(compiler, {
+   noInfo: true,
+   publicPath: config.output.publicPath
+ }));
+ 
+ app.use(require('webpack-hot-middleware')(compiler));
+ 
+
+
+
+var assetFolder = path.resolve(__dirname, './dist');
+
+routes.use(express.static(assetFolder));
+
 
   
 // ------------ BASE ROUTE -----------
@@ -15,13 +51,17 @@
 
 routes.get('/', function (req, res) {
   res.sendFile(path.join( __dirname + '/dist/index.html' ));
+  console.log('HERE!!!!!')
 });
 
 
 
 // ------------ USER ROUTES -----------
 
-
+routes.get('/test', function (req, res){
+  console.log('TEST')
+  res.sendFile(path.join( __dirname + '/dist/index.html' ));
+})
 
 routes.post('/signup', function (req, res){
   // sign up a new user.

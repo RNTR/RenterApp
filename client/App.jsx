@@ -77,7 +77,7 @@ NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 
 // Item = ReactDOM.render(Item, document.getElementById('item'));
 
-Results = ReactDOM.render(Results, document.getElementById('results'))
+// Results = ReactDOM.render(Results, document.getElementById('results'))
 
 /***********************************************************/
 

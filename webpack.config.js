@@ -1,3 +1,4 @@
+var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   template: __dirname + '/client/public/index.html',
@@ -6,9 +7,8 @@ var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 module.exports = {
-  entry: [
-    './client/public/index.jsx'
-  ],
+  entry: './client/public/index.jsx',
+  target: 'node',
   output: {
     path: __dirname + '/dist',
     filename: "index_bundle.jsx"
@@ -27,11 +27,14 @@ module.exports = {
       { test: /\.css$/, loader: "style-loader!css-loader" }
     ]
   },
-  plugins: [HTMLWebpackPluginConfig]
+  plugins: [HTMLWebpackPluginConfig, new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"production"'
+      }
+    })]
 };
 
 
 
 
 
- // {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
