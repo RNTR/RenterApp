@@ -308,6 +308,15 @@ exports.isRentingRoute = function(reqBody){
 exports.rentedFromRoute = function(reqBody){
 //get a list of items, each with an array of rentals in it.
  	return new Promise(function(fulfill, reject){
+
+	 	if (!!!reqBody.owner || typeof reqBody.owner !== 'number'){
+	 		var body = {
+	 			status : 'failed',
+	 			message : 'invalid format. Make sure you sent a valid "owner".'
+	 		}
+	 		reject(body);
+	 	}
+
  		var ownerID = reqBody.owner
  		dbMethod.getItemsByOwnerID(ownerID)
  			.then(function(results){
