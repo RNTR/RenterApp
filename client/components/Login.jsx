@@ -1,21 +1,21 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Router = require('react-router');
 var Link = Router.Link 
-// add additional dependencies
+var postRequests = require('../requests/post.js');
+var getRequests = require('../requests/get.js');
+
 
 var Login = React.createClass({
 
 login: function(){
 
-	var login = {
-		username: // get username and password input, assign them to props
-		password:
-	}
 
-}
+
+},
 
 render: function(){
-	return (/*DIV NAME HERE*/)
+	return (<div>LOGIN PAGE</div>)
 }
 
 })

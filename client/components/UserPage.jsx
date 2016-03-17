@@ -1,8 +1,11 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Router = require('react-router');
-var Link = Router.Link 
-// add additional dependencies
+var Link = Router.Link
+var App = require('../App.jsx') 
+var postRequests = require('../requests/post.js');
+var getRequests = require('../requests/get.js');
+
 
 var UserPage = React.createClass({
 
@@ -11,10 +14,12 @@ getInitialState: function(){
 },
 
 componentDidMount: function(){
-	return console.log(this.props.getUserInfo().username);
+
 },
 
-navBar: function(){}, //load globalNavBar
+getUserInfo: function(){
+
+}, 
 
 requestsToRentees: function(){},
 
@@ -27,20 +32,21 @@ getListedItems: function(){},
 getCurrentRentedItems: function(){},
 
 render: function(){
+	
 	return (<div className='userPage'>
 			 
-			  <div className='userGreeting'>Welcome, {this.props.getUserInfo().username}</div>
+			  <div className='userGreeting'>Welcome, {postRequests.getUserInfo()}</div>
 			  
 			  <div className='yourStuffForRent'> Your stuff for rent: 
-			  	<div className='yourItemForRent'>{this.props.getUserItemsForRent()}</div>            
+			  	<div className='yourItemForRent'>{postRequests.getUserItemsForRent()}</div>    
 			  </div>
 			  	
 			  <div className='stuffYouAreRenting'>Stuff you are renting from others
-			  	<div className='itemYouAreRenting'>{this.props.getStuffRentedFromOthers()}</div>
+			  	<div className='itemYouAreRenting'>{postRequests.getStuffRentedFromOthers()}</div>
 			  </div>
 			  	  
 			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you
-			  	<div className='itemBeingRentedFromYou'>{this.props.stuffBeingRentedFromUser()}</div>
+			  	<div className='itemBeingRentedFromYou'>{postRequests.stuffBeingRentedFromUser()}</div>
 			  </div>
 
 
@@ -55,6 +61,13 @@ render: function(){
 
 module.exports = UserPage;
 
+			
+
+
+
+
+
+		  	
 
 // this.props.listings.map(function(listing) {
 // 			  		<ThingForRent listing={listing} />
