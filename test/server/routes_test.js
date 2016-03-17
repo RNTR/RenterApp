@@ -306,7 +306,7 @@ describe ("Server-Side Routing:", function() {
       var itemOne = {
         'name': 'Lawn Mower',
         'address': '123 East Murphy Lane',
-        'zip': '10507',
+        'zip': 10507,
         'category': 'Lawn and Garden',
         'price': '10',
         'photo': 'null',
@@ -318,7 +318,7 @@ describe ("Server-Side Routing:", function() {
       var itemTwo = {
         'name': 'Lawn Mower',
         'address': 'A different address',
-        'zip': '10507',
+        'zip': 10507,
         'category': 'Lawn and Garden',
         'price': '10',
         'photo': 'null',
@@ -330,7 +330,7 @@ describe ("Server-Side Routing:", function() {
       var itemThree = {
         'name': 'Lawn Mower',
         'address': 'Somewhere else',
-        'zip': '10507',
+        'zip': 10507,
         'category': 'Lawn and Garden',
         'price': '10',
         'photo': 'null',
@@ -342,7 +342,7 @@ describe ("Server-Side Routing:", function() {
       var itemFour = {
         'name': 'Pickup Truck',
         'address': 'Somewhere else',
-        'zip': '10507',
+        'zip': 10507,
         'category': 'Lawn and Garden',
         'price': '10',
         'photo': 'null',
@@ -359,7 +359,7 @@ describe ("Server-Side Routing:", function() {
 
       var body = {
         searchTerm : 'Lawn Mower',
-        zipCode : '10507'
+        zipCode : 10507
       }
 
       yield request(app)

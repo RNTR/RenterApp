@@ -27,27 +27,40 @@ exports.logoutRoute = function(reqBody){
 
 exports.getUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
-	 	if (reqBody.userID){
+	 	if (reqBody.userID && typeof reqBody.userID === 'number'){
 	      dbMethod.getUserByID(reqBody.userID)
 	        .then(function(response){
-	          body = {};
-	          body.user = {};
-	          body.user.username = response[0].username;
-	          body.user.email = response[0].email
-	          body.status = 'complete'
-	          body.message = 'user retrieved.'
-	          fulfill(body);
+	        	var body = {};
+	        	if (response === false){
+	        		body.status = 'failed';
+	        		body.message = 'could not find that user.';
+	        		reject(body);
+	        	} else {
+	          		body.user = {};
+	          		body.user.username = response[0].username;
+	          		body.user.email = response[0].email
+	          		body.status = 'complete'
+	         		body.message = 'user retrieved.'
+	          		fulfill(body);
+	          	}
 	        })
-	    } else if (reqBody.username){
-	      dbMethod.getUserByID(reqBody.username)
+	    } else if (reqBody.username && typeof reqBody.username === 'string'){
+	      dbMethod.getUserByUsername(reqBody.username)
 	        .then(function(response){
-	          body = {};
-	          body.user = {};
-	          body.user.username = response[0].username;
-	          body.user.email = response[0].email
-	          body.status = 'complete'
-	          body.message = 'user retrieved.'
-	          fulfill(body);
+	        	var body = {};
+	        	if (response === false){
+	        		body.status = 'failed';
+	        		body.message = 'could not find that user.';
+	        		reject(body);
+	        	} else{
+		          	body.user = {};
+		          	body.user.id = response[0].id;
+		          	body.user.username = response[0].username;
+		          	body.user.email = response[0].email
+		          	body.status = 'complete'
+		          	body.message = 'user retrieved.'
+		          	fulfill(body);
+	      		}
 	        })
 	    } else {
 	      var errorBody = {
@@ -61,31 +74,40 @@ exports.getUserRoute = function(reqBody){
 
 exports.deleteUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		var user = reqBody.user;
- 		var userID = user.userID;
- 		dbMethod.removeUser(userID)
- 			.then(function(response){
- 				var obj = {};
- 				if (response.length !== 0){
- 					obj.status = 'complete';
- 					obj.message = 'user deleted';
- 					obj.user = user;
- 					fulfill(obj);
- 				} else {
- 					obj.status = 'failed';
- 					obj.message = 'user was not deleted - user did not exist';
- 					reject(obj);
- 				}
- 			})
- 			.catch(function(err){
- 				//do something with err
- 				console.log('error in helper: ',err)
- 				var errorBody = {
- 					status : 'failed',
- 					message : 'internal error'
- 				}
- 				reject(err);
- 			})
+ 		if (reqBody.user && typeof reqBody.user.userID === 'number'){
+	 		var user = reqBody.user;
+	 		var userID = user.userID;
+	 		dbMethod.removeUser(userID)
+	 			.then(function(response){
+	 				var obj = {};
+	 				if (response.length !== 0){
+	 					obj.status = 'complete';
+	 					obj.message = 'user deleted';
+	 					obj.user = user;
+	 					fulfill(obj);
+	 				} else {
+	 					obj.status = 'failed';
+	 					obj.message = 'user was not deleted - user did not exist';
+	 					reject(obj);
+	 				}
+	 			})
+	 			.catch(function(err){
+	 				//do something with err
+	 				console.log('error in helper: ',err)
+	 				var errorBody = {
+	 					status : 'failed',
+	 					message : 'internal error',
+	 					error : err
+	 				}
+	 				reject(errorBody);
+	 			})
+	 	} else {
+	 		var errorBody = {
+	 			status : 'failed',
+	 			message : 'invalid input. Please provide a valid "user" object containing a "userID"',
+	 			}
+	 		reject(errorBody);
+	 	}
  	})
 }
 
@@ -97,69 +119,88 @@ exports.deleteUserRoute = function(reqBody){
 
 exports.createItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		var item = reqBody.item;
- 		dbMethod.addItem(item)
- 			.then(function(response){
- 				if (typeof response[0] === 'number'){
- 					var newItem;
- 					dbMethod.getItemByID(response[0])
- 						.then(function(res){
- 							newItem = res[0];
- 							var body = {
- 								status : 'complete',
- 								message : 'item added.',
- 								item : newItem
- 							}
- 							fulfill(body);
- 						})
- 				} else if (response === 'We do not have a record of that items owner.') {
- 					var body = {
- 						status : 'failed',
- 						message : response
- 					}
- 					reject(body);
- 				}
- 			})
- 			.catch(function(err){
- 				var body = {
- 					status : 'failed',
- 					message : 'internal error',
- 					error : err
- 				}
- 				reject(body)
- 			})
+ 		if (reqBody.item && typeof reqBody.item.name === 'string'){
+	 		var item = reqBody.item;
+	 		dbMethod.addItem(item)
+	 			.then(function(response){
+	 				if (typeof response[0] === 'number'){
+	 					var newItem;
+	 					dbMethod.getItemByID(response[0])
+	 						.then(function(res){
+	 							newItem = res[0];
+	 							var body = {
+	 								status : 'complete',
+	 								message : 'item added.',
+	 								item : newItem
+	 							}
+	 							fulfill(body);
+	 						})
+	 				} else if (response === 'We do not have a record of that items owner.') {
+	 					var body = {
+	 						status : 'failed',
+	 						message : response
+	 					}
+	 					reject(body);
+	 				}
+	 			})
+	 			.catch(function(err){
+	 				var body = {
+	 					status : 'failed',
+	 					message : 'error. make sure you provided the correct information in the request body.',
+	 					error : err
+	 				}
+	 				reject(body);
+	 			})
+	 	} else {
+	 		var body = {
+	 			status : 'failed',
+	 			message : 'invalid request format. make sure you provided an item object with name, address, zip, category, price, photo, item_owner, date_start, and date_end fields.'
+	 		}
+	 		reject(body);
+	 	}
  	})
 }
 
 exports.searchItemsRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		var name = reqBody.searchTerm;
- 		var zip = reqBody.zipCode;
- 		dbMethod.getItemsByName(name)
- 			.then(function(items){
- 				var results = items.filter(function(x){
- 					return x.zip.toString() === zip;
- 				})
- 				var body = {
- 					status : 'complete',
- 					message : 'items retrieved.',
- 					'items' : results
- 				}
- 				fulfill(body);
- 			})
- 			.catch(function(err){
- 				var body = {
- 					status : 'failed',
- 					message : 'internal error',
- 					error : err
- 				}
- 				reject(body);
- 			})
+ 		if (reqBody.searchTerm && typeof reqBody.searchTerm === 'string' 
+ 			&& reqBody.zipCode && typeof reqBody.zipCode === 'number'){
+
+	 		var name = reqBody.searchTerm;
+	 		var zip = reqBody.zipCode;
+	 		dbMethod.getItemsByNameLike(name)
+	 			.then(function(items){
+	 				var results = items.filter(function(x){
+	 					return x.zip === zip;
+	 				})
+	 				var body = {
+	 					status : 'complete',
+	 					message : 'items retrieved.',
+	 					'items' : results
+	 				}
+	 				fulfill(body);
+	 			})
+	 			.catch(function(err){
+	 				var body = {
+	 					status : 'failed',
+	 					message : 'internal error',
+	 					error : err
+	 				}
+	 				reject(body);
+	 			})
+ 		} else {
+ 			var body = {
+ 				status : 'failed',
+ 				message : 'invalid input. Make sure you supplied a valid searchTerm and zipCode.'
+ 			}
+ 			reject(body);
+ 		}
  	})
 }
 
 exports.getOwnedRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (reqBody.user_id && typeof reqBody.user_id === 'number'){
  		var userID = reqBody.user_id;
  		dbMethod.getItemsByOwnerID(userID)
  			.then(function(items){
@@ -178,6 +219,13 @@ exports.getOwnedRoute = function(reqBody){
  				}
  				reject(body);
  			})
+ 		} else {
+		 	var body = {
+				status : 'failed',
+				message : 'invalid input. Make sure you supplied a valid user_id'
+			}
+			reject(body);
+ 		}
  	})
 }
 
@@ -293,6 +341,7 @@ exports.rentedFromRoute = function(reqBody){
 
 exports.deleteItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (reqBody.item_id && typeof reqBody.item_id === 'number'){
 		var itemID = reqBody.item_id;
  		var userID = reqBody.user_id;
  		var pw = reqBody.password;
@@ -307,10 +356,11 @@ exports.deleteItemRoute = function(reqBody){
  					obj.status = 'complete';
  					obj.message = 'item deleted.';
  					obj.itemID = response[0].id;
+ 					obj.itemName = response[0].name;
  					fulfill(obj);
  				} else {
  					obj.status = 'failed';
- 					obj.message = 'user was not deleted - user did not exist';
+ 					obj.message = 'item was not deleted - item did not exist';
  					reject(obj);
  				}
  			})
@@ -324,6 +374,13 @@ exports.deleteItemRoute = function(reqBody){
  				}
  				reject(errorBody);
  			})
+ 		} else {
+ 			var errorBody = {
+ 					status : 'failed',
+ 					message : 'invalid format. Make sure you provided a valid item_id, user_id, and password.',
+ 				}
+ 			reject(errorBody);
+ 		}
  	})
 }
 
@@ -332,7 +389,10 @@ exports.deleteItemRoute = function(reqBody){
 ////// - RENTAL FUNCTIONS - ///////
 
 
-
+//SHORE UP 
+	// - add .catches to help give hints and prevent crashes
+	// - filter up front for correct data format (force dates to be strings and leave rest to .catch)
+	// - prevent start date from being after end date, and visa versa
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		var rental = reqBody.rental;

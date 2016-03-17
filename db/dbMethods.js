@@ -197,6 +197,22 @@ exports.getItemsByName = function(name){
 	})
 }
 
+exports.getItemsByNameLike = function(name){ //
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.select('*').from('items').where('name', 'like', '%'+name+'%')
+			.then(function(items){
+				knex.destroy();
+				fulfill(items)
+			})
+			.catch(function(err){
+				knex.destroy();
+				console.error('error getting items by zipcode: ', err);
+				fulfill(err)
+			})
+	})
+}
+
 exports.getItemsByOwnerID = function(ID){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
