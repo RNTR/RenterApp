@@ -388,7 +388,6 @@ exports.deleteItemRoute = function(reqBody){
 
 ////// - RENTAL FUNCTIONS - ///////
 
-// - prevent start date from being after end date, and visa versa
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
 
@@ -496,6 +495,15 @@ exports.createRentalRoute = function(reqBody){
 
 exports.rentalsForItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (!!!reqBody.itemID || typeof reqBody.itemID !== 'number'){
+			var body = {
+		 		status : 'failed',
+		 		message : 'invalid format. Make sure you provided a valid itemID.'
+		 	}
+		 	reject(body)
+ 		}
+
+
  		var itemID = reqBody.itemID;
  		dbMethod.getRentalsByItemID(itemID)
  			.then(function(rentals){
