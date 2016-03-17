@@ -248,13 +248,13 @@ exports.isRentingRoute = function(reqBody){
  		dbMethod.getRentalsByRenterID(renterID)
  			.then(function(results){
 
- 				if (!results){
+ 				if (results === false){
  					var body = {
 	 					status : 'completed',
 	 					message : 'No rentals found for that user.',
 	 					rentalsWithItems : []
 	 				}
-	 				reject(body);
+	 				fulfill(body);
 	 				return;
  				} 
 
