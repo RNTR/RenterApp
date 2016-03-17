@@ -388,13 +388,30 @@ exports.deleteItemRoute = function(reqBody){
 
 ////// - RENTAL FUNCTIONS - ///////
 
-
-//SHORE UP 
-	// - add .catches to help give hints and prevent crashes
-	// - filter up front for correct data format (force dates to be strings and leave rest to .catch)
-	// - prevent start date from being after end date, and visa versa
+// - prevent start date from being after end date, and visa versa
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+
+		if (!!!reqBody.rental || typeof reqBody.rental.user_id !== 'number'
+			|| typeof reqBody.rental.item_id !== 'number' || 
+			typeof reqBody.rental.date_start !== 'string' || 
+			typeof reqBody.rental.date_end !== 'string') {
+
+			var body = {
+				status : 'failed',
+				message : 'invalid request format. Make sure you provided a rental object with valid item_id, date_start, and date_end fields.'
+			}
+			reject(body)
+		}
+
+		if (Date.parse(reqBody.rental.date_start) >= Date.parse(reqBody.rental.date_end)){
+			var body = {
+				status : 'failed',
+				message : 'invalid dates. Make sure date_start does not occur after date_end, or visa versa.'
+			}
+			reject(body)
+		}
+
  		var rental = reqBody.rental;
  		var itemID = rental.item_id;
  		var start = rental.date_start;
@@ -459,6 +476,20 @@ exports.createRentalRoute = function(reqBody){
 			 				reject(body)
  						}
  					})
+ 					.catch(function(err){
+		 				var body = {
+					 		status : 'failed',
+					 		message : 'Error checking date range validity. Were date_start and date_end in the correct dateTime format?'
+					 	}
+					 	reject(body)
+ 					})
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+			 		status : 'failed',
+			 		message : 'Error checking date conflicts. Were date_start and date_end in the correct dateTime format?'
+			 	}
+			 	reject(body)
  			})
  	})
 }
