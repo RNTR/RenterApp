@@ -7,7 +7,7 @@
 
 
 
-How to start up a local database:
+How to start up a local dev database:
 
 1) install postgress, if you don't already have it on your machine:
 	brew install postgresql
@@ -17,6 +17,8 @@ How to start up a local database:
 	createdb RNTR_dev
 4) run server.js using node, nodemon, or npm start:
 	nodemon server/server.js
+5) seed database with starter users
+	knex seed:run
 
 How to query a local database from terminal (helpful for testing):
 
