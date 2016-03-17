@@ -389,7 +389,10 @@ exports.deleteItemRoute = function(reqBody){
 ////// - RENTAL FUNCTIONS - ///////
 
 
-
+//SHORE UP 
+	// - add .catches to help give hints and prevent crashes
+	// - filter up front for correct data format (force dates to be strings and leave rest to .catch)
+	// - prevent start date from being after end date, and visa versa
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		var rental = reqBody.rental;
