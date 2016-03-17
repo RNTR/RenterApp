@@ -281,6 +281,7 @@ exports.isRentingRoute = function(reqBody){
  							for (var j=0; j<items.length; j++){
  								console.log('item_id : ', rentals[i].item_id)
  								console.log('settledVal : ', items[j]._settledValue.id)
+ 								console.log('items[j] :', items[j])
  								if (rentals[i].item_id === items[j]._settledValue.id){
  									rentals[i].item = items[j]._settledValue;
  								}
