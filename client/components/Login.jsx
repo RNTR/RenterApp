@@ -15,7 +15,14 @@ login: function(){
 },
 
 render: function(){
-	return (<div>LOGIN PAGE</div>)
+	return (<div>
+
+		<div className = 'userName'>
+		<input className='userInput' placeholder='Username'/>
+		 <input className='userPass' placeholder='Password' />
+		 </div>
+
+		</div>)
 }
 
 })

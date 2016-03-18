@@ -11,7 +11,7 @@ var SearchResults = React.createClass({
   render: function() {
     return (
  <div>
-        <div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION: {postRequests.searchLocation().city[0].toUpperCase()}</div>
+        <div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION: {postRequests.searchLocation().city[4].toUpperCase()}</div>
         <div className="resultsContainer">
           <div>{postRequests.searchResults().item[0]}</div>
           <a href={postRequests.searchResults().imageUrl[0]}>Pic Link</a>

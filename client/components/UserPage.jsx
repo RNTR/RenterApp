@@ -35,17 +35,17 @@ render: function(){
 	
 	return (<div className='userPage'>
 			 
-			  <div className='userGreeting'>Welcome, {postRequests.getUserInfo()}</div>
+			  <div className='userGreeting'> Welcome, {postRequests.getUserInfo()}</div>
 			  
 			  <div className='yourStuffForRent'> Your stuff for rent: 
 			  	<div className='yourItemForRent'>{postRequests.getUserItemsForRent()}</div>    
 			  </div>
 			  	
-			  <div className='stuffYouAreRenting'>Stuff you are renting from others
+			  <div className='stuffYouAreRenting'>Stuff you are renting from others:
 			  	<div className='itemYouAreRenting'>{postRequests.getStuffRentedFromOthers()}</div>
 			  </div>
 			  	  
-			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you
+			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
 			  	<div className='itemBeingRentedFromYou'>{postRequests.stuffBeingRentedFromUser()}</div>
 			  </div>
 
