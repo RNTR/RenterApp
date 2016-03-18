@@ -12,7 +12,7 @@ var MakeNewListing = React.createClass({
   // there should be input fields for item description, price, name, available dates, photo, and location.
 
   getInitialState: function() {
-    return {};
+    return {itemName: '', itemDescription: '', photoURL: '', firstDate: '', lastDate: '', price: '', location: ''};
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
