@@ -19,7 +19,9 @@ var HomePage = React.createClass({
     return (
       <div className="HomePageMain">
         <div className='HomePageGreeting'>
-          Welcome to <span className="red">RNTR!</span>
+          <div className="animated bounce">
+            Welcome to <span className="red">RNTR</span>!
+          </div>
         </div>
       </div>
     );
