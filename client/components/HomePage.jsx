@@ -7,7 +7,7 @@ var getRequests = require('../requests/get.js');
 
 
 var HomePage = React.createClass({
-  
+
  getInitialState: function() {
 
   return {};
@@ -19,7 +19,7 @@ var HomePage = React.createClass({
     return (
       <div className="HomePageMain">
         <div className='HomePageGreeting'>
-          Welcome to RNTR!
+          Welcome to <span className="red">RNTR!</span>
         </div>
       </div>
     );
@@ -27,5 +27,3 @@ var HomePage = React.createClass({
 })
 
 module.exports = HomePage;
-
-
