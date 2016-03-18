@@ -27,7 +27,7 @@
  font-family: 'Avenir';
  font-size: 34px;
  color: black;
- border-bottom: 1px solid orange;
+ border-bottom: 2px solid orange;
  margin-left: 10%;
  margin-right:9%;
  margin-top:2%;
@@ -75,7 +75,7 @@
 	font-family: 'nougatine';
 	position: static;
 	color: #1ad1ff;
-	font-weight: bold;
+
 	 text-shadow: 2px 2px black;
 /*	text-shadow: 1px 1px #ff794d;*/
 }
@@ -235,91 +235,85 @@
 												/**** ITEM PAGE ****/
 
 .itemPage {
-	background-color: #f2f2f2;
-	right: 60%;
-	top: 40%;
-	margin-right: 15%;
-	margin-top: 1%;
-	border: 1px solid black;
-	padding: 20px;
-	margin-left: 15%;
-	margin-bottom: auto;
+  font-family: 'Avenir';
+  font-size: 40px;
+  color: #1ad1ff;
+  text-shadow: 2px 2px black;
+  font-weight: bolder;
+  width: 100%;
 }
 
-.itemPage .itemName {
-	font-size:34px;
-	position: static;
-	margin-left: 65px;
-    margin-right: auto;
-/*    margin-top: 115px;*/
+.itemPhoto {
+  margin-top: 2%;
+  margin-left: 32%;
+  bottom:5px;	
+  width:50%;
+  padding-right: 2cm;
+  display: inline-block;
+  position: relative;
+
 
 }
 
-.itemPage .itemPhoto {
+
+.itemDetails {
 	font-family: 'Avenir';
-	font-size:26px;
-	position: static;
-/*	top:40%;
-	right:64%;*/
-/*	border-bottom: 1px solid blue;*/
-/*	margin-left: 14%;*/
-    margin-right: 10%;
+	width: 600px;
+	font-size: 23px;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 20px;
+	border-bottom: 1px solid orange;
+  	color: #1ad1ff;
+	text-shadow: 2px 2px black;
+	font-weight: bolder;
+}
+
+
+.itemDetails .itemDescription {
+    font-size: 18px;
+    color: #66ff33;
 
     margin-bottom: 5%;
-   
-   float: right;
-}
-
-.itemPage .itemDescription {
-    font-size: 15px;
-	margin-left: 7%;
-	margin-top: 2%;
-
-	position:static;
 
 }
 
-.itemPage .itemAvailability {
+
+
+.itemDetails .itemName {
+  font-family: 'Avenir';
+  font-size: 42px;
+  color: #1ad1ff;
+  text-shadow: 2px 2px black;
+  font-weight: bolder;
+}
+
+.itemDetails .itemAvailability {
 
 	font-size: 23px;
-	margin-left: 65px;
-	margin-top: 40px;
-	margin-right: 400px;
-	position:static;
 
 }
 
-.itemPage .itemPrice {
+
+.itemDetails .itemPrice {
 	font-size: 23px;
-	margin-left: 65px;
-	margin-top: 40px;
-	margin-right: 400px;
-	position:static;
 
 }
 
 .itemPage .rentItemDiv {
 	font-size: 23px;
-	margin-left: 65px;
-	margin-top: 40px;
-	margin-right: 400px;
-	position:static;
+	margin-bottom: 2%;
+
 }
 
 .itemPage .bookingCalendarDiv {
 	font-size: 23px;
-	margin-left: 65px;
-	margin-top: 40px;
-	margin-right: 400px;
-	position:static;
+
 }
 
 .itemPage .bookItemButton {
 	font-size: 23px;
-	margin-left: 65px;
-	margin-top: 40px;
-	margin-right: 400px;
-	position:static;
+
 }
 
 /*NEW LISTING*/
