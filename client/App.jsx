@@ -66,19 +66,16 @@ NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 /***********************************************************/
 
 
-class App extends React.Component{
-
-
-    render() {
-        return (
-            <div>
-                {this.props.children} 
-            </div>    
-        )
-    }
-}
-
-export default App;
-
-
-
+// class App extends React.Component{
+//
+//
+//     render() {
+//         return (
+//             <div>
+//                 {this.props.children}
+//             </div>
+//         )
+//     }
+// }
+//
+// export default App;
