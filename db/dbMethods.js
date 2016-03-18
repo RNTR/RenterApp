@@ -230,7 +230,7 @@ exports.getItemsByOwnerID = function(ID){
 }
 
 exports.getItemByID = function(ID){
-	return new Promise(function(fulfill, rjct){
+	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
 		knex.select('*').from('items').where('id', ID)
 			.then(function(item){
@@ -238,16 +238,17 @@ exports.getItemByID = function(ID){
 				if (item.length === 0){
 					fulfill(false);
 				} else if (item[0].id === ID){
-					console.log('here is item in dbMethods: ', item)
+					console.log('item inside dbMethods, about to fulfill: ', item)
+					console.log('unpacked : ', item[0])
 					fulfill(item);
 				} else {
-					rjct(item);
+					reject(item);
 				}
 			})
 			.catch(function(err){
 				knex.destroy();
 				console.error('error getting item by ID: ', err);
-				rjct(err);
+				reject(err);
 			})
 	})
 }

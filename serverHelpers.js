@@ -259,12 +259,14 @@ exports.isRentingRoute = function(reqBody){
  				} 
 
  				var rentals = results;
- 				var items = [];
+ 				var itemPromises = [];
+ 				var items = []
 
  				rentals.forEach(function(x){
  					var itemID = x.item_id
- 					items.push(Promise.resolve(dbMethod.getItemByID(itemID)) //tried a resolve
+ 					itemPromises.push(Promise.resolve(dbMethod.getItemByID(itemID)) //tried a resolve
  							.then(function(resp){
+ 								items.push(resp[0]);
  								return resp[0];
  							})	
  							.catch(function(err){
@@ -274,17 +276,17 @@ exports.isRentingRoute = function(reqBody){
  					)
  				})
 
- 				Promise.all(items)
+ 				Promise.all(itemPromises)
  					.then(function(){
  						//pack item objects inside the appropriate rental objects
+ 						console.log('here is items : ', items)
  						for (var i=0; i<rentals.length; i++){
  							for (var j=0; j<items.length; j++){
  								console.log('item_id : ', rentals[i].item_id)
- 								console.log('settledVal : ', items[j]._settledValue.id)
  								console.log('items[j] :', items[j])
- 								console.log('items[j].id : ', items[j].id)
- 								if (rentals[i].item_id === items[j]._settledValue.id){
- 									rentals[i].item = items[j]._settledValue;
+ 								// console.log('items[j].id : ', items[j].id)
+ 								if (rentals[i].item_id === items[j].id){
+ 									rentals[i].item = items[j];
  								}
  							}
  						}
@@ -304,6 +306,7 @@ exports.isRentingRoute = function(reqBody){
  							message : 'could not retrieve items a user is renting',
  							error : err
  						}
+ 						console.error('something broke getting all the items to put into the rentals: ', err)
  						reject(body);
  					})
  			})
