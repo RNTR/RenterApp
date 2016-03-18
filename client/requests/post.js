@@ -115,6 +115,6 @@ exports.price = function() {
 
 }
 
-exports.location = function() {
+exports.newListLocation = function() {
 
 }
