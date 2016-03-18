@@ -17,6 +17,9 @@ var MakeNewListing = React.createClass({
   handleChange: function(event) {
     this.setState({value: event.target.value});
   },
+  handleSubmit: function(e) {
+    e.preventDefault();
+  }
 
   render: function() {
     return (
