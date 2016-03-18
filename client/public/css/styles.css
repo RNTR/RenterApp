@@ -1,20 +1,27 @@
 
 												/**** GLOBAL NAV BAR ****/
 .site{
-/*	background: url(http://i.imgur.com/tMutkTV.gif);
-	z-index: -1;*/
+	background: url(http://s.shld.net/is/image/Sears/KSN_065300428-0013-qm-jpegSize-eq-100);
+	z-index: -1;
 	position: absolute;
 	right: 0;
 	left: 0;
 	top: 0;
-	height: 1000px;
+	height: 100%;
+	width: 100%;
 	overflow: hidden;
 	min-width: 1045px;
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-color: #f0f5f5;
+/*	background-color: black;*/
+	box-shadow: inset 0 0 0 1000px rgba(0,2,8,.5);
+
 
 }
+
+/*http://herviewfromhome.com/wp-content/uploads/2013/05/22487.jpg*/
+/*http://uncrate.com/p/2010/11/baldhead-cabinets-xl.jpg*/
+
 
 .bar{
  font-family: 'Avenir';
@@ -61,9 +68,11 @@
 .bar .title {
 	right: 90%;
 /*	text-shadow: 1px 1px green;*/
-	font-size: 39px;
+	font-size: 42px;
 	font-family: 'nougatine';
 	position: static;
+	color: #b3ecff;
+	text-shadow: 1px 1px #ff794d;
 }
 
 .bar .searchbar {
@@ -81,7 +90,7 @@
 												/**** HOME PAGE ****/
 
 #home {
-	background-color: #7a7a52;
+	background-color: red;
 
 }
 
@@ -93,9 +102,9 @@
 
 .HomePageGreeting {
 	font-family: 'Avenir';
-	font-color: green;
-	text-shadow: 1px 1px white;
-	font-size: 34px;
+	color: #80ffe5;
+	text-shadow: 1px 1px #ff794d;
+	font-size: 43px;
 	position: absolute;
 	top: 40%;
 	bottom: 60%;
@@ -110,108 +119,154 @@
 
 												/**** USER PAGE ****/
 
-.userGreeting {
+.site .userPage {
+	background-color: #f2f2f2;
+	right: 60%;
+	top: 40%;
+	margin-right: 15%;
+	margin-top: 5%;
+	border: 1px solid black;
+	padding: 20px;
+	margin-left: 15%;
+	margin-bottom: auto;
+}
+
+.userPage .userGreeting {
 	font-family: 'Avenir';
 	font-size: 30px;
 	top: 30%;
-	right: 80%;
+	right: 60%;
 	position: static;
-	/*border-bottom: .5px dotted black;*/
-	margin-top: 30px;
-	margin-bottom: 80px;
-	margin-left: 5%;
-	margin-right: 5%;
-
+	margin-left: 10%;
+ 	margin-right:9%;
+ 	margin-top:2%;
+ 	margin-bottom: 5%;
+/*	border-bottom: 2px solid blue;*/
+	border-top: 3px;
+/*	background-color: #bfff80;*/
 }
 
-.yourStuffForRent {
+.userPage .yourStuffForRent {
 	font-family: 'Avenir';
 	font-size:26px;
 	position: static;
 	top: 30%;
 	right:70%;
-/*	border-bottom: .5px dotted black;*/
-	margin-left: 15px;
-    margin-right: auto;
+	margin-left: 14%;
+    margin-right: 14%;
     margin-top: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 5%;
+    border-bottom: 1px solid blue;
 }
 
-.yourStuffForRent .yourItemForRent {
+.userPage .yourStuffForRent .yourItemForRent {
 	position: relative;
 	font-size: 20px;
-	margin-left: 20px;
+	border-right: 20%;
+	border-left: 20%;
+	margin-left: 10%;
+ 	margin-right:9%;
+ 	margin-top:2%;
+ 	margin-bottom: 4%;
 }
 
-.stuffYouAreRenting {
+.userPage .stuffYouAreRenting {
 	font-family: 'Avenir';
 	font-size:26px;
 	position: static;
 	top:40%;
 	right:64%;
-/*	border-bottom: .5px dotted black;*/
-
-	margin-left: 15px;
-    margin-right: auto;
+	border-bottom: 1px solid blue;
+	margin-left: 14%;
+    margin-right: 14%;
     margin-top: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 5%;
+   
+
+
 
 }
 
-.stuffYouAreRenting .itemYouAreRenting {
+.userPage .stuffYouAreRenting .itemYouAreRenting {
+	position: relative;
 	font-size: 20px;
-	margin-left: 20px;
-
+	border-right: 20%;
+	border-left: 20%;
+	margin-left: 10%;
+ 	margin-right:9%;
+ 	margin-top:2%;
+ 	margin-bottom: 4%;
+/*	background-color: #bfff80;*/
 }
 
-.stuffOthersAreRentingFromYou {
+.userPage .stuffOthersAreRentingFromYou {
 	font-family: 'Avenir';
 	font-size:26px;
 	position: static;
-	top: 55%;
-	right:70%;
-/*	border-bottom: .5px dotted black;*/
-	margin-left: 15px;
-    margin-right: auto;
+	top:40%;
+	right:64%;
+	border-bottom: 1px solid blue;
+	margin-left: 14%;
+    margin-right: 14%;
     margin-top: 15px;
+    margin-bottom: 5%;
+/*    background-color: #bfff80;*/
 }
 
-.stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
+.userPage .stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
+	position: relative;
 	font-size: 20px;
-	margin-left: 20px;
+	border-right: 20%;
+	border-left: 20%;
+	margin-left: 10%;
+ 	margin-right:9%;
+ 	margin-top:2%;
+ 	margin-bottom: 4%;
 }
 
 												/**** ITEM PAGE ****/
 
 .itemPage {
-	font-family: 'Avenir'
+	background-color: #f2f2f2;
+	right: 60%;
+	top: 40%;
+	margin-right: 15%;
+	margin-top: 1%;
+	border: 1px solid black;
+	padding: 20px;
+	margin-left: 15%;
+	margin-bottom: auto;
 }
 
 .itemPage .itemName {
-	font-size:30px;
+	font-size:34px;
 	position: static;
-/*	border-bottom: .5px dotted black;*/
 	margin-left: 65px;
     margin-right: auto;
-    margin-top: 115px;
+/*    margin-top: 115px;*/
 
 }
 
 .itemPage .itemPhoto {
-	margin-left: 350px;
-	margin-top: 100px;
-	margin-right: auto;
-	position:static;
-	box-shadow: 2px 2px 2px 2px #888888;
-	display: inline-block;
+	font-family: 'Avenir';
+	font-size:26px;
+	position: static;
+/*	top:40%;
+	right:64%;*/
+/*	border-bottom: 1px solid blue;*/
+/*	margin-left: 14%;*/
+    margin-right: 10%;
 
+    margin-bottom: 5%;
+   
+   float: right;
 }
 
 .itemPage .itemDescription {
-	font-size: 13px;
-	margin-left: 65px;
-	margin-top: 80px;
-	margin-right: 400px;
+    font-size: 15px;
+	margin-left: 7%;
+	margin-top: 2%;
+
 	position:static;
 
 }
@@ -245,7 +300,7 @@
 
 .itemPage .rentItemDiv .bookingCalendarDiv {
 	font-size: 23px;
-	margin-left: 85px;
+	margin-left: 65px;
 	margin-top: 40px;
 	margin-right: 400px;
 	position:static;
@@ -253,7 +308,7 @@
 
 .itemPage .rentItemDiv .bookItemButton {
 	font-size: 23px;
-	margin-left: 85px;
+	margin-left: 65px;
 	margin-top: 40px;
 	margin-right: 400px;
 	position:static;

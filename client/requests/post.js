@@ -43,9 +43,9 @@ exports.listItem = function(){
 exports.getItem = function(){
 
   var fakeItem = {
-    itemName: 'REAL, LIVE POSSUMS',
-    itemDescription: "THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, THEY ARE POSSUMS, ",
-    itemPhoto: 'http://i.imgur.com/70Exu7d.jpg',
+    itemName: 'Lawnmower',
+    itemDescription: "It's red and it mows lawns",
+    itemPhoto: 'https://www.nextnature.net/app/uploads/2008/07/lawn-mower_530.jpg',
   };
 
   return fakeItem;
@@ -54,20 +54,20 @@ exports.getItem = function(){
 
 exports.getUserItemsForRent = function(){
 
-  var item = "lawnmower, this data is coming from requests/post.js"
+  var item = "Rabbits"
   return item;
 
 };
 
 exports.getStuffRentedFromOthers = function(){
 
-   var item = "item the user is renting from someone. requests/post.js"
+   var item = "A cat"
    return item;
 };
 
 exports.stuffBeingRentedFromUser = function(){
 
-  var item = 'thing in requests/post.js'
+  var item = 'A Possum'
   return item;
 };
 
