@@ -235,32 +235,54 @@ exports.getOwnedRoute = function(reqBody){
 exports.isRentingRoute = function(reqBody){
  //get a list of rentals, each with an item object in it.
  	return new Promise(function(fulfill, reject){
+
+	 	if (!!!reqBody.userID || typeof reqBody.userID !== 'number'){
+	 		var body = {
+	 			status : 'failed',
+	 			message : 'invalid format. Make sure you sent a valid userID.'
+	 		}
+	 		reject(body);
+	 	}
+
  		var renterID = reqBody.userID;
  		dbMethod.getRentalsByRenterID(renterID)
  			.then(function(results){
+
+ 				if (results === false){
+ 					var body = {
+	 					status : 'completed',
+	 					message : 'No rentals found for that user.',
+	 					rentalsWithItems : []
+	 				}
+	 				fulfill(body);
+	 				return;
+ 				} 
+
  				var rentals = results;
- 				var items = [];
+ 				var itemPromises = [];
+ 				var items = []
 
  				rentals.forEach(function(x){
- 					items.push(new Promise(function(res, rej){
- 						var itemID = x.item_id
- 						dbMethod.getItemByID(itemID)
+ 					var itemID = x.item_id
+ 					itemPromises.push(Promise.resolve(dbMethod.getItemByID(itemID)) //tried a resolve
  							.then(function(resp){
- 								res(resp[0]);
+ 								items.push(resp[0]);
+ 								return resp[0];
  							})	
  							.catch(function(err){
- 								rej(err);
+ 								console.error('could not push in isRentingRoute: ', err);
+ 								return err;
  							})
- 					}))
+ 					)
  				})
 
- 				Promise.all(items)
+ 				Promise.all(itemPromises)
  					.then(function(){
  						//pack item objects inside the appropriate rental objects
  						for (var i=0; i<rentals.length; i++){
  							for (var j=0; j<items.length; j++){
- 								if (rentals[i].item_id === items[j]._settledValue.id){
- 									rentals[i].item = items[j]._settledValue;
+ 								if (rentals[i].item_id === items[j].id){
+ 									rentals[i].item = items[j];
  								}
  							}
  						}
@@ -279,6 +301,7 @@ exports.isRentingRoute = function(reqBody){
  							message : 'could not retrieve items a user is renting',
  							error : err
  						}
+ 						console.error('something broke getting all the items to put into the rentals: ', err)
  						reject(body);
  					})
  			})
@@ -288,32 +311,49 @@ exports.isRentingRoute = function(reqBody){
 exports.rentedFromRoute = function(reqBody){
 //get a list of items, each with an array of rentals in it.
  	return new Promise(function(fulfill, reject){
+
+	 	if (!!!reqBody.owner || typeof reqBody.owner !== 'number'){
+	 		var body = {
+	 			status : 'failed',
+	 			message : 'invalid format. Make sure you sent a valid "owner".'
+	 		}
+	 		reject(body);
+	 	}
+
  		var ownerID = reqBody.owner
  		dbMethod.getItemsByOwnerID(ownerID)
  			.then(function(results){
  				var items = results;
+ 				var rentalsPromises = [];
  				var rentalArrays = [];
 
  				items.forEach(function(x){
- 					rentalArrays.push(new Promise(function(res, rej){
- 						var itemID = x.id
- 						dbMethod.getRentalsByItemID(itemID)
- 							.then(function(resp){
- 								res(resp);
- 							})	
- 							.catch(function(err){
- 								rej(err);
- 							})
- 					}))
+ 					rentalsPromises.push(dbMethod.getRentalsByItemID(x.id)
+ 						.then(function(resp){
+ 							rentalArrays.push(resp);
+ 							return resp;
+ 						})	
+ 						.catch(function(err){
+ 							console.error('could not push in rentedFromRoute: ', err);
+ 							var errObj = { 
+ 									err: err,
+ 									message : 'could not retrieve this rental'
+ 								}
+
+ 							rentalArrays.push(errObj)
+ 							return err;
+ 						})
+ 					)
  				})
 
- 				Promise.all(rentalArrays)
+ 				Promise.all(rentalsPromises)
  					.then(function(){
  						//pack rentals arrays inside the appropriate item objects
  						for (var i=0; i<items.length; i++){
  							for (var j=0; j<rentalArrays.length; j++){
- 								if (!!rentalArrays[j]._settledValue && items[i].id === rentalArrays[j]._settledValue[0].item_id){
- 									items[i].rentals = rentalArrays[j]._settledValue;
+ 								var thisRentalArray = rentalArrays[j]
+ 								if (!!thisRentalArray && items[i].id === thisRentalArray[0].item_id){
+ 									items[i].rentals = rentalArrays[j];
  								} else {
  									items[i].rentals = items[i].rentals || [];
  								}
@@ -388,13 +428,29 @@ exports.deleteItemRoute = function(reqBody){
 
 ////// - RENTAL FUNCTIONS - ///////
 
-
-//SHORE UP 
-	// - add .catches to help give hints and prevent crashes
-	// - filter up front for correct data format (force dates to be strings and leave rest to .catch)
-	// - prevent start date from being after end date, and visa versa
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+
+		if (!!!reqBody.rental || typeof reqBody.rental.user_id !== 'number'
+			|| typeof reqBody.rental.item_id !== 'number' || 
+			typeof reqBody.rental.date_start !== 'string' || 
+			typeof reqBody.rental.date_end !== 'string') {
+
+			var body = {
+				status : 'failed',
+				message : 'invalid request format. Make sure you provided a rental object with valid item_id, date_start, and date_end fields.'
+			}
+			reject(body)
+		}
+
+		if (Date.parse(reqBody.rental.date_start) >= Date.parse(reqBody.rental.date_end)){
+			var body = {
+				status : 'failed',
+				message : 'invalid dates. Make sure date_start does not occur after date_end, or visa versa.'
+			}
+			reject(body)
+		}
+
  		var rental = reqBody.rental;
  		var itemID = rental.item_id;
  		var start = rental.date_start;
@@ -459,12 +515,34 @@ exports.createRentalRoute = function(reqBody){
 			 				reject(body)
  						}
  					})
+ 					.catch(function(err){
+		 				var body = {
+					 		status : 'failed',
+					 		message : 'Error checking date range validity. Were date_start and date_end in the correct dateTime format?'
+					 	}
+					 	reject(body)
+ 					})
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+			 		status : 'failed',
+			 		message : 'Error checking date conflicts. Were date_start and date_end in the correct dateTime format?'
+			 	}
+			 	reject(body)
  			})
  	})
 }
 
 exports.rentalsForItemRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (!!!reqBody.itemID || typeof reqBody.itemID !== 'number'){
+			var body = {
+		 		status : 'failed',
+		 		message : 'invalid format. Make sure you provided a valid itemID.'
+		 	}
+		 	reject(body)
+ 		}
+
  		var itemID = reqBody.itemID;
  		dbMethod.getRentalsByItemID(itemID)
  			.then(function(rentals){
@@ -488,6 +566,14 @@ exports.rentalsForItemRoute = function(reqBody){
 
 exports.deleteRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
+ 		if (!!!reqBody.rentalID || typeof reqBody.rentalID !== 'number'){
+		 	var body = {
+				status : 'failed',
+				message : 'invalid format. Make sure you entered a valid rentalID, userID, and password'
+			}
+			reject(body);
+ 		}
+
 		var rentalID = reqBody.rentalID;
  		var userID = reqBody.userID;
  		var pw = reqBody.password;
