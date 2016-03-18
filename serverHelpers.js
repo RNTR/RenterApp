@@ -262,16 +262,16 @@ exports.isRentingRoute = function(reqBody){
  				var items = [];
 
  				rentals.forEach(function(x){
- 					items.push(new Promise(function(res, rej){
- 						var itemID = x.item_id
- 						dbMethod.getItemByID(itemID)
+ 					var itemID = x.item_id
+ 					items.push(dbMethod.getItemByID(itemID)
  							.then(function(resp){
- 								res(resp[0]);
+ 								return resp[0];
  							})	
  							.catch(function(err){
- 								rej(err);
+ 								console.error('could not push in isRentingRoute: ', err);
+ 								return err;
  							})
- 					}))
+ 					)
  				})
 
  				Promise.all(items)
@@ -282,6 +282,7 @@ exports.isRentingRoute = function(reqBody){
  								console.log('item_id : ', rentals[i].item_id)
  								console.log('settledVal : ', items[j]._settledValue.id)
  								console.log('items[j] :', items[j])
+ 								console.log('items[j].id : ', items[j].id)
  								if (rentals[i].item_id === items[j]._settledValue.id){
  									rentals[i].item = items[j]._settledValue;
  								}
