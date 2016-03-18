@@ -8,7 +8,7 @@
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
     "build": "npm run clean && npm run build:webpack",
     "start": "webpack && nodemon server.js",
-    "start:heroku": "webpack && node server.js",
+    "herokustart": "webpack && node server.js",
     "lint": "eslint src",
     "test": "knex migrate:latest --env test && node node_modules/mocha/bin/mocha"
   },
