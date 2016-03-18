@@ -7,11 +7,9 @@ require('whatwg-fetch');  // http://github.github.io/fetch/
 
 exports.getUserInfo = function(){
 
-  var userInfo = {
-    username: 'HYPOTHETICAL THEORETICAL FAKE NOT REAL NAME'
-  }
 
-  return userInfo;
+  console.log("getting there")
+  return "TIM"
 
 };
 

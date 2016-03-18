@@ -2,39 +2,51 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Router = require('react-router');
 var Link = Router.Link
+var postRequests = require('../requests/post.js');
+var getRequests = require('../requests/get.js');
+
 
 var SearchResults = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION: {this.props.searchLocation().city[0].toUpperCase()}</div>
+ <div>
+        <div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION: {postRequests.searchLocation().city[0].toUpperCase()}</div>
         <div className="resultsContainer">
-          <div>{this.props.searchResults().item[0]}</div>
-          <a href={this.props.searchResults().imageUrl[0]}>Pic Link</a>
-          <div>${this.props.searchResults().price[0]}/day</div>
+          <div>{postRequests.searchResults().item[0]}</div>
+          <a href={postRequests.searchResults().imageUrl[0]}>Pic Link</a>
+          <div>${postRequests.searchResults().price[0]}/day</div>
         </div>
         <div className="resultsContainer">
-          <div>{this.props.searchResults().item[1]}</div>
-          <a href={this.props.searchResults().imageUrl[1]}>Pic Link</a>
-            <div>${this.props.searchResults().price[1]}/day</div>
+          <div>{postRequests.searchResults().item[1]}</div>
+          <a href={postRequests.searchResults().imageUrl[1]}>Pic Link</a>
+            <div>${postRequests.searchResults().price[1]}/day</div>
         </div>
         <div className="resultsContainer">
-          <div>{this.props.searchResults().item[2]}</div>
-          <a href={this.props.searchResults().imageUrl[2]}>Pic Link</a>
-            <div>${this.props.searchResults().price[2]}/day</div>
+          <div>{postRequests.searchResults().item[2]}</div>
+          <a href={postRequests.searchResults().imageUrl[2]}>Pic Link</a>
+            <div>${postRequests.searchResults().price[2]}/day</div>
         </div>
         <div className="resultsContainer">
-          <div>{this.props.searchResults().item[3]}</div>
-          <a href={this.props.searchResults().imageUrl[3]}>Pic Link</a>
-            <div>${this.props.searchResults().price[3]}/day</div>
+          <div>{postRequests.searchResults().item[3]}</div>
+          <a href={postRequests.searchResults().imageUrl[3]}>Pic Link</a>
+            <div>${postRequests.searchResults().price[3]}/day</div>
         </div>
       </div>
+
     )
 	}
 });
 
 module.exports = SearchResults;
+
+
+
+
+
+
+
+
 
 // Render multiple components
 // render: function() {

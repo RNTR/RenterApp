@@ -9,10 +9,13 @@ var postRequests = require('./requests/post.js');
 var getRequests = require('./requests/get.js');
 var deleteRequests = require('./requests/delete.js');
 var SearchResults = require('./components/SearchResults.jsx');
+var css = require("../client/public/css/styles.css")
 
 
 
 /***********************************************************/
+
+
 
 
 var NavBar = React.createElement(GlobalNavBar, {
@@ -29,34 +32,20 @@ var NavBar = React.createElement(GlobalNavBar, {
 
 });
 
-var Home = React.createElement(HomePage, {
 
-});
 
-var User = React.createElement(UserPage, {
+// var NewListing = React.createElement(MakeNewListing, {
 
-    getUserInfo: postRequests.getUserInfo,
+// });
 
-    getUserItemsForRent: postRequests.getUserItemsForRent,
+// var Item = React.createElement(ItemPage, {
+//     getItem: postRequests.getItem
+// });
 
-    getStuffRentedFromOthers:postRequests.getStuffRentedFromOthers,
-
-    stuffBeingRentedFromUser:postRequests.stuffBeingRentedFromUser
-
-});
-
-var NewListing = React.createElement(MakeNewListing, {
-
-});
-
-var Item = React.createElement(ItemPage, {
-    getItem: postRequests.getItem
-});
-
-var Results = React.createElement(SearchResults, {
-  searchResults: postRequests.searchResults,
-	searchLocation: postRequests.searchLocation
-})
+// var Results = React.createElement(SearchResults, {
+//   searchResults: postRequests.searchResults,
+//   searchLocation: postRequests.searchLocation
+// })
 
 
 /***********************************************************/
@@ -65,31 +54,31 @@ var Results = React.createElement(SearchResults, {
 
 
 /***********************************************************/
+
+
 
 
 NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 
-// Home = ReactDOM.render(Home, document.getElementById('home'));
 
-// NewListing = ReactDOM.render(NewListing, document.getElementById('newlisting'))
 
-// User = ReactDOM.render(User, document.getElementById('user'));
-
-// Item = ReactDOM.render(Item, document.getElementById('item'));
-
-// Results = ReactDOM.render(Results, document.getElementById('results'))
 
 /***********************************************************/
 
 
 class App extends React.Component{
+
+
     render() {
         return (
             <div>
-                <GlobalNavBar />
+                {this.props.children} 
             </div>    
         )
     }
 }
 
 export default App;
+
+
+
