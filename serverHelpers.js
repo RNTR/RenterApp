@@ -232,165 +232,83 @@ exports.getOwnedRoute = function(reqBody){
 // consider refactoring 'isRentingRoute': instead of returning rentals w/ an 'item' 
 // property, return items (no dupes) w/ a 'rentals' property (an array of rental arrays).
 // More sensible, and is consistent with 'rentedFromRoute'. -Justin
-exports.isRentingRoute = function * (reqBody){
+exports.isRentingRoute = function(reqBody){
  //get a list of rentals, each with an item object in it.
+ 	return new Promise(function(fulfill, reject){
 
- 	if (!!!reqBody.userID || typeof reqBody.userID !== 'number'){
- 		var body = {
- 			status : 'failed',
- 			message : 'invalid format. Make sure you sent a valid userID.'
- 		}
- 		reject(body);
- 	}
-
-	var renterID = reqBody.userID;
-
-	var rentals = yield dbMethod.getRentalsByRenterID(renterID)
-		.then(function(results){
-			return results;
-		})
-		.catch(function(err){
-			console.error('error getting rentals by rental id: ', err);
-			return err;
-		})
-
-	if (rentals === false){
- 		var body = {
-	 		status : 'completed',
-	 		message : 'No rentals found for that user.',
-	 		rentalsWithItems : []
+	 	if (!!!reqBody.userID || typeof reqBody.userID !== 'number'){
+	 		var body = {
+	 			status : 'failed',
+	 			message : 'invalid format. Make sure you sent a valid userID.'
+	 		}
+	 		reject(body);
 	 	}
-	 	return body; //>???
- 	} 
 
- 	var items = [];
+ 		var renterID = reqBody.userID;
+ 		dbMethod.getRentalsByRenterID(renterID)
+ 			.then(function(results){
 
- 	rentals.forEach(function(x){
- 		var itemID = x.item_id
- 		items.push(dbMethod.getItemByID(itemID)
- 			.then(function(resp){
- 				return resp[0];
- 			})	
- 			.catch(function(err){
- 				console.error('could not push in isRentingRoute: ', err);
- 				return err;
+ 				if (results === false){
+ 					var body = {
+	 					status : 'completed',
+	 					message : 'No rentals found for that user.',
+	 					rentalsWithItems : []
+	 				}
+	 				fulfill(body);
+	 				return;
+ 				} 
+
+ 				var rentals = results;
+ 				var items = [];
+
+ 				rentals.forEach(function(x){
+ 					var itemID = x.item_id
+ 					items.push(Promise.resolve(dbMethod.getItemByID(itemID)) //tried a resolve
+ 							.then(function(resp){
+ 								return resp[0];
+ 							})	
+ 							.catch(function(err){
+ 								console.error('could not push in isRentingRoute: ', err);
+ 								return err;
+ 							})
+ 					)
+ 				})
+
+ 				Promise.all(items)
+ 					.then(function(){
+ 						//pack item objects inside the appropriate rental objects
+ 						for (var i=0; i<rentals.length; i++){
+ 							for (var j=0; j<items.length; j++){
+ 								console.log('item_id : ', rentals[i].item_id)
+ 								console.log('settledVal : ', items[j]._settledValue.id)
+ 								console.log('items[j] :', items[j])
+ 								console.log('items[j].id : ', items[j].id)
+ 								if (rentals[i].item_id === items[j]._settledValue.id){
+ 									rentals[i].item = items[j]._settledValue;
+ 								}
+ 							}
+ 						}
+
+ 						var body = {
+ 							status : 'complete',
+ 							message : 'rentals retrieved (with objects inside)',
+ 							rentalsWithItems : rentals
+ 						}
+ 						console.log('fulfilling the happy route, is_renting: ', body)
+ 						fulfill(body)
+ 					})
+
+ 					.catch(function(err){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'could not retrieve items a user is renting',
+ 							error : err
+ 						}
+ 						reject(body);
+ 					})
  			})
- 		)
  	})
-
- 	Promise.all(items)
-		.then(function(){
-			//pack item objects inside the appropriate rental objects
-			for (var i=0; i<rentals.length; i++){
-				for (var j=0; j<items.length; j++){
-					console.log('item_id : ', rentals[i].item_id)
-					console.log('settledVal : ', items[j]._settledValue.id)
-					console.log('items[j] :', items[j])
-					console.log('items[j].id : ', items[j].id)
-					if (rentals[i].item_id === items[j]._settledValue.id){
-						rentals[i].item = items[j]._settledValue;
-					}
-				}
-			}
-
-			var body = {
-				status : 'complete',
-				message : 'rentals retrieved (with objects inside)',
-				rentalsWithItems : rentals
-			}
-			console.log('fulfilling the happy route, is_renting: ', body)
-			return body
-		})
-
-		.catch(function(err){
-			var body = {
-				status : 'failed',
-				message : 'could not retrieve items a user is renting',
-				error : err
-			}
-			return body;
-		})
 }
-
-
-////////////////
-// {
-
-//  	return new Promise(function(fulfill, reject){
-
-// 	 	if (!!!reqBody.userID || typeof reqBody.userID !== 'number'){
-// 	 		var body = {
-// 	 			status : 'failed',
-// 	 			message : 'invalid format. Make sure you sent a valid userID.'
-// 	 		}
-// 	 		reject(body);
-// 	 	}
-
-//  		var renterID = reqBody.userID;
-//  		dbMethod.getRentalsByRenterID(renterID)
-//  			.then(function(results){
-
-//  				if (results === false){
-//  					var body = {
-// 	 					status : 'completed',
-// 	 					message : 'No rentals found for that user.',
-// 	 					rentalsWithItems : []
-// 	 				}
-// 	 				fulfill(body);
-// 	 				return;
-//  				} 
-
-//  				var rentals = results;
-//  				var items = [];
-
-//  				rentals.forEach(function(x){
-//  					var itemID = x.item_id
-//  					items.push(dbMethod.getItemByID(itemID)
-//  							.then(function(resp){
-//  								return resp[0];
-//  							})	
-//  							.catch(function(err){
-//  								console.error('could not push in isRentingRoute: ', err);
-//  								return err;
-//  							})
-//  					)
-//  				})
-
-//  				Promise.all(items)
-//  					.then(function(){
-//  						//pack item objects inside the appropriate rental objects
-//  						for (var i=0; i<rentals.length; i++){
-//  							for (var j=0; j<items.length; j++){
-//  								console.log('item_id : ', rentals[i].item_id)
-//  								console.log('settledVal : ', items[j]._settledValue.id)
-//  								console.log('items[j] :', items[j])
-//  								console.log('items[j].id : ', items[j].id)
-//  								if (rentals[i].item_id === items[j]._settledValue.id){
-//  									rentals[i].item = items[j]._settledValue;
-//  								}
-//  							}
-//  						}
-
-//  						var body = {
-//  							status : 'complete',
-//  							message : 'rentals retrieved (with objects inside)',
-//  							rentalsWithItems : rentals
-//  						}
-//  						console.log('fulfilling the happy route, is_renting: ', body)
-//  						fulfill(body)
-//  					})
-
-//  					.catch(function(err){
-//  						var body = {
-//  							status : 'failed',
-//  							message : 'could not retrieve items a user is renting',
-//  							error : err
-//  						}
-//  						reject(body);
-//  					})
-//  			})
-//  	})
-// }
 
 exports.rentedFromRoute = function(reqBody){
 //get a list of items, each with an array of rentals in it.
