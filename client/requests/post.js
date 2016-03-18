@@ -125,3 +125,7 @@ exports.price = function() {
 exports.newListLocation = function() {
 
 }
+
+exports.submitNewListing = function() {
+  alert('postRequests.submitNewListing');
+}
