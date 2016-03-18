@@ -230,15 +230,16 @@ exports.getItemsByOwnerID = function(ID){
 }
 
 exports.getItemByID = function(ID){
-	return new Promise(function(fulfill, reject){
+	return new Promise(function(resolve, reject){
 		var knex = require('knex')(config[env]); 
 		knex.select('*').from('items').where('id', ID)
 			.then(function(item){
 				knex.destroy();
 				if (item.length === 0){
-					fulfill(false);
+					resolve(false);
 				} else if (item[0].id === ID){
-					fulfill(item);
+					console.log('here is item in dbMethods: ', item)
+					resolve(item);
 				} else {
 					reject(item);
 				}
