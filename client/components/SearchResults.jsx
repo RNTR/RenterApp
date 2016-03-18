@@ -42,41 +42,33 @@ module.exports = SearchResults;
 
 
 
-
-
-
-
-
-
-// Render multiple components
-// render: function() {
-// 	var results = this.props.results;
-// 	return (
-// 		<ol>
-// 			{results.map(function(result) {
-// 				return <li key={result.id}>{result.text}</li>;
-// 			})}
-// 		</ol>
-// 	);
-// }
-
 // Template
-// const rows = this.props.shelters.map((shelter) => {
-//   if (shelter.shelterName.toLowerCase().indexOf(this.props.filter.toLowerCase()) >= 0) {
-//     return (
-//       <div key={shelter.shelterID} className="shelterCard">
-//         <Link to={'/shelterprofile/' + shelter.shelterName}>
-//           <div>
-//           <p></p>
-//               <p>
-//               <div className="shelterInfo">
-//               {shelter.shelterName}
-//              <div> organizied by {shelter.organizationName} located at {shelter.locationName}</div>
-//             </div>
-//             </p>
+// var items = [
+//   { name: "Matthew", link: "https://bible.com/1/mat.1" },
+//   { name: "Mark", link: "https://bible.com/1/mrk.1" },
+//   { name: "Luke", link: "https://bible.com/1/luk.1" },
+//   { name: "John", link: "https://bible.com/1/jhn.1" }
+// ];
 //
-//           </div>
-//         </Link>
+// var RepeatModule = React.createClass({
+//   getDefaultProps: function() {
+//     return { items: [] }
+//   },
+//   render: function() {
+//
+//     var listItems = this.props.items.map(function(item) {
+//       return (
+//         <li key="{item.name}">
+//           <a href="{item.link}">{item.name}</a>
+//         </li>
+//       );
+//     });
+//
+//     return (
+//       <div>
+//         <ul>
+//           {listItems}
+//         </ul>
 //       </div>
 //     );
 //   }
