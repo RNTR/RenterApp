@@ -71,7 +71,8 @@ exports.stuffBeingRentedFromUser = function(){
   return item;
 };
 
-// Dummy search result data
+/************ SEARCH RESULTS **********/
+
 exports.searchResults = function() {
   var results = {
     item: ["Lawnmower", "Leaf Blower", "PS4", "TV"],
@@ -86,4 +87,34 @@ exports.searchLocation = function() {
     city: ["San Francisco", "Dallas", "Los Angeles", "New York"]
   }
   return location;
+}
+
+/************ NEW LISTING **********/
+
+exports.itemName = function() {
+
+}
+
+exports.itemDescription = function() {
+
+}
+
+exports.photoURL = function() {
+
+}
+
+exports.firstDate = function() {
+
+}
+
+exports.lastDate = function() {
+
+}
+
+exports.price = function() {
+
+}
+
+exports.newListLocation = function() {
+
 }

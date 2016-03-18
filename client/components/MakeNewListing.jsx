@@ -12,11 +12,14 @@ var MakeNewListing = React.createClass({
   // there should be input fields for item description, price, name, available dates, photo, and location.
 
   getInitialState: function() {
-    return {};
+    return {itemName: '', itemDescription: '', photoURL: '', firstDate: '', lastDate: '', price: '', location: ''};
   },
   handleChange: function(event) {
     this.setState({value: event.target.value});
   },
+  handleSubmit: function(e) {
+    e.preventDefault();
+  }
 
   render: function() {
     return (
@@ -24,33 +27,33 @@ var MakeNewListing = React.createClass({
         <form className="newListing">
           <label>Item Name:</label>
           <br/>
-          <input placeholder="Enter Item Name" type="text" value={this.state.value} onChange={this.handleChange}></input>
+          <input placeholder="Enter Item Name" type="text" value={postRequests.itemName()} onChange={this.handleChange}></input>
         </form>
         <form className="newListing">
           <label>Item Description:</label>
           <br/>
-          <textarea rows="5" cols="50" placeholder="Enter Item Description" type="text" value={this.state.value} onChange={this.handleChange}></textarea>
+          <textarea rows="5" cols="50" placeholder="Enter Item Description" type="text" value={postRequests.itemDescription()} onChange={this.handleChange}></textarea>
         </form>
         <form className="newListing">
           <label>Photo URL:</label>
           <br/>
-          <input placeholder="Enter Photo URL" type="url" value={this.state.value} onChange={this.handleChange}></input>
+          <input placeholder="Enter Photo URL" type="url" value={postRequests.photoURL()} onChange={this.handleChange}></input>
         </form>
         <form className="newListing">
           <label>Dates Available:</label>
           <br/>
-          <input type="date" value={this.state.value} onChange={this.handleChange}>First Available</input>
-          <input type="date" value={this.state.value} onChange={this.handleChange}>Last Available</input>
+          <input type="date" value={postRequests.firstDate()} onChange={this.handleChange}>First Available</input>
+          <input type="date" value={postRequests.lastDate()} onChange={this.handleChange}>Last Available</input>
         </form>
         <form className="newListing">
           <label>Price:</label>
           <br/>
-          <input placeholder="Enter Price"></input>
+          <input type="number" value={postRequests.price()}placeholder="Enter Price"></input>
         </form>
         <form className="newListing">
           <label>Location:</label>
           <br/>
-          <input placeholder="Enter Location"></input>
+          <input type="number" value={postRequests.newListLocation()}placeholder="Enter Location"></input>
         </form>
       </div>
     )
