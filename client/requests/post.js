@@ -81,7 +81,7 @@ exports.searchResults = function() {
   }
 
   var results2 = {
-    item:["Hat", "Pin", "Toy", "Xboxxx"],
+    item:["Hat", "Pin", "Toy", "XBoxGame"],
     imageUrl: ["http://madogre.com/wp-content/uploads/2014/05/military_hat_box-300x201.jpg", "https://img0.etsystatic.com/058/0/9577287/il_fullxfull.751500266_olvs.jpg", "https://s.yimg.com/ny/api/res/1.2/BjxX4T6e2onXXzp.jD35ww--/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9ODAwO2lsPXBsYW5l/http://l.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w867/78e579fd6f495206dbbd67f22b853d6a5f690734.jpg", "http://www.visiontimes.com/uploads/2015/02/x-game.jpg"],
     price: [15, 22, 13, 55]
 
