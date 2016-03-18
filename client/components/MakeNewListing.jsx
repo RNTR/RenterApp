@@ -4,6 +4,7 @@ var Router = require('react-router');
 var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
+import { render } from 'react-dom'
 
 var MakeNewListing = React.createClass({
 
@@ -19,7 +20,7 @@ var MakeNewListing = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-  }
+  },
 
   render: function() {
     return (
@@ -43,6 +44,7 @@ var MakeNewListing = React.createClass({
           <label>Dates Available:</label>
           <br/>
           <input type="date" value={postRequests.firstDate()} onChange={this.handleChange}>First Available</input>
+          <br/>
           <input type="date" value={postRequests.lastDate()} onChange={this.handleChange}>Last Available</input>
         </form>
         <form className="newListing">
