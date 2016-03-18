@@ -57,6 +57,9 @@ var MakeNewListing = React.createClass({
           <br/>
           <input type="number" value={postRequests.newListLocation()}placeholder="Enter Location"></input>
         </form>
+        <form className="newListing">
+          <button className="newListingButton" onClick={postRequests.submitNewListing}>SUBMIT NEW LISTING!</button>
+        </form>
       </div>
     )
   }

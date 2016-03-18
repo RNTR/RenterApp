@@ -332,6 +332,16 @@
    font-weight: bolder;
 }
 
+.newListingButton {
+	font-family: 'Avenir';
+   font-size: 24px;
+   padding: 20px;
+   border-bottom: 1px solid orange;
+   color: #1ad1ff;
+   text-shadow: 2px 2px black;
+   font-weight: bolder;
+ }
+
 										/*SEARCH RESULTS*/
 
 .results {
@@ -383,4 +393,12 @@
 	border: 2px solid black;
 	font-style: italic;
 	color: #66ff33;
+}
+
+.red {
+	color:orange;
+}
+
+a {
+	color: blue;
 }
