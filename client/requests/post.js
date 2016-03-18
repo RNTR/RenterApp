@@ -78,12 +78,19 @@ exports.searchResults = function() {
     imageUrl: ["https://upload.wikimedia.org/wikipedia/commons/f/f4/John_Deere_lawn_mower.JPG", "https://upload.wikimedia.org/wikipedia/commons/f/fd/LeafBlowerVac.jpg", "http://nairatinz.com/oc-content/uploads/57/5533.jpg", "https://s3-us-west-2.amazonaws.com/usedphotosna/42866757_614.jpg"],
     price: [15, 22, 13, 55]
   }
-  return results;
+
+  var results2 = {
+    item:["Hat", "Leaf Blower", "PS4", "TV"],
+    imageUrl: ["http://madogre.com/wp-content/uploads/2014/05/military_hat_box-300x201.jpg", "https://upload.wikimedia.org/wikipedia/commons/f/fd/LeafBlowerVac.jpg", "http://nairatinz.com/oc-content/uploads/57/5533.jpg", "https://s3-us-west-2.amazonaws.com/usedphotosna/42866757_614.jpg"],
+    price: [15, 22, 13, 55]
+
+  }
+  return results2;
 };
 
 exports.searchLocation = function() {
   var location = {
-    city: ["San Francisco", "Dallas", "Los Angeles", "New York"]
+    city: ["San Francisco", "Dallas", "Los Angeles", "New York", "Pyongyang"]
   }
   return location;
 }
