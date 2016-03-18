@@ -279,12 +279,8 @@ exports.isRentingRoute = function(reqBody){
  				Promise.all(itemPromises)
  					.then(function(){
  						//pack item objects inside the appropriate rental objects
- 						console.log('here is items : ', items)
  						for (var i=0; i<rentals.length; i++){
  							for (var j=0; j<items.length; j++){
- 								console.log('item_id : ', rentals[i].item_id)
- 								console.log('items[j] :', items[j])
- 								// console.log('items[j].id : ', items[j].id)
  								if (rentals[i].item_id === items[j].id){
  									rentals[i].item = items[j];
  								}
@@ -296,7 +292,6 @@ exports.isRentingRoute = function(reqBody){
  							message : 'rentals retrieved (with objects inside)',
  							rentalsWithItems : rentals
  						}
- 						console.log('fulfilling the happy route, is_renting: ', body)
  						fulfill(body)
  					})
 
@@ -329,28 +324,36 @@ exports.rentedFromRoute = function(reqBody){
  		dbMethod.getItemsByOwnerID(ownerID)
  			.then(function(results){
  				var items = results;
+ 				var rentalsPromises = [];
  				var rentalArrays = [];
 
  				items.forEach(function(x){
- 					rentalArrays.push(new Promise(function(res, rej){
- 						var itemID = x.id
- 						dbMethod.getRentalsByItemID(itemID)
- 							.then(function(resp){
- 								res(resp);
- 							})	
- 							.catch(function(err){
- 								rej(err);
- 							})
- 					}))
+ 					rentalsPromises.push(dbMethod.getRentalsByItemID(x.id)
+ 						.then(function(resp){
+ 							rentalArrays.push(resp);
+ 							return resp;
+ 						})	
+ 						.catch(function(err){
+ 							console.error('could not push in rentedFromRoute: ', err);
+ 							var errObj = { 
+ 									err: err,
+ 									message : 'could not retrieve this rental'
+ 								}
+
+ 							rentalArrays.push(errObj)
+ 							return err;
+ 						})
+ 					)
  				})
 
- 				Promise.all(rentalArrays)
+ 				Promise.all(rentalsPromises)
  					.then(function(){
  						//pack rentals arrays inside the appropriate item objects
  						for (var i=0; i<items.length; i++){
  							for (var j=0; j<rentalArrays.length; j++){
- 								if (!!rentalArrays[j]._settledValue && items[i].id === rentalArrays[j]._settledValue[0].item_id){
- 									items[i].rentals = rentalArrays[j]._settledValue;
+ 								var thisRentalArray = rentalArrays[j]
+ 								if (!!thisRentalArray && items[i].id === thisRentalArray[0].item_id){
+ 									items[i].rentals = rentalArrays[j];
  								} else {
  									items[i].rentals = items[i].rentals || [];
  								}

@@ -238,8 +238,6 @@ exports.getItemByID = function(ID){
 				if (item.length === 0){
 					fulfill(false);
 				} else if (item[0].id === ID){
-					console.log('item inside dbMethods, about to fulfill: ', item)
-					console.log('unpacked : ', item[0])
 					fulfill(item);
 				} else {
 					reject(item);
