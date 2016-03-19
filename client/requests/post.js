@@ -54,7 +54,7 @@ exports.getItem = function(){
 
 exports.getUserItemsForRent = function(){
 
-  var item = "Rabbits"
+  var item = ["Lawnmower"]
   return item;
 
 };

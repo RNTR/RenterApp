@@ -26,36 +26,26 @@ var MakeNewListing = React.createClass({
     return (
       <div className="newlisting">
         <form className="newListing">
-          <label>Item Name:</label>
-          <br/>
-          <input placeholder="Enter Item Name" type="text" value={postRequests.itemName()} onChange={this.handleChange}></input>
+          <label>Item Name:</label>    <input className="itemNameInput"placeholder="Enter Item Name" type="text" value={postRequests.itemName()} onChange={this.handleChange}></input>
         </form>
         <form className="newListing">
-          <label>Item Description:</label>
-          <br/>
-          <textarea rows="5" cols="50" placeholder="Enter Item Description" type="text" value={postRequests.itemDescription()} onChange={this.handleChange}></textarea>
-        </form>
-        <form className="newListing">
-          <label>Photo URL:</label>
-          <br/>
-          <input placeholder="Enter Photo URL" type="url" value={postRequests.photoURL()} onChange={this.handleChange}></input>
+          <label>Photo URL</label>    <input className="photoInput"placeholder="Enter Photo URL" type="url" value={postRequests.photoURL()} onChange={this.handleChange}></input>
         </form>
         <form className="newListing">
           <label>Dates Available:</label>
           <br/>
-          <input type="date" value={postRequests.firstDate()} onChange={this.handleChange}>First Available</input>
+         First Available <input className='newListingInput1' type="date" value={postRequests.firstDate()} onChange={this.handleChange}></input>
           <br/>
-          <input type="date" value={postRequests.lastDate()} onChange={this.handleChange}>Last Available</input>
+         Last Available <input className='newListingInput2' type="date" value={postRequests.lastDate()} onChange={this.handleChange}></input>
         </form>
         <form className="newListing">
-          <label>Price:</label>
-          <br/>
-          <input type="number" value={postRequests.price()}placeholder="Enter Price"></input>
+          <label>Price:</label>   <input className="priceInput" type="number" value={postRequests.price()}placeholder="Enter Price"></input>
         </form>
         <form className="newListing">
-          <label>Location:</label>
-          <br/>
-          <input type="number" value={postRequests.newListLocation()}placeholder="Enter Location"></input>
+          <label>Location:</label> <input className="locationInput"type="number" value={postRequests.newListLocation()}placeholder="Enter Location"></input>
+        </form>
+        <form className="newListing">
+          <label>Item Description:</label>    <textarea className="itemDescriptionInput"rows="5" cols="50" placeholder="Enter Item Description" type="text" value={postRequests.itemDescription()} onChange={this.handleChange}></textarea>
         </form>
         <form className="newListing">
           <button className="newListingButton" onClick={postRequests.submitNewListing}>SUBMIT NEW LISTING!</button>

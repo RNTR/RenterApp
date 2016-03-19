@@ -111,9 +111,9 @@
 	color: #1ad1ff;
   	text-shadow: 2px 2px black;
   	font-weight: bolder;
-	font-size: 55px;
+	font-size: 60px;
 	position: absolute;
-	top: 40%;
+	top: 42%;
 	bottom: 50%;
 	right: 33%;
 	float: center;
@@ -320,18 +320,22 @@
 										/*NEW LISTING*/
 
 .newListing {
-	font-family: 'Avenir';
+   font-family: 'Avenir';
    width: 600px;
    font-size: 40px;
    margin: 0 auto;
    text-align: center;
-   padding-top: 20px;
+   padding-top: 10px;
+   padding-bottom: 10px;
    border-bottom: 1px solid orange;
+ 	margin-top: 1%;
+   margin-bottom: 1%;
    color: #1ad1ff;
    text-shadow: 2px 2px black;
    font-weight: bolder;
 }
 
+<<<<<<< 77e3429709710e53ab009953b192d54e0fe8192e
 .newListingButton {
 	font-family: 'Avenir';
    font-size: 24px;
@@ -342,6 +346,50 @@
    font-weight: bolder;
  }
 
+=======
+.newListingInput1 {
+	font-size: 28px;
+	border: 2px solid black;
+	margin-bottom: 1%; 
+}
+
+.newListingInput2 {
+	font-size: 28px;
+	margin-bottom: 1%;
+	margin-top: 1%;
+	border: 2px solid black;
+}
+
+.priceInput {
+	font-size: 28px;
+	margin-bottom: 1%;
+	border: 2px solid black;
+}
+
+.locationInput {
+	font-size: 28px;
+	margin-bottom: 3%;
+	border: 2px solid black;
+}
+
+.photoInput {
+		font-size: 28px;
+	margin-bottom: 1%;
+	border: 2px solid black;
+}
+
+.itemDescriptionInput {
+		font-size: 23px;
+	margin-bottom: 3%;
+	border: 2px solid black;
+}
+
+.itemNameInput{
+	font-size: 28px;
+	margin-bottom: 1%;
+	border: 2px solid black;
+}
+>>>>>>> css
 										/*SEARCH RESULTS*/
 
 .results {
@@ -359,7 +407,7 @@
 .resultsContainer {
 	font-family: 'Avenir';
 	width: 600px;
-	font-size: 29px;
+	font-size: 35px;
 	margin: 0 auto;
 	text-align: center;
 	padding-top: 20px;
@@ -367,9 +415,27 @@
 	color: #66ff33;
 	text-shadow: 2px 2px black;
 	font-weight: bolder;
+
 }
 
+a {
+  position: relative;
+  display: inline-block;
+}
 
+a:link {
+    color: #ffbf00;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #ff8080;
+}
+
+a:hover {
+    color:#b3cccc;
+    display: block;
+}
 										/**  LOGIN PAGE  **/
 /*.userName {
 	margin-left: 35%;
