@@ -20,6 +20,28 @@ exports.getUserInfo = function(){
 
 
 
+exports.addNewItem = function(itemObject) {
+  return fetch('items/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(itemObject)
+  }).then(function(itemObject){
+    console.log(itemObject)
+  }).then( function(response) {
+      console.log('ITEM RESPONSE', response);
+    })
+};
+
+
+
+
+
+
+
+
+
+
+
 
 /********************* ITEMS **************************/
 
