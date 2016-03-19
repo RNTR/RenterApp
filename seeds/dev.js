@@ -5,6 +5,7 @@ exports.seed = function(knex, Promise) {
     knex('rentals').del(), 
     knex('items').del(), 
     knex('users').del(), 
+    knex('sessions').del(),
 
     // Inserts seed entries
     knex('users').insert({username: 'Justin', password: 'RNTR', email: 'wayne.jch@gmail.com'}),
