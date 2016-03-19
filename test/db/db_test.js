@@ -12,7 +12,7 @@ var Promise = require('bluebird');
 
 //Truncate empties the database tables. It is called once before each test and again after all have run.
 function truncate () {
-  var tables = ['users', 'items', 'rentals'];
+  var tables = ['users', 'items', 'rentals', 'sessions'];
   return Promise.each(tables, function (table) {
     return knex.raw('truncate table ' + table + ' cascade');
   });
