@@ -335,7 +335,6 @@
    font-weight: bolder;
 }
 
-<<<<<<< 77e3429709710e53ab009953b192d54e0fe8192e
 .newListingButton {
 	font-family: 'Avenir';
    font-size: 24px;
@@ -346,7 +345,7 @@
    font-weight: bolder;
  }
 
-=======
+
 .newListingInput1 {
 	font-size: 28px;
 	border: 2px solid black;
@@ -389,7 +388,7 @@
 	margin-bottom: 1%;
 	border: 2px solid black;
 }
->>>>>>> css
+
 										/*SEARCH RESULTS*/
 
 .results {

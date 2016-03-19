@@ -21,7 +21,6 @@ exports.getUserInfo = function(){
 
 
 
-
 /********************* ITEMS **************************/
 
 exports.handleSubmit = function(){
@@ -33,7 +32,7 @@ exports.signupClick = function(){
 };
 
 exports.goToProfile = function(){
-  alert('post.js exports.goToProfile')
+  
 }
 
 exports.listItem = function(){
