@@ -37,11 +37,11 @@ render: function(){
 			 
 			  <div className='userGreeting'> Welcome, {postRequests.getUserInfo()}</div>
 			  
-			  <div className='yourStuffForRent'> Your stuff for rent: 
+			  <div className='yourStuffForRent'> Your items for rent: 
 			  	<div className='yourItemForRent'>{postRequests.getUserItemsForRent()}</div>    
 			  </div>
 			  	
-			  <div className='stuffYouAreRenting'>Stuff you are renting from others:
+			  <div className='stuffYouAreRenting'>Items you are renting from others:
 			  	<div className='itemYouAreRenting'>{postRequests.getStuffRentedFromOthers()}</div>
 			  </div>
 			  	  

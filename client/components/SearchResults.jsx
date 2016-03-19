@@ -11,25 +11,21 @@ var SearchResults = React.createClass({
   render: function() {
     return (
  <div>
-        <div className="results">HERE ARE YOUR SEARCH RESULTS FOR LOCATION: {postRequests.searchLocation().city[4].toUpperCase()}</div>
+        <div className="results">Search results for location: {postRequests.searchLocation().city[4].toUpperCase()}</div>
         <div className="resultsContainer">
-          <div>{postRequests.searchResults().item[0]}</div>
-          <a href={postRequests.searchResults().imageUrl[0]}>Pic Link</a>
+          <a href={postRequests.searchResults().imageUrl[0]}>{postRequests.searchResults().item[0]}</a>
           <div>${postRequests.searchResults().price[0]}/day</div>
         </div>
         <div className="resultsContainer">
-          <div>{postRequests.searchResults().item[1]}</div>
-          <a href={postRequests.searchResults().imageUrl[1]}>Pic Link</a>
+          <a href={postRequests.searchResults().imageUrl[1]}>{postRequests.searchResults().item[1]}</a>
             <div>${postRequests.searchResults().price[1]}/day</div>
         </div>
         <div className="resultsContainer">
-          <div>{postRequests.searchResults().item[2]}</div>
-          <a href={postRequests.searchResults().imageUrl[2]}>Pic Link</a>
+          <a href={postRequests.searchResults().imageUrl[2]}>{postRequests.searchResults().item[2]}</a>
             <div>${postRequests.searchResults().price[2]}/day</div>
         </div>
         <div className="resultsContainer">
-          <div>{postRequests.searchResults().item[3]}</div>
-          <a href={postRequests.searchResults().imageUrl[3]}>Pic Link</a>
+          <a href={postRequests.searchResults().imageUrl[3]}>{postRequests.searchResults().item[3]}</a>
             <div>${postRequests.searchResults().price[3]}/day</div>
         </div>
       </div>

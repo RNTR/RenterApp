@@ -20,6 +20,27 @@ exports.getUserInfo = function(){
 
 
 
+exports.addNewItem = function(itemObject) {
+  return fetch('items/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(itemObject)
+  }).then(function(itemObject){
+    console.log(itemObject)
+  }).then( function(response) {
+      console.log('ITEM RESPONSE', response);
+    })
+};
+
+
+
+
+
+
+
+
+
+
 
 
 /********************* ITEMS **************************/
@@ -33,7 +54,7 @@ exports.signupClick = function(){
 };
 
 exports.goToProfile = function(){
-  alert('post.js exports.goToProfile')
+  
 }
 
 exports.listItem = function(){
@@ -54,7 +75,7 @@ exports.getItem = function(){
 
 exports.getUserItemsForRent = function(){
 
-  var item = "Rabbits"
+  var item = ["Lawnmower"]
   return item;
 
 };

@@ -208,7 +208,7 @@ if (process.env.NODE_ENV !== 'test') {
   var compiler = webpack(config);
 
   compiler.run(function(err, stats) {
-     console.log("Errors: ", stats.hasErrors())  
+
   });
 
   compiler.watch({ // watch options:
