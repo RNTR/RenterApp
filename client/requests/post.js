@@ -33,10 +33,48 @@ exports.addNewItem = function(itemObject) {
 
 
 
+/******************* SEARCH ********************/
 
 
 
 
+exports.searchForItem = function(itemName) {
+  return fetch('items/', {            //change this
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(itemName)
+  }).then( function(response) {
+      console.log('ITEMNAME RESPONSE', response);
+    })
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*********global nav bar***********/
+
+
+
+exports.goToProfile = function(userID){
+    return fetch('users/', {            //change this maybe
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then( function(response) {
+      console.log('USERID', response);
+    })
+  
+}
 
 
 
