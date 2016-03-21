@@ -6,8 +6,6 @@ require('whatwg-fetch');  // http://github.github.io/fetch/
 
 
 exports.getUserInfo = function(){
-
-
   console.log("getting there")
   return "TIM"
 
@@ -21,14 +19,33 @@ exports.getUserInfo = function(){
 
 
 exports.addNewItem = function(itemObject) {
+  console.log("ITEM OBJECT: ", itemObject);
   return fetch('items/', {
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(itemObject)
   }).then(function(itemObject){
-    console.log(itemObject)
+    return itemObject.json();
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
+      return response;
+    })
+};
+
+
+
+/******************* SEARCH ********************/
+
+
+
+
+exports.searchForItem = function(itemName) {
+  return fetch('items/', {            //change this
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(itemName)
+  }).then( function(response) {
+      console.log('ITEMNAME RESPONSE', response);
     })
 };
 
@@ -38,6 +55,27 @@ exports.addNewItem = function(itemObject) {
 
 
 
+
+
+
+
+
+
+
+/*********global nav bar***********/
+
+
+
+exports.goToProfile = function(userID){
+    return fetch('users/', {            //change this maybe
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then( function(response) {
+      console.log('USERID', response);
+    })
+  
+}
 
 
 

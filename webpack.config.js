@@ -6,6 +6,12 @@ var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
   inject: 'body'
 });
 
+new webpack.ProvidePlugin({
+    $: "jquery",
+    jQuery: "jquery",
+    "window.jQuery": "jquery"
+})
+
 module.exports = {
   entry: './client/public/index.jsx',
   target: 'node',

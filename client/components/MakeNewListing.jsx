@@ -8,84 +8,98 @@ import { render } from 'react-dom'
 
 var MakeNewListing = React.createClass({
 
-  listItem: function() {
 
-
-
-
-  },
 
   getInitialState: function() {
     return {
-      item: '',
-      desc: '',
-      pic: '',
-      first: '',
-      last: '',
-      pric: '',
-      zip: ''
+      name: '',
+      address: '',
+      zip: 11111,
+      category: '',
+      price: 0,
+      photo: '',
+      item_owner: 1,
+      date_start: '',
+      date_end: '',
+      description: ''
     };
+
   },
-  handleChange: function(event) {
+  
+  handleNameChange: function(e) {
     this.setState({
-      item: e.target.value,
-      desc: e.target.value,
-      pic: e.target.value,
-      first: e.target.value,
-      last: e.target.value,
-      pric: e.target.value,
-      zip: e.target.value
+      name: e.target.value
     });
   },
-  handleSubmit: function(e) {
-    e.preventDefault();
-    var item = this.state.item;
-    var desc = this.state.desc;
-    var pic = this.state.pic
-    var first = this.state.first;
-    var last = this.state.last;
-    var pric = this.state.pric;
-    var zip = this.state.zip;
+
+  handlePhotoChange: function(e) {
+    this.setState({
+      photo: e.target.value
+    });
   },
+
+  handleZipChange: function(e) {
+    this.setState({
+      zip: parseInt(e.target.value)
+    });
+  },
+  
+  handlePriceChange: function(e) {
+    this.setState({
+      price: parseInt(e.target.value)
+    });
+  },
+  
+  handleDateStartChange: function(e) {
+    this.setState({
+      date_start: e.target.value
+    });
+  },
+  
+  handleDateEndChange: function(e) {
+    this.setState({
+      date_end: e.target.value
+    });
+  },
+
+  handleDescriptionChange: function(e) {
+    this.setState({
+      description: e.target.value
+    });
+  },
+
+
+
+
+  submit: function(){
+
+  postRequests.addNewItem({item:this.state}) 
+
+  },
+
+
+
 
   render: function() {
     return (
       <div className="newlisting">
-        <form className="newListing" onSubmit={this.handleSubmit}>
-          <form className="newListing">
-            <label>Item Name:</label>
-              <input className="itemNameInput"placeholder="Enter Item Name" type="text" value={this.state.item} onChange={this.handleChange}></input>
-          </form>
-          <form className="newListing">
-            <label>Photo URL</label>
-              <input className="photoInput"placeholder="Enter Photo URL" type="url" value={this.state.pic} onChange={this.handleChange}></input>
-          </form>
-          <form className="newListing">
+        <form className="newListing" onSubmit={this.submit}>
+            
+            <label>Item Name:</label><input className="itemNameInput"placeholder="Enter Item Name" type="text" value={this.state.name} onChange={this.handleNameChange}></input>
+            <label>Photo URL</label><input className="photoInput"placeholder="Enter Photo URL" type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
+
             <label>Dates Available:</label>
-            <br/>
-           First Available
-           <input className='newListingInput1' type="date" value={this.state.first} onChange={this.handleChange}></input>
-            <br/>
-           Last Available
-           <input className='newListingInput2' type="date" value={this.state.last} onChange={this.handleChange}></input>
-          </form>
-          <form className="newListing">
-            <label>Price:</label>
-              <input className="priceInput" type="number" value={this.state.pric} onChange={this.handleChange} placeholder="Enter Price"></input>
-          </form>
-          <form className="newListing">
-            <label>ZIP:</label>
-              <input className="locationInput"type="number" onChange={this.handleChange} value={this.state.zip}></input>
-          </form>
-          <form className="newListing">
-            <label>Item Description:</label>
-              <textarea className="itemDescriptionInput"rows="5" cols="50" placeholder="Enter Item Description" type="text" value={this.state.desc} onChange={this.handleChange}></textarea>
-          </form>
-          <div className="newListing">
-            <Link to='/user'>
-              <button className="newListingButton" type="submit">SUBMIT NEW LISTING!</button>
-            </Link>
-          </div>
+              <br/>
+            First Available<input className='newListingInput1' type="date" value={this.state.date_start} onChange={this.handleDateStartChange}></input>
+              <br/>
+            Last Available<input className='newListingInput2' type="date" value={this.state.date_end} onChange={this.handleDateEndChange}></input>
+            
+            <label>Price:</label><input className="priceInput" type="number" value={this.state.price} onChange={this.handlePriceChange} placeholder="Enter Price"></input>
+            <label>ZIP:</label><input className="locationInput"type="number" onChange={this.handleZipChange} value={this.state.zip}></input>
+            <label>Item Description:</label><textarea className="itemDescriptionInput"rows="5" cols="50" placeholder="Enter Item Description" type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
+            
+            <button className="newListingButton" type="submit">SUBMIT NEW LISTING!</button>
+
         </form>
       </div>
     )
@@ -94,3 +108,10 @@ var MakeNewListing = React.createClass({
 })
 
 module.exports = MakeNewListing;
+
+
+
+
+      
+      
+   
