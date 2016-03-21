@@ -1289,33 +1289,63 @@ describe ("Database Query Functions:", function() {
     })
 
     it_ ("should return false if no matching session is found", function * (){
-
       var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
         .then(function(resp){
           return resp[0];
         })
-
       var sessionID = yield dbMethod.addSession(userID)
         .then(function(resp){
           return resp[0]
         })
-
+      yield dbMethod.getSessionBySessionID(sessionID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
       yield dbMethod.getSessionBySessionID('random, not real sessionID')
         .then(function(resp){
           expect(resp).to.equal(false);
         })
-
     })
   })
 
 
   describe("dbMethods.getSessionByUserID", function() {
-    xit_ ("should return a session matching a given user id", function * (){
-
+    it_ ("should return a session matching a given user id", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0]
+        })
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return resp[0]
+        })
+      yield dbMethod.getSessionByUserID(userID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
     })
 
-    xit_ ("should return false if no matching session is found", function * (){
-
+    it_ ("should return false if no matching session is found", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+      var fakeUserID = 90000000;
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return(resp[0]);
+        })
+      yield dbMethod.getSessionByUserID(userID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
+      yield dbMethod.getSessionByUserID(fakeUserID)
+        .then(function(resp){
+          expect(resp).to.equal(false);
+        })
     })
   })
 

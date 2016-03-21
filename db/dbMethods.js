@@ -440,6 +440,30 @@ exports.getSessionBySessionID = function(sessionID){
 }
 
 
+exports.getSessionByUserID = function(userID){
+	return new Promise(function(fulfill, reject){
+	var knex = require('knex')(config[env]); 
+	
+	knex.select('*').from('sessions').where('user_id', userID)
+		.then(function(session){
+			knex.destroy();
+			if (session.length === 0){
+				fulfill(false);
+			} else if (session[0].session_id && session[0].user_id){
+				fulfill(session);
+			} else {
+				reject(session);
+			}
+		})
+		.catch(function(err){
+			knex.destroy();
+			console.error('error getting session by user ID: ', err);
+			reject(err);
+		})
+	})
+}
+
+
 // ----------- POST MVP ONLY BELOW THIS LINE --------------------
 exports.confirmRental = function(){
 	return new Promise(function(fulfill, reject){
