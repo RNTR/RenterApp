@@ -6,8 +6,6 @@ require('whatwg-fetch');  // http://github.github.io/fetch/
 
 
 exports.getUserInfo = function(){
-
-
   console.log("getting there")
   return "TIM"
 
@@ -26,7 +24,8 @@ exports.addNewItem = function(itemObject) {
     headers: requestHeaders,
     body: JSON.stringify(itemObject)
   }).then(function(itemObject){
-    console.log(itemObject)
+    console.log("ITEM OBJECT: ", itemObject)
+    return itemObject
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
     })

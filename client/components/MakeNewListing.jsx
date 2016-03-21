@@ -26,6 +26,7 @@ var MakeNewListing = React.createClass({
       zip: ''
     };
   },
+  
   handleChange: function(event) {
     this.setState({
       item: e.target.value,
@@ -37,6 +38,7 @@ var MakeNewListing = React.createClass({
       zip: e.target.value
     });
   },
+
   handleSubmit: function(e) {
     e.preventDefault();
     var item = this.state.item;
@@ -47,6 +49,9 @@ var MakeNewListing = React.createClass({
     var pric = this.state.pric;
     var zip = this.state.zip;
   },
+
+
+
 
   render: function() {
     return (
@@ -86,7 +91,6 @@ var MakeNewListing = React.createClass({
               <button className="newListingButton" type="submit">SUBMIT NEW LISTING!</button>
             </Link>
           </div>
-        </form>
       </div>
     )
   }
@@ -94,3 +98,6 @@ var MakeNewListing = React.createClass({
 })
 
 module.exports = MakeNewListing;
+
+
+
