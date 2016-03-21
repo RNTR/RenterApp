@@ -402,16 +402,38 @@ exports.addSession = function(userID){
 	var hashSeed = Math.floor(100000 + Math.random() * 900000).toString()
 	var salt = bcrypt.genSaltSync(10)
 	var sessionID = bcrypt.hashSync(hashSeed, salt);
-	console.log('the hash looks like this: ', sessionID);
 
 	knex.insert({'user_id': userID, 'session_id': sessionID}).returning('session_id').into('sessions')
 		.then(function(response){
 			knex.destroy();
-			console.log('i got this back from db after insert: ', response)
 			fulfill(response);
 		})
 		.catch(function(err){
 			knex.destroy();
+			reject(err);
+		})
+	})
+}
+
+
+exports.getSessionBySessionID = function(sessionID){
+	return new Promise(function(fulfill, reject){
+	var knex = require('knex')(config[env]); 
+	
+	knex.select('*').from('sessions').where('session_id', sessionID)
+		.then(function(session){
+			knex.destroy();
+			if (session.length === 0){
+				fulfill(false);
+			} else if (session[0].session_id && session[0].user_id){
+				fulfill(session);
+			} else {
+				reject(session);
+			}
+		})
+		.catch(function(err){
+			knex.destroy();
+			console.error('error getting session by session ID: ', err);
 			reject(err);
 		})
 	})

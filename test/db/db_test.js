@@ -1269,11 +1269,41 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.getSessionBySessionID", function() {
-    xit_ ("should return a session matching a given session id", function * (){
+    it_ ("should return a session matching a given session id", function * (){
 
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0]
+        })
+
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return resp[0]
+        })
+
+      yield dbMethod.getSessionBySessionID(sessionID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
     })
 
-    xit_ ("should return false if no matching session is found", function * (){
+    it_ ("should return false if no matching session is found", function * (){
+
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return resp[0]
+        })
+
+      yield dbMethod.getSessionBySessionID('random, not real sessionID')
+        .then(function(resp){
+          expect(resp).to.equal(false);
+        })
 
     })
   })
