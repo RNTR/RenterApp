@@ -1237,6 +1237,67 @@ describe ("Database Query Functions:", function() {
     })
   })
 
+
+  describe("dbMethods.addSession", function() {
+    it_ ("should add a session to the 'sessions' table", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          expect(resp[0]).to.be.a('string');
+          return resp[0];
+        })
+
+      var db = require('knex')(config[env]); 
+      // db created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+
+      yield db.select('*').from('sessions').where('session_id', sessionID)
+        .then(function(resp){
+          db.destroy();
+          expect(resp.length).to.equal(1);
+          expect(resp[0].session_id).to.exist;
+          expect(resp[0].user_id).to.exist;
+          expect(resp[0].session_id).to.equal(sessionID);
+          expect(resp[0].user_id).to.equal(userID);
+        })
+    })
+  })
+
+
+  describe("dbMethods.getSessionBySessionID", function() {
+    xit_ ("should return a session matching a given session id", function * (){
+
+    })
+
+    xit_ ("should return false if no matching session is found", function * (){
+
+    })
+  })
+
+
+  describe("dbMethods.getSessionByUserID", function() {
+    xit_ ("should return a session matching a given user id", function * (){
+
+    })
+
+    xit_ ("should return false if no matching session is found", function * (){
+
+    })
+  })
+
+
+  describe("dbMethods.removeSession", function() {
+    xit_ ("should delete a session from the 'sessions' table", function * (){
+
+    })
+  })
+
+
+
   // //POST MVP:
   // describe("POST-MVP: dbMethods.confirmRental", function() {
   //   xit_ ("Should set a rental's isConfirmed status to 'true'", function * (){

@@ -2,6 +2,7 @@ var db = require('./dbConfig.js');
 var config = require('../knexfile.js');
 var env =  process.env.NODE_ENV || 'development';  
 var Promise = require('bluebird');
+var bcrypt = require('bcrypt');
 
 
 exports.addUser = function(username, password, email){
@@ -392,6 +393,30 @@ exports.removeRental = function(ID){
 			})
 	})
 }
+
+exports.addSession = function(userID){
+	return new Promise(function(fulfill, reject){
+	var knex = require('knex')(config[env]); 
+
+	//create a sessionID with a random 6 digit hash seed
+	var hashSeed = Math.floor(100000 + Math.random() * 900000).toString()
+	var salt = bcrypt.genSaltSync(10)
+	var sessionID = bcrypt.hashSync(hashSeed, salt);
+	console.log('the hash looks like this: ', sessionID);
+
+	knex.insert({'user_id': userID, 'session_id': sessionID}).returning('session_id').into('sessions')
+		.then(function(response){
+			knex.destroy();
+			console.log('i got this back from db after insert: ', response)
+			fulfill(response);
+		})
+		.catch(function(err){
+			knex.destroy();
+			reject(err);
+		})
+	})
+}
+
 
 // ----------- POST MVP ONLY BELOW THIS LINE --------------------
 exports.confirmRental = function(){
