@@ -81,9 +81,11 @@ var MakeNewListing = React.createClass({
             <label>Item Description:</label>
               <textarea className="itemDescriptionInput"rows="5" cols="50" placeholder="Enter Item Description" type="text" value={this.state.desc} onChange={this.handleChange}></textarea>
           </form>
-          <form className="newListing">
-            <button className="newListingButton" type="submit" onClick={postRequests.addNewItem(document.getElementsByTagName('input'))}>SUBMIT NEW LISTING!</button>
-          </form>
+          <div className="newListing">
+            <Link to='/user'>
+              <button className="newListingButton" type="submit">SUBMIT NEW LISTING!</button>
+            </Link>
+          </div>
         </form>
       </div>
     )
