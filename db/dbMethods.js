@@ -8,7 +8,9 @@ var bcrypt = require('bcrypt');
 exports.addUser = function(username, password, email){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
-		knex.insert({'username': username, 'password': password, 'email': email}).returning('id').into('users')
+		var hash = bcrypt.hashSync(password, 8);
+
+		knex.insert({'username': username, 'password': hash, 'email': email}).returning('id').into('users')
 			.then(function(response){
 				knex.destroy();
 				fulfill(response)
