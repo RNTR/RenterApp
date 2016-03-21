@@ -464,6 +464,22 @@ exports.getSessionByUserID = function(userID){
 }
 
 
+exports.removeSession = function(userID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.del('*').from('sessions').where('user_id', userID)
+			.then(function(response){
+				knex.destroy();
+				fulfill(response)
+			})
+			.catch(function(err){
+				knex.destroy();
+				reject(err);
+			})
+	})
+}
+
+
 // ----------- POST MVP ONLY BELOW THIS LINE --------------------
 exports.confirmRental = function(){
 	return new Promise(function(fulfill, reject){

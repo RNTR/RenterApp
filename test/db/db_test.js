@@ -1244,17 +1244,14 @@ describe ("Database Query Functions:", function() {
         .then(function(resp){
           return resp[0];
         })
-
       var sessionID = yield dbMethod.addSession(userID)
         .then(function(resp){
           expect(resp[0]).to.be.a('string');
           return resp[0];
         })
-
       var db = require('knex')(config[env]); 
       // db created here so that connection can be destroyed 
       // without disrupting var 'knex' defined above
-
       yield db.select('*').from('sessions').where('session_id', sessionID)
         .then(function(resp){
           db.destroy();
@@ -1351,8 +1348,24 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.removeSession", function() {
-    xit_ ("should delete a session from the 'sessions' table", function * (){
-
+    it_ ("should delete a session from the 'sessions' table", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          expect(resp[0]).to.be.a('string');
+          return resp[0];
+        })
+      yield dbMethod.removeSession(userID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+        })
+      yield dbMethod.getSessionByUserID(userID)
+        .then(function(resp){
+          expect(resp).to.equal(false);
+        })
     })
   })
 
