@@ -8,6 +8,7 @@ var config = require('../../knexfile.js');
 var knex = require('knex')(config[env]);
 var dbMethod = require('../../db/dbMethods.js');
 var Promise = require('bluebird');
+var bcrypt = require('bcrypt')
 
 
 //Truncate empties the database tables. It is called once before each test and again after all have run.
@@ -37,14 +38,23 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.addUser", function() {
-    it_ ('Should add a new user to the users table', function * (){
+    it_ ('should add a new user to the users table', function * (){
       yield dbMethod.addUser('jeffrey', '1234', 'jeffrey@netscape.net')
         .then(function(resp){
           expect(resp[0]).to.be.a('number')
         })
     })
 
-    it_ ('Should NOT add a new user if username is already taken', function * (){
+    it_ ('should hash passwords', function * (){
+      yield dbMethod.addUser('John Jacob', 'pass', 'test@testemail.com')
+      yield dbMethod.getUserByUsername('John Jacob')
+        .then(function(user){
+          expect(user[0].password).to.be.a('string');
+          expect(user[0].password).not.to.equal('pass');
+        })
+    })
+
+    it_ ('should NOT add a new user if username is already taken', function * (){
       yield dbMethod.addUser('Marge', 'password', 'margeemail@marge.com')
 
       yield dbMethod.addUser('Marge', 'pw', 'another@email.com')
@@ -56,7 +66,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.userExists", function() {
-    it_ ('Should return true if a user exists', function * (){
+    it_ ('should return true if a user exists', function * (){
       var id = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
         .then(function(userInfo){
           return userInfo[0]})
@@ -67,7 +77,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ('Should return false for a nonexistent user', function * () {
+    it_ ('should return false for a nonexistent user', function * () {
       yield dbMethod.userExists(42786)
         .then(function(bool) {
           expect(bool).to.equal(false);
@@ -76,7 +86,7 @@ describe ("Database Query Functions:", function() {
   })
 
   describe("dbMethods.getUserByUsername", function() {
-    it_ ("Should return a single user's information", function * (){
+    it_ ("should return a single user's information", function * (){
 
       yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
 
@@ -86,7 +96,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ("Should return false if an unclaimed username is queried", function * (){
+    it_ ("should return false if an unclaimed username is queried", function * (){
 
       yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
 
@@ -98,7 +108,7 @@ describe ("Database Query Functions:", function() {
   })
 
   describe("dbMethods.getUserByID", function() {
-    it_ ("Should return a single user's information", function * (){
+    it_ ("should return a single user's information", function * (){
 
       var userID = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
         .then(function(resp){
@@ -112,7 +122,7 @@ describe ("Database Query Functions:", function() {
 
     })
 
-    it_ ("Should return false if an unassigned ID is queried", function * (){
+    it_ ("should return false if an unassigned ID is queried", function * (){
 
       var id = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
         .then(function(userID){
@@ -127,8 +137,35 @@ describe ("Database Query Functions:", function() {
   })
 
 
+  describe("dbMethods.validatePassword", function() {
+    it_('should return true for a matching password', function * (){
+      var userID = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+        .then(function(userID){
+          return userID[0];
+        })
+      var trialPassword = 'larryPassword';
+      yield dbMethod.validatePassword(trialPassword, userID)
+        .then(function(bool){
+          expect(bool).to.equal(true)
+        })
+    })
+
+    it_('should return false for a non-matching password', function * (){
+      var userID = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+        .then(function(userID){
+          return userID[0];
+        })
+      var trialPassword = 'wrongPassword';
+      yield dbMethod.validatePassword(trialPassword, userID)
+        .then(function(bool){
+          expect(bool).to.equal(false)
+        })
+    })
+  })
+
+
   describe("dbMethods.removeUser", function() {
-    it_ ('Should delete a user from the users table', function * (){
+    it_ ('should delete a user from the users table', function * (){
       var user = yield dbMethod.addUser('Billiam Uttsbuuts', '7', 'b.uttsbuuts@larry.larry')
       .then(function(userID){
         return userID[0]; })
@@ -144,7 +181,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.addItem", function() {
-    it_ ('Should add a new item to the items table', function * (){
+    it_ ('should add a new item to the items table', function * (){
       var user = yield dbMethod.addUser('Bananna Lumpkins', 'ILikeCheese', 'theemail@emailery.eee')
         .then(function(userID){
           return userID[0];
@@ -171,7 +208,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ('Should NOT add an item if the owner is not a valid user', function * (){
+    it_ ('should NOT add an item if the owner is not a valid user', function * (){
       
       var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
       var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
@@ -195,7 +232,7 @@ describe ("Database Query Functions:", function() {
   })
 
   describe("dbMethods.itemExists", function() {
-    it_ ('Should return true if an item exists', function * (){
+    it_ ('should return true if an item exists', function * (){
 
       var user = yield dbMethod.addUser('UserMang', 'ILikeCheese', 'theemail@emailery.eee')
         .then(function(userID){
@@ -227,7 +264,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ('Should return false for nonexistent items', function * (){
+    it_ ('should return false for nonexistent items', function * (){
       yield dbMethod.itemExists(1234567)
         .then(function(bool){
           expect(bool).to.equal(false);
@@ -236,7 +273,7 @@ describe ("Database Query Functions:", function() {
   })
 
   describe("dbMethods.removeItem", function() {
-    it_ ('Should delete an item from the items table', function * (){
+    it_ ('should delete an item from the items table', function * (){
 
       var user = yield dbMethod.addUser('UserMon', 'pass', 'theemail@emailery.eee')
         .then(function(userID){
@@ -338,7 +375,7 @@ describe ("Database Query Functions:", function() {
   })
 
   describe("dbMethods.getItemsByName", function() {
-    it_ ('Should return all items with a certain name', function * (){
+    it_ ('should return all items with a certain name', function * (){
       //is there a 'like' sql parameter to get close matches?
 
       var user = yield dbMethod.addUser('Hallilucious t. Abercrombe, Jr., Esquire', 'BUCKETSAUCE', 'test@test.com')
@@ -404,7 +441,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.getItemByID", function() {
-    it_ ("Should return a single item's information", function * (){
+    it_ ("should return a single item's information", function * (){
 
       var user = yield dbMethod.addUser('Hallilucious t. Abercrombe, Jr., Esquire', 'BUCKETSAUCE', 'test@test.com')
         .then(function(userID){
@@ -437,7 +474,7 @@ describe ("Database Query Functions:", function() {
           })
     })
 
-    it_ ("Should return false if an unassigned ID is queried", function * (){
+    it_ ("should return false if an unassigned ID is queried", function * (){
 
       var user = yield dbMethod.addUser('Hallilucious t. Abercrombe, Jr., Esquire', 'BUCKETSAUCE', 'test@test.com')
         .then(function(userID){
@@ -473,7 +510,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.dateHasBookConflicts", function() {
-    it_ ('Should return true if there is a booking conflict for the date range', function * (){
+    it_ ('should return true if there is a booking conflict for the date range', function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -535,7 +572,7 @@ describe ("Database Query Functions:", function() {
 
       })
 
-    it_ ('Should return false if date range has no booking conflicts', function * (){
+    it_ ('should return false if date range has no booking conflicts', function * (){
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
           return userID[0];
@@ -595,7 +632,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ('Should NOT detect booking conflicts for other objects', function * (){
+    it_ ('should NOT detect booking conflicts for other objects', function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -687,7 +724,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.dateIsInRange", function() {
-    it_ ("Should return true if dates are within the item's date range", function * (){
+    it_ ("should return true if dates are within the item's date range", function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -748,7 +785,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ("Should return false if dates violate the item's date range", function * (){
+    it_ ("should return false if dates violate the item's date range", function * (){
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
           return userID[0];
@@ -811,7 +848,7 @@ describe ("Database Query Functions:", function() {
 
 
  describe("dbMethods.getRentalsByRenterID", function() {
-    it_ ('Should return an array of rentals', function * (){
+    it_ ('should return an array of rentals', function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -914,7 +951,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ('Should return false if an unassigned renterID is queried', function * (){
+    it_ ('should return false if an unassigned renterID is queried', function * (){
 
         yield dbMethod.getRentalsByRenterID(9999999)
         .then(function(bool){
@@ -925,7 +962,7 @@ describe ("Database Query Functions:", function() {
 
 
  describe("dbMethods.getRentalsByItemID", function() {
-    it_ ('Should return an array of rentals containing only the correct item ID', function * (){
+    it_ ('should return an array of rentals containing only the correct item ID', function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -1044,7 +1081,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ('Should return false if an unassigned item ID is queried', function * (){
+    it_ ('should return false if an unassigned item ID is queried', function * (){
 
         yield dbMethod.getRentalsByRenterID(9999999)
         .then(function(bool){
@@ -1055,7 +1092,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.getRentalByRentalID", function() {
-    it_ ('Should return a single matching rental', function * (){
+    it_ ('should return a single matching rental', function * (){
 
         var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -1114,7 +1151,7 @@ describe ("Database Query Functions:", function() {
         })
     })
 
-    it_ ('Should return false if an unassigned rentalID is queried', function * (){
+    it_ ('should return false if an unassigned rentalID is queried', function * (){
 
       yield dbMethod.getRentalByRentalID(9999999)
         .then(function(bool){
@@ -1125,7 +1162,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.addRental", function() {
-    it_ ('Should add a rental to the rentals table', function * (){
+    it_ ('should add a rental to the rentals table', function * (){
 
       var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -1181,7 +1218,7 @@ describe ("Database Query Functions:", function() {
 
 
   describe("dbMethods.removeRental", function() {
-    it_ ('Should delete a rental from the rentals table', function * (){
+    it_ ('should delete a rental from the rentals table', function * (){
 
         var owner = yield dbMethod.addUser('Owner', 'pass', 'test@test.com')
         .then(function(userID){
@@ -1238,17 +1275,150 @@ describe ("Database Query Functions:", function() {
   })
 
 
-  //POST MVP:
-  describe("POST-MVP: dbMethods.confirmRental", function() {
-    xit_ ("Should set a rental's isConfirmed status to 'true'", function * (){
-
+  describe("dbMethods.addSession", function() {
+    it_ ("should add a session to the 'sessions' table", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          expect(resp[0]).to.be.a('string');
+          return resp[0];
+        })
+      var db = require('knex')(config[env]); 
+      // db created here so that connection can be destroyed 
+      // without disrupting var 'knex' defined above
+      yield db.select('*').from('sessions').where('session_id', sessionID)
+        .then(function(resp){
+          db.destroy();
+          expect(resp.length).to.equal(1);
+          expect(resp[0].session_id).to.exist;
+          expect(resp[0].user_id).to.exist;
+          expect(resp[0].session_id).to.equal(sessionID);
+          expect(resp[0].user_id).to.equal(userID);
+        })
     })
   })
 
-  //POST MVP:
-  describe("POST-MVP: dbMethods.deConfirmRental", function() {
-    xit_ ("Should set a rental's isConfirmed status to 'false'", function * (){
 
+  describe("dbMethods.getSessionBySessionID", function() {
+    it_ ("should return a session matching a given session id", function * (){
+
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0]
+        })
+
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return resp[0]
+        })
+
+      yield dbMethod.getSessionBySessionID(sessionID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
+    })
+
+    it_ ("should return false if no matching session is found", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return resp[0]
+        })
+      yield dbMethod.getSessionBySessionID(sessionID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
+      yield dbMethod.getSessionBySessionID('random, not real sessionID')
+        .then(function(resp){
+          expect(resp).to.equal(false);
+        })
     })
   })
+
+
+  describe("dbMethods.getSessionByUserID", function() {
+    it_ ("should return a session matching a given user id", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0]
+        })
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return resp[0]
+        })
+      yield dbMethod.getSessionByUserID(userID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
+    })
+
+    it_ ("should return false if no matching session is found", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+      var fakeUserID = 90000000;
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          return(resp[0]);
+        })
+      yield dbMethod.getSessionByUserID(userID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+          expect(resp[0].session_id).to.equal(sessionID);
+        })
+      yield dbMethod.getSessionByUserID(fakeUserID)
+        .then(function(resp){
+          expect(resp).to.equal(false);
+        })
+    })
+  })
+
+
+  describe("dbMethods.removeSession", function() {
+    it_ ("should delete a session from the 'sessions' table", function * (){
+      var userID = yield dbMethod.addUser('Justin', 'pass', 'testEmail@testEmail.com')
+        .then(function(resp){
+          return resp[0];
+        })
+      var sessionID = yield dbMethod.addSession(userID)
+        .then(function(resp){
+          expect(resp[0]).to.be.a('string');
+          return resp[0];
+        })
+      yield dbMethod.removeSession(userID)
+        .then(function(resp){
+          expect(resp[0].user_id).to.equal(userID);
+        })
+      yield dbMethod.getSessionByUserID(userID)
+        .then(function(resp){
+          expect(resp).to.equal(false);
+        })
+    })
+  })
+
+
+
+  // //POST MVP:
+  // describe("POST-MVP: dbMethods.confirmRental", function() {
+  //   xit_ ("should set a rental's isConfirmed status to 'true'", function * (){
+
+  //   })
+  // })
+
+  // //POST MVP:
+  // describe("POST-MVP: dbMethods.deConfirmRental", function() {
+  //   xit_ ("should set a rental's isConfirmed status to 'false'", function * (){
+
+  //   })
+  // })
 })

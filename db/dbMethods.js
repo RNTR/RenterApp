@@ -2,12 +2,15 @@ var db = require('./dbConfig.js');
 var config = require('../knexfile.js');
 var env =  process.env.NODE_ENV || 'development';  
 var Promise = require('bluebird');
+var bcrypt = require('bcrypt');
 
 
 exports.addUser = function(username, password, email){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
-		knex.insert({'username': username, 'password': password, 'email': email}).returning('id').into('users')
+		var hash = bcrypt.hashSync(password, 8);
+
+		knex.insert({'username': username, 'password': hash, 'email': email}).returning('id').into('users')
 			.then(function(response){
 				knex.destroy();
 				fulfill(response)
@@ -66,6 +69,30 @@ exports.getUserByID = function(ID){
 	})
 }
 
+exports.validatePassword = function(trialPass, userID){
+	return new Promise(function(fulfill, reject){
+		exports.getUserByID(userID)
+			.then(function(users){
+				if (!users[0].password){
+					var body = {
+						status : 'failed',
+						message : 'error getting user by id'
+					}
+					console.error('error getting user by id')
+					reject(body)
+				}
+				else {
+					var isValid = bcrypt.compareSync(trialPass, users[0].password);
+					fulfill(isValid);
+				}
+			})
+			.catch(function(err){
+				console.err('could not get user for validation. ', err);
+				reject(err);
+			})
+	})
+}
+
 exports.removeUser = function(id){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
@@ -81,7 +108,6 @@ exports.removeUser = function(id){
 	})	
 		
 }
-
 
 exports.userExists = function(id){
 	return new Promise(function(fulfill, reject){
@@ -392,6 +418,92 @@ exports.removeRental = function(ID){
 			})
 	})
 }
+
+exports.addSession = function(userID){
+	return new Promise(function(fulfill, reject){
+	var knex = require('knex')(config[env]); 
+
+	//create a sessionID with a random 6 digit hash seed
+	var hashSeed = Math.floor(100000 + Math.random() * 900000).toString()
+	var salt = bcrypt.genSaltSync(10)
+	var sessionID = bcrypt.hashSync(hashSeed, salt);
+
+	knex.insert({'user_id': userID, 'session_id': sessionID}).returning('session_id').into('sessions')
+		.then(function(response){
+			knex.destroy();
+			fulfill(response);
+		})
+		.catch(function(err){
+			knex.destroy();
+			reject(err);
+		})
+	})
+}
+
+
+exports.getSessionBySessionID = function(sessionID){
+	return new Promise(function(fulfill, reject){
+	var knex = require('knex')(config[env]); 
+	
+	knex.select('*').from('sessions').where('session_id', sessionID)
+		.then(function(session){
+			knex.destroy();
+			if (session.length === 0){
+				fulfill(false);
+			} else if (session[0].session_id && session[0].user_id){
+				fulfill(session);
+			} else {
+				reject(session);
+			}
+		})
+		.catch(function(err){
+			knex.destroy();
+			console.error('error getting session by session ID: ', err);
+			reject(err);
+		})
+	})
+}
+
+
+exports.getSessionByUserID = function(userID){
+	return new Promise(function(fulfill, reject){
+	var knex = require('knex')(config[env]); 
+	
+	knex.select('*').from('sessions').where('user_id', userID)
+		.then(function(session){
+			knex.destroy();
+			if (session.length === 0){
+				fulfill(false);
+			} else if (session[0].session_id && session[0].user_id){
+				fulfill(session);
+			} else {
+				reject(session);
+			}
+		})
+		.catch(function(err){
+			knex.destroy();
+			console.error('error getting session by user ID: ', err);
+			reject(err);
+		})
+	})
+}
+
+
+exports.removeSession = function(userID){
+	return new Promise(function(fulfill, reject){
+		var knex = require('knex')(config[env]); 
+		knex.del('*').from('sessions').where('user_id', userID)
+			.then(function(response){
+				knex.destroy();
+				fulfill(response)
+			})
+			.catch(function(err){
+				knex.destroy();
+				reject(err);
+			})
+	})
+}
+
 
 // ----------- POST MVP ONLY BELOW THIS LINE --------------------
 exports.confirmRental = function(){
