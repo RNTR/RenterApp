@@ -19,15 +19,16 @@ exports.getUserInfo = function(){
 
 
 exports.addNewItem = function(itemObject) {
+  console.log("ITEM OBJECT: ", itemObject);
   return fetch('items/', {
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(itemObject)
   }).then(function(itemObject){
-    console.log("ITEM OBJECT: ", itemObject)
-    return itemObject
+    return itemObject.json();
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
+      return response;
     })
 };
 
