@@ -1237,18 +1237,17 @@ describe ("Database Query Functions:", function() {
     })
   })
 
+  // //POST MVP:
+  // describe("POST-MVP: dbMethods.confirmRental", function() {
+  //   xit_ ("Should set a rental's isConfirmed status to 'true'", function * (){
 
-  //POST MVP:
-  describe("POST-MVP: dbMethods.confirmRental", function() {
-    xit_ ("Should set a rental's isConfirmed status to 'true'", function * (){
+  //   })
+  // })
 
-    })
-  })
+  // //POST MVP:
+  // describe("POST-MVP: dbMethods.deConfirmRental", function() {
+  //   xit_ ("Should set a rental's isConfirmed status to 'false'", function * (){
 
-  //POST MVP:
-  describe("POST-MVP: dbMethods.deConfirmRental", function() {
-    xit_ ("Should set a rental's isConfirmed status to 'false'", function * (){
-
-    })
-  })
+  //   })
+  // })
 })
