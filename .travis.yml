@@ -12,10 +12,11 @@ before_script:
 - npm test
 addons:
   postgresql: '9.3'
-  sources:
-  - ubuntu-toolchain-r-test
-  packages:
-  - g++-4.8
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
 services:
 - postgresql
 before_deploy: 
