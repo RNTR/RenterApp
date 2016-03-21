@@ -137,6 +137,33 @@ describe ("Database Query Functions:", function() {
   })
 
 
+  describe("dbMethods.validatePassword", function() {
+    it_('should return true for a matching password', function * (){
+      var userID = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+        .then(function(userID){
+          return userID[0];
+        })
+      var trialPassword = 'larryPassword';
+      yield dbMethod.validatePassword(trialPassword, userID)
+        .then(function(bool){
+          expect(bool).to.equal(true)
+        })
+    })
+
+    it_('should return false for a non-matching password', function * (){
+      var userID = yield dbMethod.addUser('larry', 'larryPassword', 'larry.larry@larry.larry')
+        .then(function(userID){
+          return userID[0];
+        })
+      var trialPassword = 'wrongPassword';
+      yield dbMethod.validatePassword(trialPassword, userID)
+        .then(function(bool){
+          expect(bool).to.equal(false)
+        })
+    })
+  })
+
+
   describe("dbMethods.removeUser", function() {
     it_ ('should delete a user from the users table', function * (){
       var user = yield dbMethod.addUser('Billiam Uttsbuuts', '7', 'b.uttsbuuts@larry.larry')

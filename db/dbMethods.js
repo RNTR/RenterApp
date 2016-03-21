@@ -69,6 +69,30 @@ exports.getUserByID = function(ID){
 	})
 }
 
+exports.validatePassword = function(trialPass, userID){
+	return new Promise(function(fulfill, reject){
+		exports.getUserByID(userID)
+			.then(function(users){
+				if (!users[0].password){
+					var body = {
+						status : 'failed',
+						message : 'error getting user by id'
+					}
+					console.error('error getting user by id')
+					reject(body)
+				}
+				else {
+					var isValid = bcrypt.compareSync(trialPass, users[0].password);
+					fulfill(isValid);
+				}
+			})
+			.catch(function(err){
+				console.err('could not get user for validation. ', err);
+				reject(err);
+			})
+	})
+}
+
 exports.removeUser = function(id){
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
@@ -84,7 +108,6 @@ exports.removeUser = function(id){
 	})	
 		
 }
-
 
 exports.userExists = function(id){
 	return new Promise(function(fulfill, reject){
