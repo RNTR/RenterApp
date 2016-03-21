@@ -1,6 +1,9 @@
 language: node_js
 node_js:
 - '5.6'
+env:
+# the CXX setting makes travis play nice with bcrypt. details: https://github.com/travis-ci/travis-ci/issues/4771
+- CXX=g++-4.8
 before_script:
 - npm install -g knex
 - export NODE_ENV=test
