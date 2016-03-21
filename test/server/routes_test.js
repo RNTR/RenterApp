@@ -378,6 +378,47 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
+    it_ ("(POST, /items/id) : should get an item by itemID", function *(){
+      var user = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var item = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': 10507,
+        'category': 'Lawn and Garden',
+        'price': 10,
+        'description': 'Its good for mowing stuff.',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemID = yield dbMethod.addItem(item)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var body = {
+        'itemID' : itemID
+      }
+
+      yield request(app)
+        .post('/items/id')
+        .send(body)
+        .expect(200)
+        .expect(function(resp) {
+          expect(resp.body.item).to.exist;
+          expect(resp.body.item.name).to.equal('Lawn Mower');
+        })
+
+    })
+
     it_ ("(DELETE, /items) : should delete an item", function * (){
       var user = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
         .then(function(idArray){

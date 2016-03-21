@@ -108,6 +108,17 @@ routes.post('/items/search', function (req, res){
     })
 })
 
+routes.post('/items/id', function (req, res){
+  //retrieve a single item by its id
+  helpers.getItemByIDRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(err.code).send(err)
+    })
+})
+
 routes.post('/items/user', function (req, res){
   // retrieve items that a user owns.
   helpers.getOwnedRoute(req.body)
