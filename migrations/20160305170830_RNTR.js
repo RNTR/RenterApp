@@ -47,6 +47,7 @@ exports.up = function(knex, Promise) {
             table.integer('user_id').notNullable()
                 .references('id')
                 .inTable('users');
+            table.string('session_id').notNullable();
             table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
         })
     ])
