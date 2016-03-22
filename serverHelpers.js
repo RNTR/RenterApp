@@ -9,7 +9,83 @@
 
 exports.signupRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var username = reqBody.username;
+ 		var password = reqBody.password;
+ 		var email = reqBody.email;
+
+ 		if (!username || typeof username !== 'string' || 
+ 			!password || typeof password !== 'string' || 
+ 			!email || typeof email !== 'string'){
+ 			body = {
+ 				status : 'failed',
+ 				message : 'incorrect format. Make sure you provided a valid username, password, and email.',
+ 				code : 400
+ 			}
+ 			reject(body);
+ 		}
+
+ 		dbMethod.addUser(username, password, email)
+ 			.then(function(resp){
+ 				if (resp === 'Username already taken. Choose another.'){
+ 					var body = {
+ 						status : 'failed',
+ 						code : 409,
+ 						message : 'That username is taken.'
+ 					}
+ 					reject(body);
+ 				} else if (typeof resp[0] === 'number'){
+ 					var user;
+ 					var sessionID;
+ 					dbMethod.getUserByID(resp[0])
+ 						.then(function(users){
+ 							user = users[0];
+ 							dbMethod.addSession(resp[0])
+ 								.then(function(res){
+ 									sessionID = res[0];
+ 									var userObj = {
+ 										username : user.username,
+ 										email : user.email
+ 									}
+ 									var body = {
+ 										'status' : 'completed',
+ 										'message' : 'user created',
+ 										'code' : 200,
+ 										'sessionID' : sessionID,
+ 										'user' : userObj
+ 									}
+ 									fulfill(body);
+ 								})
+ 								.catch(function(err){
+ 									console.err('error adding session: ',err);
+ 									var body = {
+ 										'status' : 'failed',
+ 										'message' : 'error creating a new session',
+ 										'code' : 500,
+ 										'error' : err
+ 									}
+ 									reject(body)
+ 								})
+ 						})
+ 						.catch(function(err){
+ 							var body = {
+ 								'status' : 'failed',
+ 								'message' : 'error getting user by ID',
+ 								'code' : 500,
+ 								'error' : err
+ 							}
+ 							reject(body);
+ 						})
+ 				}
+ 			})
+ 			.catch(function(err){
+	 			var body = {
+					'status' : 'failed',
+					'message' : 'error creating new user',
+					'code' : 500,
+					'error' : err
+				}
+				reject(body);
+ 			})
  	})
  }
 
@@ -195,6 +271,49 @@ exports.searchItemsRoute = function(reqBody){
  			}
  			reject(body);
  		}
+ 	})
+}
+
+exports.getItemByIDRoute = function(reqBody){
+ 	return new Promise(function(fulfill, reject){
+ 		var itemID = reqBody.itemID;
+ 		if (!itemID || typeof itemID !== 'number'){
+ 			var body = {
+ 				'status' : 'failed',
+ 				'message' : 'invalid format. make sure you provided a valid itemID',
+ 				'code' : 400
+ 			}
+ 			reject(body);
+ 			return;
+ 		}
+ 		dbMethod.getItemByID(itemID)
+ 			.then(function(item){
+ 				if (item === false){
+ 					var body = {
+ 						'status' : 'failed',
+ 						'message' : 'item does not exist',
+ 						'code' : 400
+ 					}
+ 					reject(body)
+ 				} else {
+	 				var body = {
+	 					'status' : 'completed',
+	 					'message' : 'item retrieved.',
+	 					'code' : 200,
+	 					item : item[0]
+	 				}
+	 				fulfill(body);
+	 			}
+ 			})
+ 			.catch(function(err){
+ 				var body = {
+ 					'status' : 'failed',
+ 					'messasge' : 'error getting item by ID',
+ 					'code' : 500,
+ 					'error' : err
+ 				}
+ 				reject(body)
+ 			})
  	})
 }
 

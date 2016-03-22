@@ -33,6 +33,7 @@
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.0",
     "browserify-middleware": "^7.0.0",
+    "cookie-parser": "^1.4.1",
     "css-loader": "^0.23.1",
     "express": "^4.13.4",
     "fontfaceobserver": "^1.6.4",

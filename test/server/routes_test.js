@@ -61,16 +61,11 @@ describe ("Server-Side Routing:", function() {
   })
 
   describe("Users", function() {
-    xit_ ("(POST, /signup) : should sign up new users", function * (){
-      var user = {
+    it_ ("(POST, /signup) : should sign up new users", function * (){
+      var body = {
         username : 'MustardForBreakfast',
         password : 'password',
         email : 'test@test.com'
-      }
-
-      var body = {
-        'user' : user,
-        'message' : 'here is a user.'
       }
 
       yield request(app)
@@ -80,13 +75,15 @@ describe ("Server-Side Routing:", function() {
         .expect(function(response) {
           expect(response.body.status).to.equal('completed');
           expect(response.body.user).to.exist;
+          expect(response.body.sessionID).to.exist;
+          expect(response.body.sessionID).to.be.a('string')
         })
 
     //attempt to sign up with a claimed username
     yield request(app)
       .post('/signup')
         .send(body)
-        .expect(400)
+        .expect(409)
         .expect(function(response) {
           expect(response.body.status).to.equal('failed');
           expect(response.body.message).to.equal('That username is taken.'); 
@@ -379,6 +376,47 @@ describe ("Server-Side Routing:", function() {
           expect(names).to.contain('Lawn Mower');
           expect(names).not.to.contain('Pickup Truck')
         })
+    })
+
+    it_ ("(POST, /items/id) : should get an item by itemID", function *(){
+      var user = yield dbMethod.addUser('Alphred', 'password', 'mr.email@mr.email')
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var start = new Date(2016, 2, 17, 3, 00, 0); // March 17th, 2016 at 3AM
+      var end = new Date(2016, 2, 17, 5, 00, 0); // March 17th, 2016 at 5AM
+      var item = {
+        'name': 'Lawn Mower',
+        'address': '123 East Murphy Lane',
+        'zip': 10507,
+        'category': 'Lawn and Garden',
+        'price': 10,
+        'description': 'Its good for mowing stuff.',
+        'photo': 'null',
+        'item_owner': user,
+        'date_start': start,
+        'date_end': end
+      }
+
+      var itemID = yield dbMethod.addItem(item)
+        .then(function(idArray){
+          return idArray[0];
+        })
+
+      var body = {
+        'itemID' : itemID
+      }
+
+      yield request(app)
+        .post('/items/id')
+        .send(body)
+        .expect(200)
+        .expect(function(resp) {
+          expect(resp.body.item).to.exist;
+          expect(resp.body.item.name).to.equal('Lawn Mower');
+        })
+
     })
 
     it_ ("(DELETE, /items) : should delete an item", function * (){

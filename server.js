@@ -1,12 +1,16 @@
- var express = require('express');
- var path = require('path');
- var reactify = require('reactify');
- var routes = express.Router();
- var db = require('./db/dbConfig.js');
- var dbMethod = require('./db/dbMethods.js')
- var helpers = require('./serverHelpers.js')
- var webpack = require('webpack');
- var app = express();
+var express = require('express');
+var path = require('path');
+var reactify = require('reactify');
+var routes = express.Router();
+var db = require('./db/dbConfig.js');
+var dbMethod = require('./db/dbMethods.js')
+var helpers = require('./serverHelpers.js')
+var webpack = require('webpack');
+var cookieParser = require('cookie-parser')
+var app = express();
+
+//makes cookies accessible via req.cookie
+app.use( cookieParser() );
 
 
   
@@ -26,7 +30,14 @@ routes.get('/', function (req, res) {
 
 routes.post('/signup', function (req, res){
   // sign up a new user.
-  // TODO... need auth stuff.
+  helpers.signupRoute(req.body)
+    .then(function(response){
+      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true }) //valid for one week.
+        .status(200).send(response);
+    })
+    .catch(function(err){
+      res.status(err.code).send(err)
+    })
 })
 
 routes.post('/login', function (req, res){
@@ -94,6 +105,17 @@ routes.post('/items/search', function (req, res){
     })
     .catch(function(err){
       res.status(500).send(err);
+    })
+})
+
+routes.post('/items/id', function (req, res){
+  //retrieve a single item by its id
+  helpers.getItemByIDRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response)
+    })
+    .catch(function(err){
+      res.status(err.code).send(err)
     })
 })
 
