@@ -91,13 +91,158 @@ exports.signupRoute = function(reqBody){
 
 exports.loginRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var username = reqBody.username;
+ 		var password = reqBody.password;
+ 		if (!username || typeof username !== 'string'||
+ 			!password || typeof password !== 'string'){
+ 			var body = {
+ 				status : 'failed',
+ 				message : 'Invald format. Make sure you sent in a valid username and password.',
+ 				code : 400
+ 			}
+ 			reject(body);
+ 		} else {
+ 			dbMethod.getUserByUsername(username)
+ 				.then(function(res){
+ 					if (res === false){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'user not found.',
+ 							code : 400,
+ 						}
+ 						reject(body);
+ 					} else {
+	 					var user = res[0]
+	 					var userID = user.id;
+	 					dbMethod.validatePassword(password, userID)
+	 						.then(function(bool){
+	 							if (!bool){
+	 								var body = {
+	 									status : 'failed',
+	 									message : 'invalid password',
+	 									code : 401
+	 								}
+	 								reject(body);
+	 							} else {
+	 								dbMethod.addSession(userID)
+	 									.then(function(resp){
+	 										var finalUserObj = {
+	 											'username' : user.username,
+	 											'email' : user.email,
+	 											'userID' : userID
+	 										};
+	 										var body = {
+	 											'status' : 'completed',
+	 											'message' : 'signed in!',
+	 											'code': 200,
+	 											'sessionID': resp[0],
+	 											'user': finalUserObj
+	 										}
+	 										fulfill(body);
+	 									})
+	 									.catch(function(err){
+	 										var body = {
+	 											'status' : 'failed',
+	 											'message' : 'error creating session.',
+	 											'code' : 500,
+	 											'error' : err
+	 										}
+	 										reject(body);
+	 									})
+	 							}
+	 						})
+	 						.catch(function(err){
+	 							var body = {
+	 								'status' : 'failed',
+	 								'message' : 'error validating password',
+	 								'code' : 500,
+	 								'error' : err
+	 							}
+	 							reject(body);
+	 						})
+	 				}
+ 				})
+ 				.catch(function(err){
+					var body = {
+						'status' : 'failed',
+						'message' : 'error getting user by id',
+						'code' : 500,
+						'error' : err
+					}
+					reject(body);
+ 				})
+ 		}
  	})
  }
 
 exports.logoutRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var userID = reqBody.userID;
+ 		var cookie = reqBody.cookie;
+ 		if (!userID || typeof userID !== 'number'){
+ 			var body = {
+ 				status : 'failed',
+ 				message : 'incorrect format. Make sure you sent a valid userID.',
+ 				code : 400
+ 			}
+ 			reject(body);
+ 		} else if (!cookie || !cookie.sessionId){
+ 			var body = {
+ 				status : 'failed',
+ 				message : 'you are not currently signed in as that user!',
+ 				code : 400
+ 			}
+ 			reject(body);
+ 		} else {
+ 			dbMethod.getSessionBySessionID(cookie.sessionId)
+ 				.then(function(res){
+ 					if(res === false){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'sessionId not found. Are you sure you are logged in?',
+ 							code : 403
+ 						}
+ 						reject(body);
+ 					} else {
+ 						if (res[0].user_id !== userID){
+ 							var body = {
+ 								status: 'failed',
+ 								message : 'your userID does not match for this session.',
+ 								code : 403
+ 							}
+ 							reject(body);
+ 						} else {
+							dbMethod.removeSession(userID)
+				 				.then(function(response){
+				 					var body = {
+				 						status : 'completed',
+				 						message : 'logout successful.',
+				 						code : 200
+				 						// response : response
+				 					}
+				 					fulfill(body);
+				 				})
+				 				.catch(function(err){
+				 					var body = {
+				 						status : 'failed',
+				 						message : 'error deleting session',
+				 						code : 500
+				 					}
+				 					reject(body);
+				 				})
+ 						}
+ 					}
+ 				})
+ 				.catch(function(err){
+ 					var body = {
+ 						status : 'failed',
+ 						message : 'error getting session by session id',
+ 						code: 500,
+ 						error: err
+ 					}
+ 					reject(body);
+ 				})
+ 		}
  	})
  }
 

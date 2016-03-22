@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser')
 var app = express();
 
 //makes cookies accessible via req.cookie
-app.use( cookieParser() );
+routes.use( cookieParser() );
 
 
   
@@ -42,12 +42,27 @@ routes.post('/signup', function (req, res){
 
 routes.post('/login', function (req, res){
   // log a user in.
-  // TODO... need auth stuff.
+  helpers.loginRoute(req.body)
+    .then(function(response){
+      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true }) //valid for one week.
+        .status(200).send(response);
+    })
+    .catch(function(err){
+      res.status(err.code).send(err);
+    })
 })
 
 routes.post('/logout', function (req, res){
   // log a user out.
-  // TODO... need auth stuff.
+  req.body.cookie = req.body.cookie || req.cookies;
+
+  helpers.logoutRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response);
+    })
+    .catch(function(err){
+      res.status(err.code).send(err);
+    })
 })
 
 routes.post('/users', function (req, res){

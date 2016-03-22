@@ -90,20 +90,18 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(POST, /login) : should sign in existing users", function * (){
+    it_ ("(POST, /login) : should sign in existing users", function * (){
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
         .then(function(IDArray){
           return IDArray[0];
         })
 
-      var user = {
-        username : 'MustardForBreakfast',
-        password : 'password',
-      }
+        var username = 'MustardForBreakfast';
+        var password = 'password';
 
       var body = {
-        'user' : user,
-        'message' : 'here is a user.'
+        'username' : username,
+        'password' : password
       }
 
       yield request(app)
@@ -113,28 +111,18 @@ describe ("Server-Side Routing:", function() {
         .expect(function(response) {
           expect(response.body.status).to.equal('completed');
           expect(response.body.user).to.exist;
-          expect(response.body.user.username).to.equal('MustardForBreakfast')
+          expect(response.body.user.username).to.equal('MustardForBreakfast');
+          expect(response.body.sessionID).to.exist;
+          expect(response.body.sessionID).to.be.a('string');
         })
 
-      //attempt to sign in when already signed in
-      yield request(app)
-        .post('/login')
-          .send(body)
-          .expect(400)
-          .expect(function(response) {
-            expect(response.body.status).to.equal('failed');
-            expect(response.body.message).to.equal('User already signed in!'); 
-          })
-
       //attempt to sign in an unregisterd user
-      var unregUser = {
-        username : 'MustardForBreakfast',
-        password : 'password',
-      }
+      var otherUsername = 'Some Other Guy';
+      var otherPassword = 'password';
 
       var unregBody = {
-        'user' : unregUser,
-        'message' : 'here is a user.'
+        'username' : otherUsername,
+        'password' : otherPassword
       }
 
       yield request(app)
@@ -143,7 +131,7 @@ describe ("Server-Side Routing:", function() {
           .expect(400)
           .expect(function(response) {
             expect(response.body.status).to.equal('failed');
-            expect(response.body.message).to.equal('User does not exist'); 
+            expect(response.body.message).to.equal('user not found.'); 
           })
     })
 
@@ -206,31 +194,35 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(POST, /logout) : should log a user out", function * (){
+    it_ ("(POST, /logout) : should log a user out", function * (){
       //add a user
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
         .then(function(IDArray){
           return IDArray[0];
         })
 
-      var user = {
-        username : 'MustardForBreakfast',
-        password : 'password',
-      }
+      var username = 'MustardForBreakfast';
+      var password = 'password';
 
       var loginBody = {
-        'user' : user,
-        'message' : 'here is a user.'
+        'username' : username,
+        'password' : password
       }
 
       //log that user in
+      var sessionID;
       yield request(app)
         .post('/login')
         .send(loginBody)
+        .expect(function(resp){
+          console.log('here is loging in via the test: ', resp.body);
+          sessionID = resp.body.sessionID;
+        })
 
+      //simulated cookie
       var body = {
         'userID' : userID,
-        'message' : 'here is a user.'
+        'cookie' : {'sessionId':sessionID}
       }
 
       yield request(app)
@@ -238,7 +230,7 @@ describe ("Server-Side Routing:", function() {
         .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body.status).to.equal('complete');
+          expect(response.body.status).to.equal('completed');
           expect(response.body.message).to.equal('logout successful.')
         })
     })
