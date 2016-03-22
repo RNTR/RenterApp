@@ -17,10 +17,11 @@ login: function(){
 render: function(){
 	return (<div>
 
-		<div className = 'userName'>
+		<form className = 'userName'>
 		<input className='userInput' placeholder='Username'/>
-		 <input className='userPass' placeholder='Password' />
-		 </div>
+		 <input className='userPass' type='password' placeholder='Password' />
+		 <button className="loginButton" type="submit">LOGIN</button>
+		 </form>
 
 		</div>)
 }

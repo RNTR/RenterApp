@@ -75,6 +75,10 @@ var MakeNewListing = React.createClass({
 
   postRequests.addNewItem({item:this.state}) 
 
+  console.log('this.state.id ', this.state.id)
+
+  window.globalStateItemID = this.state.id;
+
   },
 
 

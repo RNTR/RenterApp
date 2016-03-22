@@ -37,8 +37,6 @@ exports.addNewItem = function(itemObject) {
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
       return response;
-    }).then(function(response){
-      posRequests.getItem(response.id)
     })
 };
 
@@ -71,6 +69,24 @@ exports.searchForItem = function(itemName) {
 
 
 
+exports.signup = function(signupObject){
+  console.log("SIGNUP OBJECT: ", signupObject);
+  return fetch('signup/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(signupObject)
+  }).then(function(signupObject){
+    return signupObject.json();
+  }).then( function(response) {
+      console.log('SIGNUP RESPONSE', response);
+      return response;
+    })
+};
+
+
+
+
+
 
 
 
@@ -98,7 +114,8 @@ exports.goToProfile = function(userID){
 
 
 exports.getItem = function(itemID){
-    return fetch('items/', {
+    console.log('itemID ', itemID)
+    return fetch('items/id', {
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(itemObject)
@@ -117,9 +134,7 @@ exports.handleSubmit = function(){
   alert('post.js exports.handleSubmit')
 };
 
-exports.signupClick = function(){
-  alert('post.js exports.signupClick')
-};
+
 
 exports.goToProfile = function(){
 

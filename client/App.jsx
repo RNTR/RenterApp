@@ -13,6 +13,12 @@ var css = require("../client/public/css/styles.css")
 
 
 
+
+
+window.globalStateItemID = null;
+
+
+
 /***********************************************************/
 
 
