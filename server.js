@@ -55,9 +55,7 @@ routes.post('/login', function (req, res){
 
 routes.post('/logout', function (req, res){
   // log a user out.
-  console.log('HERE are the cookies (req.cookies): ', req.cookies)
   req.body.cookie = req.body.cookie || req.cookies;
-    console.log('req.body.cookie: ', req.body.cookie)
   helpers.logoutRoute(req.body)
     .then(function(response){
       res.status(200).send(response);

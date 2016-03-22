@@ -88,6 +88,7 @@ exports.login = function(loginObject){
       console.log('login RESPONSE: ', response);
       console.log('login RESPONSE ID: ', response.user.userID);
       window.globalStateUserID = response.user.userID;
+      window.globalStateSessionID = response.sessionID;
       return response;
     })
 }
@@ -109,8 +110,9 @@ exports.logout = function(userID){
     })
 
 
-
-  return window.globalStateUserID = null;
+  window.globalStateUserID = null;
+  window.globalStateSessionID = null;
+  return;
 }
 
 
