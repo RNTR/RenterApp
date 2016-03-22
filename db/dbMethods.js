@@ -217,7 +217,7 @@ exports.getItemsByName = function(name){
 			})
 			.catch(function(err){
 				knex.destroy();
-				console.error('error getting items by zipcode: ', err);
+				console.error('error getting items by name: ', err);
 				fulfill(err)
 			})
 	})
@@ -233,7 +233,7 @@ exports.getItemsByNameLike = function(name){ //
 			})
 			.catch(function(err){
 				knex.destroy();
-				console.error('error getting items by zipcode: ', err);
+				console.error('error getting items by nameLike: ', err);
 				fulfill(err)
 			})
 	})
@@ -249,7 +249,7 @@ exports.getItemsByOwnerID = function(ID){
 			})
 			.catch(function(err){
 				knex.destroy();
-				console.error('error getting items by owner: ', err);
+				console.error('error getting items by ownerID: ', err);
 				fulfill(err)
 			})
 	})

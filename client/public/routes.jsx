@@ -15,6 +15,7 @@ var MakeNewListing = require('../components/MakeNewListing.jsx');
 var Item = require('../components/ItemPage.jsx');
 var SearchResults = require('../components/SearchResults.jsx')
 var Login = require('../components/Login.jsx')
+var Signup = require('../components/Signup.jsx')
 
 
 render((
@@ -25,6 +26,7 @@ render((
 	<Route path='/results' component={SearchResults} /> 
 	<Route path='/item' component={Item} />
 	<Route path='/login' component={Login} />
+	<Route path='/signup' component={Signup} />
   </Router>
 ),  document.getElementById('app'))
 

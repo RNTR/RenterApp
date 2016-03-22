@@ -1,24 +1,73 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
-var Link = Router.Link 
+var Link = Router.Link;
+import { Component } from 'react';
+import { Route } from 'react-router';
+import { Router, RouterContext, match } from 'react-router';
+import { hashHistory } from 'react-router';
+import { IndexRoute } from 'react-router';
+import { render } from 'react-dom'
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
-
+var App = require('../App.jsx') 
 
 
 var Signup = React.createClass({
 
-navBar: function(){},
 
-signup: function(){
+getInitialState: function(){
+	return {
+	username: null,
+	email: null,
+	password: null
+	}
+},
 
-	// require username, password, email
+handleUsernameChange: function(e) {
+    this.setState({
+      username: e.target.value
+    });
+  },
+
+  handleEmailChange: function(e) {
+    this.setState({
+      email: e.target.value
+    });
+  },
+
+  handlePasswordChange: function(e) {
+    this.setState({
+      password: e.target.value
+    });
+  },
+
+submit: function(){
+
+	postRequests.signup(this.state)
 
 },
 
 render: function(){
-	return (/*DIV NAME HERE*/);
-}
+	return (
+
+		<div>
+
+		<form className = 'signup' onSubmit={this.submit}>
+		<input className='userSignup' value={this.state.username} onChange={this.handleUsernameChange} placeholder='Username'/>
+		<input className='emailSignup' value={this.state.email} onChange={this.handleEmailChange} placeholder='email'/>
+		 <input className='userPassword' value={this.state.password} onChange={this.handlePasswordChange} type='password' placeholder='Password' />
+		 <button className="signupButton" type="submit">LOGIN</button>
+		 </form>
+
+		</div>
+
+
+
+
+
+
+
+
+)}
 
 });
 

@@ -20,20 +20,22 @@ getItems: function(){
 
 }, 
 
-requestRental: function(){},
+submit: function(){
+	postRequests.getItem(window.globalStateItemID)
+},
 
 render: function(){
 	return ( 
 	<div className="itemPage">
-		  <div className="itemPhoto"><img src= {postRequests.getItem().itemPhoto}/></div>
+		  <div className="itemPhoto"><img src= {postRequests.getItem().photo}/></div>
 		  <div className='itemDetails'>
-		  	<div className="itemName">{postRequests.getItem().itemName}</div>
-		  	<div className='itemDescription'>{postRequests.getItem().itemDescription}</div>
+		  	<div className="itemName">{postRequests.getItem().name}</div>
+		  	<div className='itemDescription'>{postRequests.getItem().description}</div>
 		  	<div className='itemAvailability'>Item availability</div>
-			<div className='itemPrice'>Item price</div>
-			<div className='rentItemDiv'> Rent this item!
+			<div className='itemPrice'>Item price {postRequests.getItem().price} </div>
+			<button className='rentItemDiv'> Rent this item!
 	
-		  </div>
+		  	</button>
 		  </div>
 		</div>
 		)
