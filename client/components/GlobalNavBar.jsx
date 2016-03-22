@@ -11,18 +11,18 @@ var GlobalNavBar = React.createClass({
 
 getInitialState: function(){
 	return {
-		search: '',
-		zip: ''
+		searchTerm: '',
+		zipCode: ''
 	};
 },
 handleSearch: function(e){
 	this.setState({
-		search: e.target.value
+		searchTerm: e.target.value
 	})
 },
 handleZip: function(e){
 	this.setState({
-		zip: parseInt(e.target.value)
+		zipCode: parseInt(e.target.value)
 	})
 },
 submitSearch: function(){
@@ -48,8 +48,8 @@ titleHome: function(){},  // link back to the home page
       	 <div className="listItem" onClick={this.props.addNewItem}>List an Item</div>
       	  <div className="myProfile" onClick={this.props.goToProfile}>My Profile</div>
 					<form onSubmit={this.submitSearch}>
-						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.search} onChange={this.handleSearch}></input>
-						<input placeholder="Zip Code" type="number" value={this.state.zip} onChange={this.handleZip}></input>
+						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
+						<input placeholder="Zip Code" type="number" value={this.state.zipCode} onChange={this.handleZip}></input>
 						<button type="submit">GO</button>
 					</form>
 
