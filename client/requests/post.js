@@ -72,6 +72,8 @@ exports.signup = function(signupObject){
     return signupObject.json();
   }).then( function(response) {
       console.log('SIGNUP RESPONSE', response);
+      window.globalStateUserID = response.user.userID;
+      window.globalStateSessionID = response.sessionID;
       return response;
     })
 };

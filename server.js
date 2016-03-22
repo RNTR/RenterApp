@@ -45,7 +45,6 @@ routes.post('/login', function (req, res){
   helpers.loginRoute(req.body)
     .then(function(response){
       res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true}) //valid for one week.
-      // console.log('RESRESRESRESRESRESRES', res.cookies)
         res.status(200).send(response);
     })
     .catch(function(err){
