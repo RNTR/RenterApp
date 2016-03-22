@@ -5,14 +5,15 @@ var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
 import {render} from 'react-dom'
+var HomePage = require('../components/HomePage.jsx');
 
 
 var GlobalNavBar = React.createClass({
 
 getInitialState: function(){
 	return {
-		searchTerm: '',
-		zipCode: ''
+		searchTerm: null,
+		zipCode: null
 	};
 },
 handleSearch: function(e){
@@ -26,6 +27,11 @@ handleZip: function(e){
 	})
 },
 submitSearch: function(){
+
+	if (this.state.searchTerm === null || this.state.zipCode === null){
+		alert('Please enter an item and a ZIP code')
+	}
+
 	postRequests.searchForItem(this.state)
 },
 
@@ -38,12 +44,15 @@ searchbar: function(){},
 
 myProfile: function(){}, // link to user profile
 
-titleHome: function(){},  // link back to the home page
+titleHome: function(){
+
+
+},  
 
  render: function() {
     return (
       <div className="bar">
-       <div className='title' /*onClick={this.props.goHome}*/>RNTR</div>
+       <div className='title' onClick={this.titleHome}>RNTR</div>
         <div className="signup" onClick={this.props.signupClick}>Sign Up/Sign In</div>
       	 <div className="listItem" onClick={this.props.addNewItem}>List an Item</div>
       	  <div className="myProfile" onClick={this.props.goToProfile}>My Profile</div>

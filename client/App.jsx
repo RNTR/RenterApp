@@ -41,24 +41,6 @@ var NavBar = React.createElement(GlobalNavBar, {
 
 
 
-// var NewListing = React.createElement(MakeNewListing, {
-
-// });
-
-// var Item = React.createElement(ItemPage, {
-//     getItem: postRequests.getItem
-// });
-
-// var Results = React.createElement(SearchResults, {
-//   searchResults: postRequests.searchResults,
-//   searchLocation: postRequests.searchLocation
-// })
-
-
-/***********************************************************/
-
-
-
 
 /***********************************************************/
 
@@ -67,22 +49,3 @@ var NavBar = React.createElement(GlobalNavBar, {
 
 NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 
-
-
-
-/***********************************************************/
-
-
-// class App extends React.Component{
-//
-//
-//     render() {
-//         return (
-//             <div>
-//                 {this.props.children}
-//             </div>
-//         )
-//     }
-// }
-//
-// export default App;
