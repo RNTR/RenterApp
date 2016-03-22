@@ -45,7 +45,8 @@ routes.post('/login', function (req, res){
   helpers.loginRoute(req.body)
     .then(function(response){
       res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true }) //valid for one week.
-        .status(200).send(response);
+      console.log('RESRESRESRESRESRESRES', res)
+        res.status(200).send(response);
     })
     .catch(function(err){
       res.status(err.code).send(err);
@@ -54,8 +55,9 @@ routes.post('/login', function (req, res){
 
 routes.post('/logout', function (req, res){
   // log a user out.
+  console.log('req.cookies: ', req.cookies)
   req.body.cookie = req.body.cookie || req.cookies;
-
+    console.log('req.body.cookie: ', req.body.cookie)
   helpers.logoutRoute(req.body)
     .then(function(response){
       res.status(200).send(response);

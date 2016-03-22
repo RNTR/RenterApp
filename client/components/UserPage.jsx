@@ -69,8 +69,8 @@ module.exports = UserPage;
 
 		  	
 
-// this.props.listings.map(function(listing) {
-// 			  		<ThingForRent listing={listing} />
+// results.map(function(results) {
+// 			  		<SearchResults results={results} />
 // 			  	})
 
 

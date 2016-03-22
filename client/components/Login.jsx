@@ -31,7 +31,7 @@ handlePasswordChange: function(e) {
   },
 
 logout: function(){
-	 return window.globalStateUserID = null;
+	 postRequests.logout( {userID: window.globalStateUserID} )
 },
 
 submit: function(){

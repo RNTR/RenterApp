@@ -13,7 +13,7 @@ getInitialState: function(){
 },
 
 componentDidMount: function(){
-	return {};
+	postRequests.getItem(window.globalStateItemID)
 },
 
 getItems: function(){
@@ -21,6 +21,7 @@ getItems: function(){
 }, 
 
 submit: function(){
+
 	postRequests.getItem(window.globalStateItemID)
 },
 
@@ -49,5 +50,3 @@ module.exports = ItemPage;
 
 
 
-	  		// <div className='bookingCalendarDiv'>Booking calendar</div>
-		  	// 	<div className='bookItemButton'>Book this item!</div>

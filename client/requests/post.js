@@ -10,18 +10,7 @@ import { Router, RouterContext, match } from 'react-router';
 import { hashHistory } from 'react-router';
 import { IndexRoute } from 'react-router';
 import { render } from 'react-dom'
-
-
-
-exports.getUserInfo = function(){
-  console.log("getting there")
-  return "TIM"
-
-};
-
-
-
-
+var App = require('../App.jsx') 
 
 
 
@@ -38,6 +27,8 @@ exports.addNewItem = function(itemObject) {
       console.log('ITEM RESPONSE', response);
       return response;
     })
+
+    window.globalStateItemID = this.state.id;
 };
 
 
@@ -49,7 +40,7 @@ exports.addNewItem = function(itemObject) {
 
 exports.searchForItem = function(itemName) {
   console.log("ITEMNAME: ", itemName)
-  return fetch('items/search', {            //change this
+  return fetch('items/search', {            
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(itemName)
@@ -100,7 +91,22 @@ exports.login = function(loginObject){
 }
 
 
-exports.logout = function(){
+exports.logout = function(userID){
+  console.log('userID: ', userID)
+  return fetch('logout/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json();
+  }).then( function(response) {
+      console.log('login RESPONSE: ', response);
+      window.globalStateUserID = null;
+      return response;
+    })
+
+
+
   return window.globalStateUserID = null;
 }
 
@@ -135,9 +141,9 @@ exports.getItem = function(itemID){
     return fetch('items/id', {
     method: 'POST',
     headers: requestHeaders,
-    body: JSON.stringify(itemObject)
-  }).then(function(itemObject){
-    return itemObject.json();
+    body: JSON.stringify(itemID)
+  }).then(function(itemID){
+    return itemID.json();
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
       return response;
@@ -148,9 +154,8 @@ exports.getItem = function(itemID){
 
 
 exports.handleSubmit = function(){
-  alert('post.js exports.handleSubmit')
-};
 
+};
 
 
 exports.goToProfile = function(){
@@ -158,53 +163,33 @@ exports.goToProfile = function(){
 }
 
 exports.listItem = function(){
-  alert('post.js exports.listItem')
-}
 
+}
 
 
 exports.getUserItemsForRent = function(){
 
-  var item = ["Lawnmower"]
-  return item;
 
 };
 
 exports.getStuffRentedFromOthers = function(){
 
-   var item = "A cat"
-   return item;
+  
 };
 
 exports.stuffBeingRentedFromUser = function(){
 
-  var item = 'A Possum'
-  return item;
+
 };
 
 /************ SEARCH RESULTS **********/
 
 exports.searchResults = function() {
-  var results = {
-    item: ["Lawnmower", "Leaf Blower", "PS4", "TV"],
-    imageUrl: ["https://upload.wikimedia.org/wikipedia/commons/f/f4/John_Deere_lawn_mower.JPG", "https://upload.wikimedia.org/wikipedia/commons/f/fd/LeafBlowerVac.jpg", "http://nairatinz.com/oc-content/uploads/57/5533.jpg", "https://s3-us-west-2.amazonaws.com/usedphotosna/42866757_614.jpg"],
-    price: [15, 22, 13, 55]
-  }
-
-  var results2 = {
-    item:["Hat", "Pin", "Toy", "XBoxGame"],
-    imageUrl: ["http://madogre.com/wp-content/uploads/2014/05/military_hat_box-300x201.jpg", "https://img0.etsystatic.com/058/0/9577287/il_fullxfull.751500266_olvs.jpg", "https://s.yimg.com/ny/api/res/1.2/BjxX4T6e2onXXzp.jD35ww--/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9ODAwO2lsPXBsYW5l/http://l.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w867/78e579fd6f495206dbbd67f22b853d6a5f690734.jpg", "http://www.visiontimes.com/uploads/2015/02/x-game.jpg"],
-    price: [15, 22, 13, 55]
-
-  }
-  return results2;
+  
 };
 
 exports.searchLocation = function() {
-  var location = {
-    city: ["San Francisco", "Dallas", "Los Angeles", "New York", "Pyongyang"]
-  }
-  return location;
+ 
 }
 
 /************ NEW LISTING **********/
@@ -238,5 +223,5 @@ exports.newListLocation = function() {
 }
 
 exports.submitNewListing = function() {
-  alert('postRequests.submitNewListing');
+
 }
