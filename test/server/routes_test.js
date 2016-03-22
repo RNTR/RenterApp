@@ -194,31 +194,35 @@ describe ("Server-Side Routing:", function() {
         })
     })
 
-    xit_ ("(POST, /logout) : should log a user out", function * (){
+    it_ ("(POST, /logout) : should log a user out", function * (){
       //add a user
       var userID = yield dbMethod.addUser('MustardForBreakfast', 'password', 'example@email.com')
         .then(function(IDArray){
           return IDArray[0];
         })
 
-      var user = {
-        username : 'MustardForBreakfast',
-        password : 'password',
-      }
+      var username = 'MustardForBreakfast';
+      var password = 'password';
 
       var loginBody = {
-        'user' : user,
-        'message' : 'here is a user.'
+        'username' : username,
+        'password' : password
       }
 
       //log that user in
+      var sessionID;
       yield request(app)
         .post('/login')
         .send(loginBody)
+        .expect(function(resp){
+          console.log('here is loging in via the test: ', resp.body);
+          sessionID = resp.body.sessionID;
+        })
 
+      //simulated cookie
       var body = {
         'userID' : userID,
-        'message' : 'here is a user.'
+        'cookie' : {'sessionId':sessionID}
       }
 
       yield request(app)
@@ -226,7 +230,7 @@ describe ("Server-Side Routing:", function() {
         .send(body)
         .expect(200)
         .expect(function(response) {
-          expect(response.body.status).to.equal('complete');
+          expect(response.body.status).to.equal('completed');
           expect(response.body.message).to.equal('logout successful.')
         })
     })

@@ -54,7 +54,15 @@ routes.post('/login', function (req, res){
 
 routes.post('/logout', function (req, res){
   // log a user out.
-  // TODO... need auth stuff.
+  req.body.cookie = req.body.cookie || req.cookie;
+
+  helpers.logoutRoute(req.body)
+    .then(function(response){
+      res.status(200).send(response);
+    })
+    .catch(function(err){
+      res.status(err.code).send(err);
+    })
 })
 
 routes.post('/users', function (req, res){
