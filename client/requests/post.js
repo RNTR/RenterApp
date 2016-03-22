@@ -1,7 +1,15 @@
 require('./request-helpers.js'); // Headers
 require('whatwg-fetch');  // http://github.github.io/fetch/
-
-
+var getRequests = require('./get.js');
+require('./request-helpers.js'); // Headers
+var React = require('react');
+var Link = Router.Link;
+import { Component } from 'react';
+import { Route } from 'react-router';
+import { Router, RouterContext, match } from 'react-router';
+import { hashHistory } from 'react-router';
+import { IndexRoute } from 'react-router';
+import { render } from 'react-dom'
 
 
 
@@ -29,6 +37,8 @@ exports.addNewItem = function(itemObject) {
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
       return response;
+    }).then(function(response){
+      posRequests.getItem(response.id)
     })
 };
 
@@ -65,7 +75,6 @@ exports.searchForItem = function(itemName) {
 
 
 
-
 /*********global nav bar***********/
 
 
@@ -87,6 +96,23 @@ exports.goToProfile = function(userID){
 
 /********************* ITEMS **************************/
 
+
+exports.getItem = function(itemID){
+    return fetch('items/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(itemObject)
+  }).then(function(itemObject){
+    return itemObject.json();
+  }).then( function(response) {
+      console.log('ITEM RESPONSE', response);
+      return response;
+    })
+  
+};
+
+
+
 exports.handleSubmit = function(){
   alert('post.js exports.handleSubmit')
 };
@@ -103,17 +129,7 @@ exports.listItem = function(){
   alert('post.js exports.listItem')
 }
 
-exports.getItem = function(){
 
-  var fakeItem = {
-    itemName: 'Lawnmower',
-    itemDescription: "It's red and it mows lawns",
-    itemPhoto: 'https://www.nextnature.net/app/uploads/2008/07/lawn-mower_530.jpg',
-  };
-
-  return fakeItem;
-
-};
 
 exports.getUserItemsForRent = function(){
 

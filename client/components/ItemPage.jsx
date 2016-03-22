@@ -25,7 +25,7 @@ requestRental: function(){},
 render: function(){
 	return ( 
 	<div className="itemPage">
-		  <div className="itemPhoto"><img src= {postRequests.getItem().itemPhoto}/></div>
+		  <div className="itemPhoto"><img src= {postRequests.getItem().photo}/></div>
 		  <div className='itemDetails'>
 		  	<div className="itemName">{postRequests.getItem().itemName}</div>
 		  	<div className='itemDescription'>{postRequests.getItem().itemDescription}</div>

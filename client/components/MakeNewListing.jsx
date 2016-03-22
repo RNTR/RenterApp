@@ -14,9 +14,9 @@ var MakeNewListing = React.createClass({
     return {
       name: '',
       address: '',
-      zip: 11111,
+      zip: null,
       category: '',
-      price: 0,
+      price: null,
       photo: '',
       item_owner: 1,
       date_start: '',
@@ -98,6 +98,7 @@ var MakeNewListing = React.createClass({
             <label>ZIP:</label><input className="locationInput"type="number" onChange={this.handleZipChange} value={this.state.zip}></input>
             <label>Item Description:</label><textarea className="itemDescriptionInput"rows="5" cols="50" placeholder="Enter Item Description" type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
             
+     
             <button className="newListingButton" type="submit">SUBMIT NEW LISTING!</button>
 
         </form>
