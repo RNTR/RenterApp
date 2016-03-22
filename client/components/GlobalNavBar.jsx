@@ -18,7 +18,7 @@ getInitialState: function(){
 handleSearch: function(e){
 	this.setState({
 		search: e.target.value
-	});
+	})
 },
 handleZip: function(e){
 	this.setState({
@@ -26,8 +26,8 @@ handleZip: function(e){
 	})
 },
 submitSearch: function(){
-	
-}
+	postRequests.searchForItem({item:this.state})
+},
 
 
 login: function(){},
