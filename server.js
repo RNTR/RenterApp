@@ -32,7 +32,7 @@ routes.post('/signup', function (req, res){
   // sign up a new user.
   helpers.signupRoute(req.body)
     .then(function(response){
-      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true }) //valid for one week.
+      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true}) //valid for one week.
         .status(200).send(response);
     })
     .catch(function(err){
@@ -44,8 +44,8 @@ routes.post('/login', function (req, res){
   // log a user in.
   helpers.loginRoute(req.body)
     .then(function(response){
-      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true }) //valid for one week.
-      console.log('RESRESRESRESRESRESRES', res)
+      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true}) //valid for one week.
+      // console.log('RESRESRESRESRESRESRES', res.cookies)
         res.status(200).send(response);
     })
     .catch(function(err){
@@ -55,7 +55,7 @@ routes.post('/login', function (req, res){
 
 routes.post('/logout', function (req, res){
   // log a user out.
-  console.log('req.cookies: ', req.cookies)
+  console.log('HERE are the cookies (req.cookies): ', req.cookies)
   req.body.cookie = req.body.cookie || req.cookies;
     console.log('req.body.cookie: ', req.body.cookie)
   helpers.logoutRoute(req.body)

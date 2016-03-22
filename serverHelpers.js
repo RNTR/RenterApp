@@ -194,6 +194,7 @@ exports.logoutRoute = function(reqBody){
  			}
  			reject(body);
  		} else {
+ 			console.log('id inside logoutRoute: ', cookie.sessionId)
  			dbMethod.getSessionBySessionID(cookie.sessionId)
  				.then(function(res){
  					if(res === false){

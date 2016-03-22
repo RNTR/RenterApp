@@ -20,6 +20,7 @@ exports.addNewItem = function(itemObject) {
   return fetch('items/', {
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(itemObject)
   }).then(function(itemObject){
     return itemObject.json();
@@ -43,6 +44,7 @@ exports.searchForItem = function(itemName) {
   return fetch('items/search', {            
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(itemName)
   }).then(function(response){
     return response.json()
@@ -96,6 +98,7 @@ exports.logout = function(userID){
   return fetch('logout/', {
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(userID)
   }).then(function(userID){
     return userID.json();
@@ -122,6 +125,7 @@ exports.goToProfile = function(userID){
     return fetch('users/', {            //change this maybe
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(userID)
   }).then( function(response) {
       console.log('USERID', response);
@@ -141,6 +145,7 @@ exports.getItem = function(itemID){
     return fetch('items/id', {
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(itemID)
   }).then(function(itemID){
     return itemID.json();
