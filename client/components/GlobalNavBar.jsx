@@ -26,7 +26,7 @@ handleZip: function(e){
 	})
 },
 submitSearch: function(){
-	postRequests.searchForItem({item:this.state})
+	postRequests.searchForItem(this.state)
 },
 
 
