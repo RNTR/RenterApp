@@ -42,7 +42,14 @@ routes.post('/signup', function (req, res){
 
 routes.post('/login', function (req, res){
   // log a user in.
-  // TODO... need auth stuff.
+  helpers.loginRoute(req.body)
+    .then(function(response){
+      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true }) //valid for one week.
+        .status(200).send(response);
+    })
+    .catch(function(err){
+      res.status(err.code).send(err);
+    })
 })
 
 routes.post('/logout', function (req, res){

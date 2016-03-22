@@ -91,7 +91,86 @@ exports.signupRoute = function(reqBody){
 
 exports.loginRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		fulfill('test')
+ 		var username = reqBody.username;
+ 		var password = reqBody.password;
+ 		if (!username || typeof username !== 'string'||
+ 			!password || typeof password !== 'string'){
+ 			var body = {
+ 				status : 'failed',
+ 				message : 'Invald format. Make sure you sent in a valid username and password.',
+ 				code : 400
+ 			}
+ 			reject(body);
+ 		} else {
+ 			dbMethod.getUserByUsername(username)
+ 				.then(function(res){
+ 					if (res === false){
+ 						var body = {
+ 							status : 'failed',
+ 							message : 'user not found.',
+ 							code : 400,
+ 						}
+ 						reject(body);
+ 					} else {
+	 					var user = res[0]
+	 					var userID = user.id;
+	 					dbMethod.validatePassword(password, userID)
+	 						.then(function(bool){
+	 							if (!bool){
+	 								var body = {
+	 									status : 'failed',
+	 									message : 'invalid password',
+	 									code : 401
+	 								}
+	 								reject(body);
+	 							} else {
+	 								dbMethod.addSession(userID)
+	 									.then(function(resp){
+	 										var finalUserObj = {
+	 											'username' : user.username,
+	 											'email' : user.email
+	 										};
+	 										var body = {
+	 											'status' : 'completed',
+	 											'message' : 'signed in!',
+	 											'code': 200,
+	 											'sessionID': resp[0],
+	 											'user': finalUserObj
+	 										}
+	 										fulfill(body);
+	 									})
+	 									.catch(function(err){
+	 										var body = {
+	 											'status' : 'failed',
+	 											'message' : 'error creating session.',
+	 											'code' : 500,
+	 											'error' : err
+	 										}
+	 										reject(body);
+	 									})
+	 							}
+	 						})
+	 						.catch(function(err){
+	 							var body = {
+	 								'status' : 'failed',
+	 								'message' : 'error validating password',
+	 								'code' : 500,
+	 								'error' : err
+	 							}
+	 							reject(body);
+	 						})
+	 				}
+ 				})
+ 				.catch(function(err){
+					var body = {
+						'status' : 'failed',
+						'message' : 'error getting user by id',
+						'code' : 500,
+						'error' : err
+					}
+					reject(body);
+ 				})
+ 		}
  	})
  }
 
