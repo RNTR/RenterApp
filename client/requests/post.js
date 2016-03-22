@@ -40,11 +40,15 @@ exports.addNewItem = function(itemObject) {
 
 
 exports.searchForItem = function(itemName) {
-  return fetch('items/', {            //change this
+  console.log("ITEMNAME: ", itemName)
+  return fetch('items/search', {            //change this
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(itemName)
-  }).then( function(response) {
+  }).then(function(response){
+    return response.json()
+  })
+  .then( function(response) {
       console.log('ITEMNAME RESPONSE', response);
     })
 };
@@ -74,7 +78,7 @@ exports.goToProfile = function(userID){
   }).then( function(response) {
       console.log('USERID', response);
     })
-  
+
 }
 
 
@@ -92,7 +96,7 @@ exports.signupClick = function(){
 };
 
 exports.goToProfile = function(){
-  
+
 }
 
 exports.listItem = function(){
