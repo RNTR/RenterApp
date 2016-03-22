@@ -8,6 +8,7 @@ import { IndexRoute } from 'react-router';
 import { render } from 'react-dom'
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
+var App = require('../App.jsx') 
 
 
 var Signup = React.createClass({
@@ -40,8 +41,6 @@ handleUsernameChange: function(e) {
   },
 
 submit: function(){
-
-	console.log(' signup this.state: ', this.state)
 
 	postRequests.signup(this.state)
 

@@ -63,7 +63,7 @@ exports.searchForItem = function(itemName) {
 
 
 
-
+/******************* SIGN UP/ SIGN IN ********************/
 
 
 
@@ -83,9 +83,26 @@ exports.signup = function(signupObject){
     })
 };
 
+exports.login = function(loginObject){
+  console.log("LOGIN OBJECT: ", loginObject);
+  return fetch('login/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(loginObject)
+  }).then(function(loginObject){
+    return loginObject.json();
+  }).then( function(response) {
+      console.log('login RESPONSE: ', response);
+      console.log('login RESPONSE ID: ', response.user.userID);
+      window.globalStateUserID = response.user.userID;
+      return response;
+    })
+}
 
 
-
+exports.logout = function(){
+  return window.globalStateUserID = null;
+}
 
 
 
