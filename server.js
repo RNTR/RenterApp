@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser')
 var app = express();
 
 //makes cookies accessible via req.cookie
-app.use( cookieParser() );
+routes.use( cookieParser() );
 
 
   
@@ -54,7 +54,7 @@ routes.post('/login', function (req, res){
 
 routes.post('/logout', function (req, res){
   // log a user out.
-  req.body.cookie = req.body.cookie || req.cookie;
+  req.body.cookie = req.body.cookie || req.cookies;
 
   helpers.logoutRoute(req.body)
     .then(function(response){

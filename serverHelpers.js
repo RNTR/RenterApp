@@ -128,7 +128,8 @@ exports.loginRoute = function(reqBody){
 	 									.then(function(resp){
 	 										var finalUserObj = {
 	 											'username' : user.username,
-	 											'email' : user.email
+	 											'email' : user.email,
+	 											'userID' : userID
 	 										};
 	 										var body = {
 	 											'status' : 'completed',
@@ -178,7 +179,6 @@ exports.logoutRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
  		var userID = reqBody.userID;
  		var cookie = reqBody.cookie;
- 		console.log('here is the cookie: ', cookie)
  		if (!userID || typeof userID !== 'number'){
  			var body = {
  				status : 'failed',
@@ -217,7 +217,7 @@ exports.logoutRoute = function(reqBody){
 				 					var body = {
 				 						status : 'completed',
 				 						message : 'logout successful.',
-				 						code : 200,
+				 						code : 200
 				 						// response : response
 				 					}
 				 					fulfill(body);
