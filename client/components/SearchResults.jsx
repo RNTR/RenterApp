@@ -4,6 +4,7 @@ var Router = require('react-router');
 var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
+var App = require('../App.jsx') ;
 
 var SearchResults = React.createClass({
 
@@ -16,7 +17,8 @@ var SearchResults = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="newListing">{this.getInitialState().items[3]}</div>
+        <div className="newListing">NAME:</div>
+        <div className="newListing">{postRequests.searchForItem.items}</div>
       </div>
     )
   }

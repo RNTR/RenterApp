@@ -48,11 +48,11 @@ exports.searchForItem = function(itemName) {
     method: 'POST',
     headers: requestHeaders,
     body: JSON.stringify(itemName)
-  }).then(function(response){
-    return response.json()
+  }).then(function(itemName){
+    return itemName.json()
   })
   .then( function(response) {
-      console.log('ITEMNAME RESPONSE', response);
+      console.log('ITEMNAME RESPONSE', response.items);
     })
 };
 
