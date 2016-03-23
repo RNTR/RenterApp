@@ -5,7 +5,8 @@ var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
 import {render} from 'react-dom'
-var HomePage = require('../components/HomePage.jsx');
+var HomePage = require('../components/HomePage.jsx')
+var App = require('../App.jsx');
 
 
 var GlobalNavBar = React.createClass({
@@ -27,7 +28,7 @@ handleZip: function(e){
 	})
 },
 submitSearch: function(){
-
+	console.log('App.globalStateUserID ', App.globalStateUserID)
 	if (this.state.searchTerm === null || this.state.zipCode === null){
 		alert('Please enter an item and a ZIP code')
 	}
@@ -42,7 +43,7 @@ logout: function(){},
 
 searchbar: function(){},
 
-myProfile: function(){}, // link to user profile
+myProfile: function(){}, 
 
 titleHome: function(){
 
