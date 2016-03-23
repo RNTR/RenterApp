@@ -5,10 +5,9 @@ var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
 import { render } from 'react-dom'
+var App = require('../App.jsx') 
 
 var MakeNewListing = React.createClass({
-
-
 
   getInitialState: function() {
     return {
@@ -69,9 +68,22 @@ var MakeNewListing = React.createClass({
   },
 
   submit: function(){
+  var scopeReference = this;
+  postRequests.addNewItem({item:this.state})
+  .then(function(){
+    window.globalStateItemID = scopeReference.state.id;
+  })
+  .then(function(){
+    scopeReference.handleRedirect();  
+  })
 
-  postRequests.addNewItem({item:this.state}) 
+  
 
+  },
+
+  handleRedirect: function(){
+
+    this.props.history.pushState(this.state.id, 'item');
   },
 
   render: function() {
@@ -94,6 +106,8 @@ var MakeNewListing = React.createClass({
 
         </form>
       </div>
+
+
     )
   }
 

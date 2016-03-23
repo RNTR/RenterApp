@@ -26,10 +26,11 @@ exports.addNewItem = function(itemObject) {
     return itemObject.json();
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
+      window.globalStateItemID = response.id;
       return response;
     })
 
-    window.globalStateItemID = this.state.id;
+  
 };
 
 
@@ -93,6 +94,7 @@ exports.login = function(loginObject){
       window.globalStateSessionID = response.sessionID;
       return response;
     })
+
 }
 
 
@@ -145,7 +147,7 @@ exports.goToProfile = function(userID){
 
 
 exports.getItem = function(itemID){
-    console.log('itemID ', itemID)
+    console.log('REQUEST ID: ', itemID)
     return fetch('items/id', {
     method: 'POST',
     headers: requestHeaders,
@@ -153,11 +155,10 @@ exports.getItem = function(itemID){
     body: JSON.stringify(itemID)
   }).then(function(itemID){
     return itemID.json();
-  }).then( function(response) {
-      console.log('ITEM RESPONSE', response);
+  }).then(function(response) {
+      console.log('GET ITEM RESPONSE', response);
       return response;
-    })
-  
+  })
 };
 
 

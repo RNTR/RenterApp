@@ -41,7 +41,11 @@ submit: function(){
 
 
 	postRequests.login(this.state)
+this.redirect();
+},
 
+redirect: function(){
+	this.props.history.pushState(null, 'item');
 },
 
 render: function(){
