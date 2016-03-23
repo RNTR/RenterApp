@@ -4,7 +4,7 @@ var Router = require('react-router');
 var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
-var App = require('../App.jsx') ;
+var App = require('../App.jsx');
 
 var SearchResults = React.createClass({
 
@@ -12,23 +12,28 @@ var SearchResults = React.createClass({
 
     this.handleItemName();
 
-    return {
-      name: "Loading..."
-    }
+    return {name: "Loading...", price: null, description: ''}
   },
 
   handleItemName: function() {
     var promise = postRequests.searchForItem({searchTerm: "Xbox", zipCode: 78701})
-    promise.then( (item) => {
-      this.setState({name: item.name})
+    promise.then((item) => {
+      this.setState({name: item.name, price: item.price, description: item.description})
     })
   },
 
   render: function() {
     return (
       <div>
-        <div className="newListing">NAME:</div>
-        <div className="newListing">{this.state.name}</div>
+        <div className="newListing">NAME:
+          <div >{this.state.name}</div>
+        </div>
+        <div className="newListing">PRICE:
+          <div >{this.state.price}</div>
+        </div>
+        <div className="newListing">DESCRIPTION:
+          <div>{this.state.description}</div>
+        </div>
       </div>
     )
   }
