@@ -19,6 +19,8 @@ componentDidMount: function(){
 
 getUserInfo: function(){
 
+	console.log('user page')
+
 }, 
 
 requestsToRentees: function(){},
