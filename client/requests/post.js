@@ -18,21 +18,25 @@ exports.getUserInfo = function(){
 }
 
 exports.addNewItem = function(itemObject) {
-  console.log("ITEM OBJECT: ", itemObject);
-  return fetch('items/', {
-    method: 'POST',
-    headers: requestHeaders,
-    // credentials: 'include',
-    body: JSON.stringify(itemObject)
-  }).then(function(itemObject){
-    return itemObject.json();
-  }).then( function(response) {
-      console.log('ITEM RESPONSE', response);
-      // window.globalStateItemID = response.id;
-      return response;
-    })
-
-
+  return new Promise(function(resolve, reject){
+    console.log("ITEM OBJECT: ", itemObject);
+    fetch('items/', {
+      method: 'POST',
+      headers: requestHeaders,
+      credentials: 'include',
+      body: JSON.stringify(itemObject)
+    }).then(function(itemObject){
+        console.log('ITEM OBJECT: ', itemObject)
+        var newObj; 
+        itemObject.json()
+          .then(function(Justin){
+            newObj = Justin; 
+            console.log('ITEM RESPONSE', Justin);
+            // window.globalStateItemID = newObj.id;
+            resolve(Justin);
+          })
+      })
+  })
 };
 
 
@@ -149,9 +153,29 @@ exports.goToProfile = function(userID){
 
 
 exports.getItem = function(itemID){
+  console.log(' GET THIS ITEM ID: ', itemID)
+
+  return fetch('items/id', {
+    method: 'POST',
+    headers: requestHeaders,
+    credentials: 'include',
+    body: JSON.stringify(itemID)
+  })
+    .then(function(itemID){
+      return itemID.json();
+    })
+    .then(function(response) {
+        console.log('JSONd response', response);
+        console.log('getItem global itemId state:', window.globalStateItemID)
+        return response.item;
+    })
+};
+
+
+exports.getItemRedirect = function(itemID){
   console.log('REQUEST ID: ', itemID)
 
-  return fetch('items/' + itemID, {
+  return fetch('items/', {
     method: 'POST',
     headers: requestHeaders,
     credentials: 'include',
@@ -165,7 +189,6 @@ exports.getItem = function(itemID){
         return response.item;
     })
 };
-
 
 
 exports.handleSubmit = function(){
@@ -240,3 +263,6 @@ exports.newListLocation = function() {
 exports.submitNewListing = function() {
 
 }
+
+
+  

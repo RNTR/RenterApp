@@ -11,7 +11,7 @@ var ItemPage = React.createClass({
 
 	getInitialState: function(){
 
-		this.handleName();
+		// this.fetchItem();
 
 		return {
 			photo: null,
@@ -21,13 +21,9 @@ var ItemPage = React.createClass({
 		};
 	},
 
-	// componentDidMount: function(){
-	// 	return {
-	// 		name: postRequests.getItem({itemID: 4}).name
-		
-
-	// 	};
-	// },
+	componentDidMount: function(){	
+		this.fetchItem();
+	},
 
 	// handlePhoto: function(){
 	// 	postRequests.getItem({itemID: 4})
@@ -36,12 +32,16 @@ var ItemPage = React.createClass({
 	// 	})
 	// },
 
-	handleName: function(){
-		
-		var promise = postRequests.getItem({itemID: 4})
+	fetchItem: function(){
+		var stashedItemID = parseInt(sessionStorage.getItem('currentItemID'));
+		var promise = postRequests.getItem({ itemID: stashedItemID })
 		promise.then( (item) => {
-			this.setState({ name: item.name })
-			// item.name
+			this.setState({ 
+				name: item.name,
+				photo: item.photo,
+				description: item.description,
+				price: item.price
+			 })
 		})
 
 	},
@@ -50,12 +50,15 @@ var ItemPage = React.createClass({
 
 
 	render: function(){
+
 		return ( 
 		<div className="itemPage">
 			  <div className="itemPhoto"></div>
 			  <div className='itemDetails'>
 			  	<div className="itemName">NAME: <p>{this.state.name}</p> </div>
-
+  				<div className='itemDescription'><p>img src= {this.state.description}</p></div>
+		  		<div className='itemAvailability'>Item availability</div>
+				<div className='itemPrice'>Item price  </div>
 				<button className='rentItemDiv'> Rent this item!
 		
 			  	</button>
@@ -63,7 +66,6 @@ var ItemPage = React.createClass({
 			</div>
 			)
 	}
-
 })
 
 
@@ -74,7 +76,4 @@ module.exports = ItemPage;
 
 
 
-  	// <div className='itemDescription'></div>
-		 //  	<div className='itemAvailability'>Item availability</div>
-			// <div className='itemPrice'>Item price  </div>
 
