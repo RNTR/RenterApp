@@ -16,7 +16,7 @@ var SearchResults = React.createClass({
   },
 
   handleItemName: function() {
-    var promise = postRequests.searchForItem({searchTerm: "Xbox", zipCode: 78701})
+    var promise = postRequests.searchForItem({searchTerm: sessionStorage.getItem("GlobalSearchTerm"), zipCode: parseInt(sessionStorage.getItem("GlobalSearchZip"))})
     promise.then((item) => {
       this.setState({name: item.name, price: item.price, description: item.description})
     })
@@ -29,7 +29,7 @@ var SearchResults = React.createClass({
           <div >{this.state.name}</div>
         </div>
         <div className="newListing">PRICE:
-          <div >{this.state.price}</div>
+          <div >${this.state.price}.00/Day</div>
         </div>
         <div className="newListing">DESCRIPTION:
           <div>{this.state.description}</div>
