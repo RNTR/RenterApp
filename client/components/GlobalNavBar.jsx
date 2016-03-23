@@ -37,30 +37,37 @@ submitSearch: function(){
 	}
 
 	postRequests.searchForItem(this.state)
+
+	this.handleSearchRedirect();
+
 },
 
+handleSearchRedirect: function(){
+	console.log('this.props: ', this.props)
+    this.props.history.hashHistory.pushState(this.state, 'results');
+},
 
 handleHomeRedirect: function(){
 	console.log('this.props: ', this.props)
-    this.props.history.hashHistory.pushState(null, '/');
+    this.props.history.hashHistory.pushState(this.state, '/');
 },
 
 handleNewListingRedirect: function(){
 
 
-    this.props.history.hashHistory.pushState(null, 'new');
+    this.props.history.hashHistory.pushState(this.state, 'new');
 },
 
 handleSigninRedirect: function(){
 
 
-    this.props.history.hashHistory.pushState(null, 'login');
+    this.props.history.hashHistory.pushState(this.state, 'login');
 
 },
 
 handleProfileRedirect: function(){
 
-    this.props.history.hashHistory.pushState(null, 'user');
+    this.props.history.hashHistory.pushState(this.state, 'user');
 },
 
 

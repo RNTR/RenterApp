@@ -149,18 +149,21 @@ exports.goToProfile = function(userID){
 
 
 exports.getItem = function(itemID){
-    console.log('REQUEST ID: ', itemID)
-    return fetch('items/id', {
+  console.log('REQUEST ID: ', itemID)
+
+  return fetch('items/' + itemID, {
     method: 'POST',
     headers: requestHeaders,
     credentials: 'include',
     body: JSON.stringify(itemID)
-  }).then(function(itemID){
-    return itemID.json();
-  }).then(function(response) {
-      console.log('GET ITEM RESPONSE', response);
-      return response;
   })
+    .then(function(itemID){
+      return itemID.json();
+    })
+    .then(function(response) {
+        console.log('response.item', response.item);
+        return response.item;
+    })
 };
 
 
