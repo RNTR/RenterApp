@@ -31,7 +31,10 @@ handlePasswordChange: function(e) {
   },
 
 logout: function(){
-	 postRequests.logout( {userID: window.globalStateUserID} )
+	 postRequests.logout( {
+	 	userID: window.globalStateUserID, 
+	 	cookie: {sessionId: window.globalStateSessionID}
+	 } )
 },
 
 submit: function(){

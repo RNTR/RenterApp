@@ -44,7 +44,8 @@ exports.signupRoute = function(reqBody){
  									sessionID = res[0];
  									var userObj = {
  										username : user.username,
- 										email : user.email
+ 										email : user.email,
+ 										userID: user.id
  									}
  									var body = {
  										'status' : 'completed',
@@ -194,6 +195,7 @@ exports.logoutRoute = function(reqBody){
  			}
  			reject(body);
  		} else {
+ 			console.log('id inside logoutRoute: ', cookie.sessionId)
  			dbMethod.getSessionBySessionID(cookie.sessionId)
  				.then(function(res){
  					if(res === false){

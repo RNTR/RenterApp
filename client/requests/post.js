@@ -20,6 +20,7 @@ exports.addNewItem = function(itemObject) {
   return fetch('items/', {
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(itemObject)
   }).then(function(itemObject){
     return itemObject.json();
@@ -43,6 +44,7 @@ exports.searchForItem = function(itemName) {
   return fetch('items/search', {            
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(itemName)
   }).then(function(response){
     return response.json()
@@ -70,6 +72,8 @@ exports.signup = function(signupObject){
     return signupObject.json();
   }).then( function(response) {
       console.log('SIGNUP RESPONSE', response);
+      window.globalStateUserID = response.user.userID;
+      window.globalStateSessionID = response.sessionID;
       return response;
     })
 };
@@ -86,6 +90,7 @@ exports.login = function(loginObject){
       console.log('login RESPONSE: ', response);
       console.log('login RESPONSE ID: ', response.user.userID);
       window.globalStateUserID = response.user.userID;
+      window.globalStateSessionID = response.sessionID;
       return response;
     })
 }
@@ -96,6 +101,7 @@ exports.logout = function(userID){
   return fetch('logout/', {
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(userID)
   }).then(function(userID){
     return userID.json();
@@ -106,8 +112,9 @@ exports.logout = function(userID){
     })
 
 
-
-  return window.globalStateUserID = null;
+  window.globalStateUserID = null;
+  window.globalStateSessionID = null;
+  return;
 }
 
 
@@ -122,6 +129,7 @@ exports.goToProfile = function(userID){
     return fetch('users/', {            //change this maybe
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(userID)
   }).then( function(response) {
       console.log('USERID', response);
@@ -141,6 +149,7 @@ exports.getItem = function(itemID){
     return fetch('items/id', {
     method: 'POST',
     headers: requestHeaders,
+    credentials: 'include',
     body: JSON.stringify(itemID)
   }).then(function(itemID){
     return itemID.json();
