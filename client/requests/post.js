@@ -10,7 +10,7 @@ import { Router, RouterContext, match } from 'react-router';
 import { hashHistory } from 'react-router';
 import { IndexRoute } from 'react-router';
 import { render } from 'react-dom'
-var App = require('../App.jsx') 
+var App = require('../App.jsx')
 
 
 exports.getUserInfo = function(){
@@ -22,17 +22,17 @@ exports.addNewItem = function(itemObject) {
   return fetch('items/', {
     method: 'POST',
     headers: requestHeaders,
-    credentials: 'include',
+    // credentials: 'include',
     body: JSON.stringify(itemObject)
   }).then(function(itemObject){
     return itemObject.json();
   }).then( function(response) {
       console.log('ITEM RESPONSE', response);
-      window.globalStateItemID = response.id;
+      // window.globalStateItemID = response.id;
       return response;
     })
 
-  
+
 };
 
 
@@ -44,10 +44,9 @@ exports.addNewItem = function(itemObject) {
 
 exports.searchForItem = function(itemName) {
   console.log("ITEMNAME: ", itemName)
-  return fetch('items/search', {            
+  return fetch('items/search', {
     method: 'POST',
     headers: requestHeaders,
-    credentials: 'include',
     body: JSON.stringify(itemName)
   }).then(function(response){
     return response.json()
@@ -189,7 +188,7 @@ exports.getUserItemsForRent = function(){
 
 exports.getStuffRentedFromOthers = function(){
 
-  
+
 };
 
 exports.stuffBeingRentedFromUser = function(){
@@ -200,11 +199,11 @@ exports.stuffBeingRentedFromUser = function(){
 /************ SEARCH RESULTS **********/
 
 exports.searchResults = function() {
-  
+
 };
 
 exports.searchLocation = function() {
- 
+
 }
 
 /************ NEW LISTING **********/

@@ -32,31 +32,24 @@ handleZip: function(e){
 	})
 },
 submitSearch: function(){
-	if (this.state.searchTerm === null || this.state.zipCode === null){
-		alert('Please enter an item and a ZIP code')
-	}
-
 	postRequests.searchForItem(this.state)
-
-	this.handleSearchRedirect();
-
 },
 
-handleSearchRedirect: function(){
-	console.log('this.props: ', this.props)
-    this.props.history.hashHistory.pushState(this.state, 'results');
-},
+// handleSearchRedirect: function(){
+// 	console.log('this.props: ', this.props)
+//     this.props.history.hashHistory.pushState(this.state, 'results');
+// },
 
 handleHomeRedirect: function(){
 	console.log('this.props: ', this.props)
     this.props.history.hashHistory.pushState(this.state, '/');
 },
 
-handleNewListingRedirect: function(){
-
-
-    this.props.history.hashHistory.pushState(this.state, 'new');
-},
+// handleNewListingRedirect: function(){
+//
+//
+//     this.props.history.hashHistory.pushState(this.state, 'new');
+// },
 
 handleSigninRedirect: function(){
 

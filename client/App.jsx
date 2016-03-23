@@ -15,7 +15,7 @@ var Link = Router.Link
 import {render} from 'react-dom'
 import { hashHistory } from 'react-router';
 import { RouterContext, match } from 'react-router';
-import { history } from 'react-router/lib/HashHistory';
+// import { history } from 'react-router/lib/HashHistory';
 
 
 
