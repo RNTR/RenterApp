@@ -36,7 +36,9 @@ handlePhoto: function(){
 handleName: function(){
    this.setState({
       name: postRequests.getItem({itemID: 4}).name
-    });
+    }).then(function(response){
+    	console.log('response', response)
+    })
 },
 
 
@@ -47,7 +49,7 @@ render: function(){
 	<div className="itemPage">
 		  <div className="itemPhoto"></div>
 		  <div className='itemDetails'>
-		  	<div className="itemName" value={this.state.name}>{this.handleName}</div>
+		  	<div className="itemName" value={this.state.name}>{this.handleName()}</div>
 		  	<div className='itemDescription'></div>
 		  	<div className='itemAvailability'>Item availability</div>
 			<div className='itemPrice'>Item price  </div>
