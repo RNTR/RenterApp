@@ -16,6 +16,8 @@ var Item = require('../components/ItemPage.jsx');
 var SearchResults = require('../components/SearchResults.jsx')
 var Login = require('../components/Login.jsx')
 var Signup = require('../components/Signup.jsx')
+// var GlobalNavBar = require('../components/GlobalNavBar.jsx')
+
 
 
 render((

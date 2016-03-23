@@ -13,7 +13,9 @@ import { render } from 'react-dom'
 var App = require('../App.jsx') 
 
 
-
+exports.getUserInfo = function(){
+  console.log('USER REQUEST')
+}
 
 exports.addNewItem = function(itemObject) {
   console.log("ITEM OBJECT: ", itemObject);

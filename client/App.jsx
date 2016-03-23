@@ -10,8 +10,12 @@ var getRequests = require('./requests/get.js');
 var deleteRequests = require('./requests/delete.js');
 var SearchResults = require('./components/SearchResults.jsx');
 var css = require("../client/public/css/styles.css")
-
-
+var Router = require('react-router');
+var Link = Router.Link
+import {render} from 'react-dom'
+import { hashHistory } from 'react-router';
+import { RouterContext, match } from 'react-router';
+import { history } from 'react-router/lib/HashHistory';
 
 
 
@@ -28,15 +32,8 @@ window.globalStateSessionID = window.globalStateSessionID || null;
 
 var NavBar = React.createElement(GlobalNavBar, {
 
-	listItem: postRequests.listItem,
+	history: {hashHistory}
 
-	goToProfile: postRequests.goToProfile,
-
-	signupClick: postRequests.signupClick,
-
-	goHome: getRequests.goHome,
-
-	handleSubmit: postRequests.handleSubmit
 
 });
 
@@ -50,3 +47,14 @@ var NavBar = React.createElement(GlobalNavBar, {
 
 NavBar = ReactDOM.render(NavBar, document.getElementById('globalnavbar'));
 
+
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    )
+  }
+}

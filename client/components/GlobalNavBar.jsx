@@ -7,6 +7,10 @@ var getRequests = require('../requests/get.js');
 import {render} from 'react-dom'
 var HomePage = require('../components/HomePage.jsx')
 var App = require('../App.jsx');
+import { hashHistory } from 'react-router';
+import { RouterContext, match } from 'react-router';
+import { History } from 'react-router';
+// var history = require('react-router/lib/BrowserHistory').history;
 
 
 var GlobalNavBar = React.createClass({
@@ -28,7 +32,6 @@ handleZip: function(e){
 	})
 },
 submitSearch: function(){
-	console.log('App.globalStateUserID ', App.globalStateUserID)
 	if (this.state.searchTerm === null || this.state.zipCode === null){
 		alert('Please enter an item and a ZIP code')
 	}
@@ -37,26 +40,38 @@ submitSearch: function(){
 },
 
 
-login: function(){},
+handleHomeRedirect: function(){
+	console.log('this.props: ', this.props)
+    this.props.history.hashHistory.pushState(null, '/');
+},
 
-logout: function(){},
-
-searchbar: function(){},
-
-myProfile: function(){}, 
-
-titleHome: function(){
+handleNewListingRedirect: function(){
 
 
-},  
+    this.props.history.hashHistory.pushState(null, 'new');
+},
+
+handleSigninRedirect: function(){
+
+
+    this.props.history.hashHistory.pushState(null, 'login');
+
+},
+
+handleProfileRedirect: function(){
+
+    this.props.history.hashHistory.pushState(null, 'user');
+},
+
+
 
  render: function() {
     return (
       <div className="bar">
-       <div className='title' onClick={this.titleHome}>RNTR</div>
-        <div className="signup" onClick={this.props.signupClick}>Sign Up/Sign In</div>
-      	 <div className="listItem" onClick={this.props.addNewItem}>List an Item</div>
-      	  <div className="myProfile" onClick={this.props.goToProfile}>My Profile</div>
+       <div className='title' onClick={this.handleHomeRedirect}>RNTR</div>
+        <div className="signup" onClick={this.handleSigninRedirect}>Sign Up/Sign In</div>
+      	 <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
+      	  <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
 					<form onSubmit={this.submitSearch}>
 						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
 						<input placeholder="Zip Code" type="number" value={this.state.zipCode} onChange={this.handleZip}></input>
