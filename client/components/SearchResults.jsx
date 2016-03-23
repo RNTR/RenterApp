@@ -9,16 +9,26 @@ var App = require('../App.jsx') ;
 var SearchResults = React.createClass({
 
   getInitialState: function() {
+
+    this.handleItemName();
+
     return {
-      items: ["PS4", "Xbox", "Lawn Mower", "Weed Eater"]
+      name: "Loading..."
     }
+  },
+
+  handleItemName: function() {
+    var promise = postRequests.searchForItem({searchTerm: "Xbox", zipCode: 78701})
+    promise.then( (item) => {
+      this.setState({name: item.name})
+    })
   },
 
   render: function() {
     return (
       <div>
         <div className="newListing">NAME:</div>
-        <div className="newListing">{postRequests.searchForItem.items}</div>
+        <div className="newListing">{this.state.name}</div>
       </div>
     )
   }

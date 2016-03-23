@@ -53,6 +53,7 @@ exports.searchForItem = function(itemName) {
   })
   .then( function(response) {
       console.log('ITEMNAME RESPONSE', response.items[0]);
+      return response.items[0];
     })
 };
 
