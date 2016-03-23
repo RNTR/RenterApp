@@ -52,7 +52,7 @@ exports.searchForItem = function(itemName) {
     return itemName.json()
   })
   .then( function(response) {
-      console.log('ITEMNAME RESPONSE', response.items);
+      console.log('ITEMNAME RESPONSE', response.items[0]);
     })
 };
 
