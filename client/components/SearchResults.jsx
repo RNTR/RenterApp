@@ -4,38 +4,39 @@ var Router = require('react-router');
 var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
-
+var App = require('../App.jsx');
 
 var SearchResults = React.createClass({
 
+  getInitialState: function() {
+
+    this.handleItemName();
+
+    return {name: "Loading...", price: null, description: ''}
+  },
+
+  handleItemName: function() {
+    var promise = postRequests.searchForItem({searchTerm: sessionStorage.getItem("GlobalSearchTerm"), zipCode: parseInt(sessionStorage.getItem("GlobalSearchZip"))})
+    promise.then((item) => {
+      this.setState({name: item.name, price: item.price, description: item.description})
+    })
+  },
+
   render: function() {
     return (
- <div>
-        <div className="results">Search results for location: {postRequests.searchLocation().city[4].toUpperCase()}</div>
-        <div className="resultsContainer">
-          <a href={postRequests.searchResults().imageUrl[0]}>{postRequests.searchResults().item[0]}</a>
-          <div>${postRequests.searchResults().price[0]}/day</div>
+      <div>
+        <div className="newListing">NAME:
+          <div >{this.state.name}</div>
         </div>
-        <div className="resultsContainer">
-          <a href={postRequests.searchResults().imageUrl[1]}>{postRequests.searchResults().item[1]}</a>
-            <div>${postRequests.searchResults().price[1]}/day</div>
+        <div className="newListing">PRICE:
+          <div >${this.state.price}.00/Day</div>
         </div>
-        <div className="resultsContainer">
-          <a href={postRequests.searchResults().imageUrl[2]}>{postRequests.searchResults().item[2]}</a>
-            <div>${postRequests.searchResults().price[2]}/day</div>
-        </div>
-        <div className="resultsContainer">
-          <a href={postRequests.searchResults().imageUrl[3]}>{postRequests.searchResults().item[3]}</a>
-            <div>${postRequests.searchResults().price[3]}/day</div>
+        <div className="newListing">DESCRIPTION:
+          <div>{this.state.description}</div>
         </div>
       </div>
-
     )
-	}
+  }
 });
 
 module.exports = SearchResults;
-
-
-
-

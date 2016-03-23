@@ -31,18 +31,13 @@ handleZip: function(e){
 		zipCode: parseInt(e.target.value)
 	})
 },
-submitSearch: function(){
-	if (this.state.searchTerm === null || this.state.zipCode === null){
-		alert('Please enter an item and a ZIP code')
-	}
-
-	postRequests.searchForItem(this.state)
-
-	this.handleSearchRedirect();
-
-},
+// submitSearch: function(){
+// 	postRequests.searchForItem(this.state)
+// },
 
 handleSearchRedirect: function(){
+	sessionStorage.setItem("GlobalSearchTerm", this.state.searchTerm)
+	sessionStorage.setItem("GlobalSearchZip", this.state.zipCode)
 	console.log('this.props: ', this.props)
     this.props.history.hashHistory.pushState(this.state, 'results');
 },
@@ -52,11 +47,11 @@ handleHomeRedirect: function(){
     this.props.history.hashHistory.pushState(this.state, '/');
 },
 
-handleNewListingRedirect: function(){
-
-
-    this.props.history.hashHistory.pushState(this.state, 'new');
-},
+// handleNewListingRedirect: function(){
+//
+//
+//     this.props.history.hashHistory.pushState(this.state, 'new');
+// },
 
 handleSigninRedirect: function(){
 
@@ -79,7 +74,7 @@ handleProfileRedirect: function(){
         <div className="signup" onClick={this.handleSigninRedirect}>Sign Up/Sign In</div>
       	 <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
       	  <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
-					<form onSubmit={this.submitSearch}>
+					<form onSubmit={this.handleSearchRedirect}>
 						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
 						<input placeholder="Zip Code" type="number" value={this.state.zipCode} onChange={this.handleZip}></input>
 						<button type="submit">GO</button>
