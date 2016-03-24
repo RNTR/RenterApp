@@ -295,7 +295,7 @@ exports.getStuffRentedFromOthers = function(userID) {
   .then( function(response) {
     console.log('getStuffRentedFromOthers response: ', response)
     if(response.rentalsWithItems.length === 0){
-      return 'NO CURRENT RENTALS'
+      response = 'NO CURRENT RENTALS'
     }
       return response;
     })

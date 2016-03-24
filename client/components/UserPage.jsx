@@ -64,11 +64,25 @@ getItemsUserIsRenting: function(){
 	var promise = postRequests.getStuffRentedFromOthers({userID: stashedUserID});
 	promise.then( (user) => {
 		console.log('GOT BACK THE stuff rented from others: ', user);
-		this.setState({
-			itemsUserIsRenting: user.items[0].name
-		})
+		
+			if(user === 'NO CURRENT RENTALS'){
+
+				this.setState({
+					itemsUserIsRenting: 'You are not currently renting anything'
+				})
+
+			}
+
+				else{
+		
+
+
+			this.setState({
+				itemsUserIsRenting: user.items[0].name
+			})
 	
-	
+		}
+
 	})
 
 
@@ -106,7 +120,7 @@ render: function(){
 			  </div>
 			  	
 			  <div className='stuffYouAreRenting'>Items you are renting from others:
-			  	<div className='itemYouAreRenting' onClick={this.handleItemRedirect}>{this.state.itemsUserIsRenting}{this.state.itemsUserIsRenting}</div>
+			  	<div className='itemYouAreRenting' onClick={this.handleItemRedirect}>{this.state.itemsUserIsRenting}</div>
 			  </div>
 			  	  
 			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
