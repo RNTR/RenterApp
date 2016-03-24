@@ -22,7 +22,7 @@ componentDidMount: function(){
 },
 
 getUserInfo: function(){
-
+	
 }, 
 
 delistItem: function(){},
