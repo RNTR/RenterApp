@@ -1,7 +1,7 @@
 
 												/**** GLOBAL NAV BAR ****/
 .site{
-	background: url(http://s.shld.net/is/image/Sears/KSN_065300428-0013-qm-jpegSize-eq-100);
+	background: url(http://thumbs.dreamstime.com/x/smiley-face-thumbs-up-14491322.jpg);
 	z-index: -1;
 	position: absolute;
 	right: 0;
@@ -130,6 +130,7 @@
 }
 
 .bar .zipSearchbar {
+
 	font-style: italic;
 	font-size: 23px;
 	font-color: red;
@@ -147,7 +148,6 @@
 }
 
 .searchSubmitButton {
-	
 	font-style: italic;
 	font-size: 23px;
 	font-color: red;
@@ -260,7 +260,7 @@
 
 
 
-												/**** USER PAGE ***
+												*** USER PAGE ***
 
 .site .userPage {
   font-family: 'Avenir';
@@ -369,7 +369,7 @@
 	font-weight: bolder;
 }
 
-												/**** ITEM PAGE ****/
+												/**** ITEM PAGE ***
 
 .itemPage {
   font-family: 'Avenir';

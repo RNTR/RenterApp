@@ -76,7 +76,7 @@ handleProfileRedirect: function(){
       	  <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
 					<form onSubmit={this.handleSearchRedirect}>
 						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
-						<input className='zipSearchbar'placeholder="ZIP" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
+						<input className='zipSearchbar'placeholder="Zip Code" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
 						<button className='searchSubmitButton'type="submit">GO</button>
 					</form>
 
