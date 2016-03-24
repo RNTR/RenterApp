@@ -67,19 +67,31 @@ exports.searchForItem = function(itemName) {
 
 exports.signup = function(signupObject){
   console.log('signup was called with this: ', signupObject)
-  return fetch('signup/', {
-    method: 'POST',
-    headers: requestHeaders,
-    body: JSON.stringify(signupObject)
-  }).then(function(signupObject){
-    return signupObject.json();
-  }).then( function(response) {
-      // window.globalStateUserID = response.user.userID;
-      // window.globalStateSessionID = response.sessionID;
-      sessionStorage.setItem('userID', response.user.userID);
-      sessionStorage.setItem('sessionID', response.sessionID);
-      return response;
+  return new Promise(function(resolve,reject){
+    fetch('signup/', {
+      method: 'POST',
+      headers: requestHeaders,
+      body: JSON.stringify(signupObject)
     })
+    .then(function(signupObject){
+      console.log('signup response: ', signupObject)
+      signupObject.json()
+      .then(function(jsObj){
+        sessionStorage.setItem('userID', jsObj.user.userID);
+        sessionStorage.setItem('sessionID', jsObj.sessionID);
+        console.log('sessionStorage has been updated.')
+        resolve(jsObj);
+      })
+      .catch(function(err){
+        console.error('error parsing signup response: ', err);
+        reject(err);
+      })
+    })
+    .catch(function(err){
+      console.error('error signing up: ', err);
+      reject(err);
+    })
+  })
 };
 
 exports.login = function(loginObject){

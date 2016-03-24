@@ -28,22 +28,28 @@ handleUsernameChange: function(e) {
     });
   },
 
-  handleEmailChange: function(e) {
-    this.setState({
-      email: e.target.value
-    });
-  },
+handleEmailChange: function(e) {
+	this.setState({
+  		email: e.target.value
+	});
+},
 
-  handlePasswordChange: function(e) {
+handlePasswordChange: function(e) {
     this.setState({
-      password: e.target.value
+      	password: e.target.value
     });
-  },
+},
 
 submit: function(){
-
+	var wrangled = this;
 	postRequests.signup(this.state)
+	.then(function(resp){
+		wrangled.redirect()
+	})
+},
 
+redirect: function(){
+	this.props.history.pushState(null, 'user');
 },
 
 render: function(){
@@ -59,12 +65,6 @@ render: function(){
 		 </form>
 
 		</div>
-
-
-
-
-
-
 
 
 )}
