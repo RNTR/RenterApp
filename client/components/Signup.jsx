@@ -41,11 +41,32 @@ handlePasswordChange: function(e) {
 },
 
 submit: function(){
-	var wrangled = this;
-	postRequests.signup(this.state)
-	.then(function(resp){
-		wrangled.redirect()
-	})
+	var sessionID = sessionStorage.getItem('sessionID')
+	if(sessionID){
+		alert('Someone is already logged in! Log out first before trying to sign up.')
+		//do something nicer than an alert window plz!
+	} else {
+		var wrangled = this;
+		postRequests.signup(this.state)
+		.then(function(resp){
+			console.log('this came back for signup: ', resp)
+			wrangled.redirect()
+		})
+		.catch(function(err){
+			console.log('this was the signup Error: ',err)
+			if (err.message === 'invalid password'){
+				alert(err.message);
+				//make this prettier plz
+			} else if (err.message === 'That username is taken.'){
+				alert('That username is already taken. Please try another!');
+				//make this prettier plz
+			} else if (err.message === 'incorrect format. Make sure you provided a valid username, password, and email.'){
+				alert('Make sure you entered a valid username, email, and password!')
+			} else{
+				console.error('error signing up: ', err);
+			}
+		})
+	}
 },
 
 redirect: function(){

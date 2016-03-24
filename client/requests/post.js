@@ -76,11 +76,14 @@ exports.signup = function(signupObject){
     .then(function(signupObject){
       console.log('signup response: ', signupObject)
       signupObject.json()
-      .then(function(jsObj){
-        sessionStorage.setItem('userID', jsObj.user.userID);
-        sessionStorage.setItem('sessionID', jsObj.sessionID);
-        console.log('sessionStorage has been updated.')
-        resolve(jsObj);
+      .then(function(jsObj){          
+        if(jsObj.status === 'failed'){
+            reject(jsObj)
+          } else {
+            sessionStorage.setItem('userID', jsObj.user.userID);
+            sessionStorage.setItem('sessionID', jsObj.sessionID);
+            resolve(jsObj);
+          }
       })
       .catch(function(err){
         console.error('error parsing signup response: ', err);
@@ -107,9 +110,13 @@ exports.login = function(loginObject){
       loginObject.json()
         .then(function(jsDone){
           console.log('jsObj was just run: ', jsDone)
-          sessionStorage.setItem('userID', jsDone.user.userID);
-          sessionStorage.setItem('sessionID', jsDone.sessionID);
-          resolve(jsDone);
+          if(jsDone.status === 'failed'){
+            reject(jsDone)
+          } else{
+            sessionStorage.setItem('userID', jsDone.user.userID);
+            sessionStorage.setItem('sessionID', jsDone.sessionID);
+            resolve(jsDone);
+          }
         })
         .catch(function(err){
           console.error('error parsing server response: ', err);
