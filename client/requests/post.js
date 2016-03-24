@@ -79,7 +79,6 @@ exports.signup = function(signupObject){
       .then(function(jsObj){
         sessionStorage.setItem('userID', jsObj.user.userID);
         sessionStorage.setItem('sessionID', jsObj.sessionID);
-        console.log('sessionStorage has been updated.')
         resolve(jsObj);
       })
       .catch(function(err){
@@ -107,9 +106,13 @@ exports.login = function(loginObject){
       loginObject.json()
         .then(function(jsDone){
           console.log('jsObj was just run: ', jsDone)
-          sessionStorage.setItem('userID', jsDone.user.userID);
-          sessionStorage.setItem('sessionID', jsDone.sessionID);
-          resolve(jsDone);
+          if(jsDone.status === 'failed'){
+            reject(jsDone)
+          } else{
+            sessionStorage.setItem('userID', jsDone.user.userID);
+            sessionStorage.setItem('sessionID', jsDone.sessionID);
+            resolve(jsDone);
+          }
         })
         .catch(function(err){
           console.error('error parsing server response: ', err);

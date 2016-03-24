@@ -41,11 +41,17 @@ handlePasswordChange: function(e) {
 },
 
 submit: function(){
-	var wrangled = this;
-	postRequests.signup(this.state)
-	.then(function(resp){
-		wrangled.redirect()
-	})
+	var sessionID = sessionStorage.getItem('sessionID')
+	if(sessionID){
+		alert('Someone is already logged in! Log out first before trying to sign up.')
+		//do something nicer than an alert window plz!
+	} else {
+		var wrangled = this;
+		postRequests.signup(this.state)
+		.then(function(resp){
+			wrangled.redirect()
+		})	
+	}
 },
 
 redirect: function(){

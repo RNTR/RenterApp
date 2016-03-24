@@ -1,5 +1,3 @@
-// Update with your config settings.
-
 module.exports = {
 
   development: {
@@ -22,11 +20,5 @@ module.exports = {
   production: {
     client: 'postgresql',
     connection: process.env.DATABASE_URL
-    //does this need to be an object to remain consistant with the other two environments? if something doesnt work, 
-    //when we try to deploy, research this.
   }
-  //, seeds: {
-  //  directory: './seeds/'
-  // }
-
 }
