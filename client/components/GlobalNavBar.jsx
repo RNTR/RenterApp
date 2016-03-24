@@ -49,8 +49,29 @@ handleHomeRedirect: function(){
 
 handleNewListingRedirect: function(){
 
+	var sessionID = sessionStorage.getItem('sessionID');
+	var userID = parseInt(sessionStorage.getItem('userID'));
+	var wrangled = this;
 
-    this.props.history.hashHistory.pushState(this.state, 'new');
+	if(!sessionID){
+		alert('You are not signed in! Sign up or sign in first.')
+		wrangled.props.history.hashHistory.pushState(this.state, 'login')
+	} else{
+		//validate sessionID
+		postRequests.validateSession({'userID': userID, 'sessionID': sessionID})
+		.then(function(resp){
+			wrangled.props.history.hashHistory.pushState(wrangled.state, 'new');
+		})
+		.catch(function(err){
+			if(err.code === 403){
+				alert('You are not signed in! Sign up or sign in first.')
+				//DO SOMETHING PRETTIER THAN ALERT!
+				wrangled.props.history.hashHistory.pushState(wrangled.state, 'login')
+			} else {
+				console.error('error validating session: ', err);
+			}
+		})
+	}
 },
 
 handleSigninRedirect: function(){
@@ -61,8 +82,28 @@ handleSigninRedirect: function(){
 },
 
 handleProfileRedirect: function(){
+	var sessionID = sessionStorage.getItem('sessionID');
+	var userID = parseInt(sessionStorage.getItem('userID'));
+	var wrangled = this;
 
-    this.props.history.hashHistory.pushState(this.state, 'user');
+	if(!sessionID){
+		alert('You are not signed in! Sign up or sign in first.')
+		wrangled.props.history.hashHistory.pushState(this.state, 'login')
+	} else{
+		//validate sessionID
+		postRequests.validateSession({'userID': userID, 'sessionID': sessionID})
+		.then(function(resp){
+			wrangled.props.history.hashHistory.pushState(wrangled.state, 'user');
+		})
+		.catch(function(err){
+			if(err.code === 403){
+				alert('You are not signed in! Sign up or sign in first.')
+				wrangled.props.history.hashHistory.pushState(wrangled.state, 'login')
+			} else {
+				console.error('error validating session: ', err);
+			}
+		})
+	}
 },
 
 

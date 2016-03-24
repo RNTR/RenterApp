@@ -160,6 +160,34 @@ exports.logout = function(userID){
 }
 
 
+exports.validateSession = function (sessionObject){
+  return new Promise(function(resolve,reject){
+    fetch('/session', {
+      method: 'POST',
+      headers: requestHeaders,
+      credentials: 'include',
+      body: JSON.stringify(sessionObject)
+    })
+    .then(function(resp){
+      resp.json()
+      .then(function(jsObj){
+        console.log('back from the server and parsed:', jsObj)
+        if(jsObj.status !== 'complete'){
+          reject(jsObj);
+        } else{
+          resolve(jsObj);
+        } 
+      })
+      .catch(function(err){
+        console.error('error parsing to json: ', err);
+      })
+    }) 
+    .catch(function(err){
+      console.error('error validating session : ', err);
+      reject(err);
+    })
+  })
+}
 
 
 
