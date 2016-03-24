@@ -71,7 +71,7 @@ var MakeNewListing = React.createClass({
   var scopeReference = this;
   postRequests.addNewItem({item:this.state})
     .then(function(item){
-      sessionStorage.setItem('currentItemID', item.item.id);
+      sessionStorage.setItem('itemID', item.item.id);
     })
     .then(function(){
       scopeReference.handleRedirect();

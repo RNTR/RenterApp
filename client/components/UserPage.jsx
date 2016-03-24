@@ -16,19 +16,22 @@ getInitialState: function(){
 	 	name: null,
 	 	itemsForRent: null,
 	 	itemsUserIsRenting: null,
-	 	itemsBeingRentedFromUser: null
+	 	itemsBeingRentedFromUser: null,
+	 	wholeListItemObject: null,
+	 	getListedItemObjectID: null
 	 };
 },
 
 componentDidMount: function(){
 	this.getUserInfo();
+	this.getListedItems();
+	this.getItemsUserIsRenting();
 },
 
 getUserInfo: function(){
 	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
 	var promise = postRequests.getUserInfo({userID: stashedUserID});
 	promise.then( (user) => {
-		console.log('GOT BACK THE USER INFO FROM GET USER INFO: ', user);
 		this.setState({
 			name: user.user.username
 		})
@@ -38,15 +41,37 @@ getUserInfo: function(){
 delistItem: function(){},
 
 getListedItems: function(){
+	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
+	var promise = postRequests.getUserItemsForRent({user_id: stashedUserID});
+	promise.then( (user) => {
+		this.setState({
+			itemsForRent: user.items[0].name,
+			getListedItemObjectID: user.items[0].id
+		})
+	
+	sessionStorage.setItem("itemID", user.items[0].id)
+	
+	})
+	
 
-	postRequests.getUserItemsForRent()
 
 },
 
 
 getItemsUserIsRenting: function(){
 
-	postRequests.getStuffRentedFromOthers()
+	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
+	var promise = postRequests.getStuffRentedFromOthers({userID: stashedUserID});
+	promise.then( (user) => {
+		console.log('GOT BACK THE stuff rented from others: ', user);
+		this.setState({
+			itemsUserIsRenting: user.items[0].name
+		})
+	
+	
+	})
+
+
 
 },
 
@@ -61,20 +86,27 @@ getCurrentRentedItems: function(){
 
 },
 
+handleItemRedirect: function(){
+	console.log(this.state.getListedItemObjectID)
+	sessionStorage.setItem("itemID", this.state.getListedItemObjectID) 
+
+	this.props.history.pushState(this.state, 'item');
+},
+
 
 
 render: function(){
-	
+		console.log('ITEM FOR RENT: ', this.state.itemsForRent)
 	return (<div className='userPage'>
 			 <div className='userContainer'>
 			  <div className='userGreeting'> Welcome, <bold>{this.state.name}</bold></div>
 			  
 			  <div className='yourStuffForRent'> Your items for rent: 
-			  	<div className='yourItemForRent'>{this.getListedItems}{this.state.itemsForRent}</div>    
+			  	<div className='yourItemForRent' onClick={this.handleItemRedirect}>{this.state.itemsForRent}</div>    
 			  </div>
 			  	
 			  <div className='stuffYouAreRenting'>Items you are renting from others:
-			  	<div className='itemYouAreRenting'>{this.getItemsUserIsRenting}{this.state.itemsUserIsRenting}</div>
+			  	<div className='itemYouAreRenting' onClick={this.handleItemRedirect}>{this.state.itemsUserIsRenting}{this.state.itemsUserIsRenting}</div>
 			  </div>
 			  	  
 			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:

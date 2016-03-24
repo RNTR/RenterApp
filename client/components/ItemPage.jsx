@@ -28,7 +28,7 @@ var ItemPage = React.createClass({
 
 
 	fetchItem: function(){
-		var stashedItemID = parseInt(sessionStorage.getItem('currentItemID'));
+		var stashedItemID = parseInt(sessionStorage.getItem('itemID')); //or itemID if coming from userpAGE
 		var promise = postRequests.getItem({ itemID: stashedItemID })
 		promise.then( (item) => {
 			console.log('THIS IS THE ITEM OBJECT', item)
@@ -54,7 +54,7 @@ var ItemPage = React.createClass({
 		console.log('PHOTO: ', this.state.photo)
 		return ( 
 		<form className="itemPage" onSubmit={this.handleItemRent}>
-			  <div className="itemPhoto"><img src={this.state.photo} width='250' height='250' ></img></div>
+			  <div className="itemPhoto"><img src={this.state.photo} width='300' height='300' ></img></div>
 			  <div className='itemDetails'>
 			  	<div className="itemName"> <p>{this.state.name}</p> </div>
   				<div className='itemDescription'><p>{this.state.description}</p></div>

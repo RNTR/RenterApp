@@ -22,7 +22,6 @@ exports.getUserInfo = function(userID) {
     return userID.json()
   })
   .then( function(response) {
-    console.log('getUserInfo response: ', response)
       return response;
     })
 };
@@ -62,7 +61,7 @@ exports.searchForItem = function(itemName) {
   }).then(function(itemName){
     return itemName.json()
   })
-  .then( function(response) {we
+  .then( function(response) {
       return response.items;
     })
 };
@@ -271,16 +270,36 @@ exports.listItem = function(){
 }
 
 
-exports.getUserItemsForRent = function(){
-
-
+exports.getUserItemsForRent = function(userID) {
+  return fetch('items/user/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+    console.log('getUserItemsForRent response: ', response)
+      return response;
+    })
 };
 
-exports.getStuffRentedFromOthers = function(){
-
-
+exports.getStuffRentedFromOthers = function(userID) {
+  return fetch('items/user/is_renting/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+    console.log('getStuffRentedFromOthers response: ', response)
+    if(response.rentalsWithItems.length === 0){
+      return 'NO CURRENT RENTALS'
+    }
+      return response;
+    })
 };
-
 exports.stuffBeingRentedFromUser = function(){
 
 
