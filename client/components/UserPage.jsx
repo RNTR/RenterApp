@@ -10,7 +10,11 @@ var getRequests = require('../requests/get.js');
 var UserPage = React.createClass({
 
 getInitialState: function(){
-	 return {};
+	 return {
+	 	itemsForRent: null,
+	 	itemsUserIsRenting: null,
+	 	itemsBeingRentedFromUser: null
+	 };
 },
 
 componentDidMount: function(){
@@ -19,19 +23,35 @@ componentDidMount: function(){
 
 getUserInfo: function(){
 
-	console.log('user page')
-
 }, 
-
-requestsToRentees: function(){},
-
-requestsFromRenters: function(){},
 
 delistItem: function(){},
 
-getListedItems: function(){},
+getListedItems: function(){
 
-getCurrentRentedItems: function(){},
+	postRequests.getUserItemsForRent()
+
+},
+
+
+getItemsUserIsRenting: function(){
+
+	postRequests.getStuffRentedFromOthers()
+
+},
+
+getCurrentRentedItems: function(){
+
+	var promise = postRequests.stuffBeingRentedFromUser('PUT THE USER ID HERE')
+	promise.then( (item) => {
+		this.setState({
+			itemsBeingRentedFromUser: item
+		})
+	})
+
+},
+
+
 
 render: function(){
 	
@@ -40,15 +60,15 @@ render: function(){
 			  <div className='userGreeting'> Welcome, {postRequests.getUserInfo()}</div>
 			  
 			  <div className='yourStuffForRent'> Your items for rent: 
-			  	<div className='yourItemForRent'>{postRequests.getUserItemsForRent()}</div>    
+			  	<div className='yourItemForRent'>{this.getListedItems}{this.state.itemsForRent}</div>    
 			  </div>
 			  	
 			  <div className='stuffYouAreRenting'>Items you are renting from others:
-			  	<div className='itemYouAreRenting'>{postRequests.getStuffRentedFromOthers()}</div>
+			  	<div className='itemYouAreRenting'>{this.getItemsUserIsRenting}{this.state.itemsUserIsRenting}</div>
 			  </div>
 			  	  
 			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
-			  	<div className='itemBeingRentedFromYou'>{postRequests.stuffBeingRentedFromUser()}</div>
+			  	<div className='itemBeingRentedFromYou'>{this.getCurrentRentedItems}{this.state.itemsBeingRentedFromUser}</div>
 			  </div>
 
 

@@ -25,12 +25,7 @@ var ItemPage = React.createClass({
 		this.fetchItem();
 	},
 
-	// handlePhoto: function(){
-	// 	postRequests.getItem({itemID: 4})
-	// 	.then(function(response){
-	// 	  return response.item.photo
-	// 	})
-	// },
+
 
 	fetchItem: function(){
 		var stashedItemID = parseInt(sessionStorage.getItem('currentItemID'));
@@ -50,7 +45,7 @@ var ItemPage = React.createClass({
 
 
 	render: function(){
-
+		console.log('PHOTO: ', this.state.photo)
 		return ( 
 		<div className="itemPage">
 			  <div className="itemPhoto"> <img src={this.state.photo}></img></div>
