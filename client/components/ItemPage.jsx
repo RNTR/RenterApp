@@ -31,14 +31,20 @@ var ItemPage = React.createClass({
 		var stashedItemID = parseInt(sessionStorage.getItem('currentItemID'));
 		var promise = postRequests.getItem({ itemID: stashedItemID })
 		promise.then( (item) => {
+			console.log('THIS IS THE ITEM OBJECT', item)
 			this.setState({ 
 				name: item.name,
 				photo: item.photo,
 				description: item.description,
-				price: item.price
+				price: item.price,
+				zip: item.zip
 			 })
 		})
 
+	},
+
+	handleItemRent: function(){
+		alert('RENT')
 	},
 
 
@@ -47,18 +53,20 @@ var ItemPage = React.createClass({
 	render: function(){
 		console.log('PHOTO: ', this.state.photo)
 		return ( 
-		<div className="itemPage">
-			  <div className="itemPhoto"> <img src={this.state.photo}></img></div>
+		<form className="itemPage" onSubmit={this.handleItemRent}>
+			  <div className="itemPhoto"><img src={this.state.photo} width='250' height='250' ></img></div>
 			  <div className='itemDetails'>
-			  	<div className="itemName">NAME: <p>{this.state.name}</p> </div>
+			  	<div className="itemName"> <p>{this.state.name}</p> </div>
   				<div className='itemDescription'><p>{this.state.description}</p></div>
+  				<div className="itemZip">Located in {this.state.zip} </div>
 		  		<div className='itemAvailability'>Item availability</div>
-				<div className='itemPrice'>Item price  </div>
+				<div className='itemPrice'>Price/hr ${this.state.price} </div>
+				<br/>
 				<button className='rentItemDiv'> Rent this item!
 		
 			  	</button>
 			  </div>
-			</div>
+			</form>
 			)
 	}
 })

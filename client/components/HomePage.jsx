@@ -20,7 +20,7 @@ var HomePage = React.createClass({
       <div className="HomePageMain">
         <div className='HomePageGreeting'>
           <div className="animated bounce">
-            Currently in <span className="red">Development</span>!
+              Welcome to <span className="red">RNTR</span>!
           </div>
           <div className="animated bounce"><a target="_blank" href="http://bit.ly/1RCeXpx">visit our github!</a></div>
         </div>
@@ -34,6 +34,3 @@ module.exports = HomePage;
 
 
 
-
-
-  // Welcome to <span className="red">RNTR</span>!

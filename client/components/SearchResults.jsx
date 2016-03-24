@@ -41,7 +41,6 @@ var SearchResults = React.createClass({
   render: function() {
     var results = this.state.results;
     var zip = this.state.zip;
-
     if (results !== null && results !== 'not found'){
       return (
         <div>

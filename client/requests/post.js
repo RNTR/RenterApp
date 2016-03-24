@@ -51,7 +51,7 @@ exports.searchForItem = function(itemName) {
   }).then(function(itemName){
     return itemName.json()
   })
-  .then( function(response) {
+  .then( function(response) {we
       return response.items;
     })
 };

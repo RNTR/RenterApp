@@ -542,6 +542,7 @@
 .userPage .yourStuffForRent {
 	padding-left: 50px;
 	padding-bottom: 40px;
+
 }
 
 .userPage .yourItemForRent {
@@ -630,6 +631,18 @@
 }
 
 .itemDetails .itemZip {
+
+
+	 font-family: 'Avenir';
+  font-size: 42px;
+  color: #1ad1ff;
+  text-shadow: 2px 2px black;
+  font-weight: bolder;
+}
+
+.itemDetails .itemAvailability {
+
+	font-size: 23px;
 
 }
 
