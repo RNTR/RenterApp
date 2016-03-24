@@ -90,6 +90,20 @@ routes.delete('/users', function (req, res){
     })
 })
 
+routes.post('/session', function (req, res){
+  //validate a session - Does it exist? Does it match the userID?
+  console.log('sessions route activated: ',req.body)
+  helpers.validateSessionRoute(req.body)
+    .then(function(resp){
+      console.log('here is server about to send resp: ', resp)
+      res.status(200).send(resp);
+    })
+    .catch(function(err){
+      console.log('here is err on server: ', err)
+      res.status(err.code).send(err)
+    })
+})
+
 
 
 // ------------ ITEM ROUTES ------------

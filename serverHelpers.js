@@ -248,6 +248,69 @@ exports.logoutRoute = function(reqBody){
  	})
  }
 
+exports.validateSessionRoute = function(reqBody){
+	return new Promise(function(fulfill,reject){
+		var sessionID = reqBody.sessionID;
+		var userID = reqBody.userID;
+
+		if (!sessionID || typeof sessionID !== 'string' || !userID || 
+		typeof userID !== 'number'){
+			var body = {
+				status : 'failed',
+				message : 'invalid input. Make sure you provided a valid sessionID and userID.',
+				code : 400,
+			};
+			reject(body);
+		} else {
+			dbMethod.getSessionBySessionID(sessionID)
+				.then(function(resp){
+					if (resp === false){
+						var body = {
+							status : 'failed',
+							message : 'sessionID not found. Try logging out and logging in again.',
+							code : 403
+						}
+						reject(body);
+					} else if(resp[0].user_id && resp[0].user_id === userID){
+						var body = {
+							status : 'complete',
+							message : 'session/user verified.',
+							code : 200
+						}
+						fulfill(body);
+					} else if(resp[0].user_id && resp[0].user_id !== userID) {
+						var body = {
+								status : 'failed',
+								message : 'your userID does not match that session.',
+								code : 403
+							}
+							reject(body)
+						}
+					 else{
+						var body = {
+							status : 'failed',
+							message : 'error checking session',
+							error : resp,
+							code : 500
+						}
+						console.error(err)
+						reject(body)
+					}
+				})
+				.catch(function(err){
+					var body = {
+							status : 'failed',
+							message : 'error checking session',
+							error : err,
+							code : 500
+						}
+						console.error(err)
+						reject(body)
+				})
+		}
+	})
+}
+
 exports.getUserRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
 	 	if (reqBody.userID && typeof reqBody.userID === 'number'){
