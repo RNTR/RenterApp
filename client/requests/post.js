@@ -25,10 +25,10 @@ exports.addNewItem = function(itemObject) {
       credentials: 'include',
       body: JSON.stringify(itemObject)
     }).then(function(itemObject){
-        var newObj; 
+        var newObj;
         itemObject.json()
           .then(function(Justin){
-            newObj = Justin; 
+            newObj = Justin;
             // window.globalStateItemID = newObj.id;
             resolve(Justin);
           })
@@ -52,7 +52,8 @@ exports.searchForItem = function(itemName) {
     return itemName.json()
   })
   .then( function(response) {
-      return response.items[0];
+      console.log('ITEMNAME RESPONSE', response.items);
+      return response.items;
     })
 };
 
@@ -245,6 +246,3 @@ exports.newListLocation = function() {
 exports.submitNewListing = function() {
 
 }
-
-
-  
