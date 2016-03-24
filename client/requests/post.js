@@ -14,7 +14,7 @@ var App = require('../App.jsx')
 
 
 exports.getUserInfo = function(){
-  console.log('USER REQUEST')
+  console.log('getUserInfo was called. its not set to grab anything yet.')
 }
 
 exports.addNewItem = function(itemObject) {
@@ -66,6 +66,7 @@ exports.searchForItem = function(itemName) {
 
 
 exports.signup = function(signupObject){
+  console.log('signup was called with this: ', signupObject)
   return fetch('signup/', {
     method: 'POST',
     headers: requestHeaders,
@@ -73,45 +74,70 @@ exports.signup = function(signupObject){
   }).then(function(signupObject){
     return signupObject.json();
   }).then( function(response) {
-      window.globalStateUserID = response.user.userID;
-      window.globalStateSessionID = response.sessionID;
+      // window.globalStateUserID = response.user.userID;
+      // window.globalStateSessionID = response.sessionID;
+      sessionStorage.setItem('userID', response.user.userID);
+      sessionStorage.setItem('sessionID', response.sessionID);
       return response;
     })
 };
 
 exports.login = function(loginObject){
-  return fetch('login/', {
-    method: 'POST',
-    headers: requestHeaders,
-    body: JSON.stringify(loginObject)
-  }).then(function(loginObject){
-    return loginObject.json();
-  }).then( function(response) {
-      window.globalStateUserID = response.user.userID;
-      window.globalStateSessionID = response.sessionID;
-      return response;
+  console.log('login was called with this: ', loginObject)
+  return new Promise(function(resolve,reject){
+    fetch('/login', {
+      method: 'POST',
+      headers: requestHeaders,
+      body: JSON.stringify(loginObject)
     })
-
+    .then(function(loginObject){
+      console.log('returning loginObject: ', loginObject)
+      loginObject.json()
+        .then(function(jsDone){
+          console.log('jsObj was just run: ', jsDone)
+          sessionStorage.setItem('userID', jsDone.user.userID);
+          sessionStorage.setItem('sessionID', jsDone.sessionID);
+          resolve(jsDone);
+        })
+        .catch(function(err){
+          console.error('error parsing server response: ', err);
+          reject(err);
+        })
+    })
+    .catch(function(err){
+      console.error('error logging in: ', err);
+      reject(err)
+    })
+  })
 }
 
 
 exports.logout = function(userID){
-  return fetch('logout/', {
-    method: 'POST',
-    headers: requestHeaders,
-    credentials: 'include',
-    body: JSON.stringify(userID)
-  }).then(function(userID){
-    return userID.json();
-  }).then( function(response) {
-      window.globalStateUserID = null;
-      return response;
+  return new Promise(function(resolve,reject){
+    fetch('/logout', {
+        method: 'POST',
+        headers: requestHeaders,
+        credentials: 'include',
+        body: JSON.stringify(userID)
+      })
+    .then(function(response){
+        response.json()
+        .then(function(jsObj){
+          console.log('about to reset the session values.', jsObj);
+          sessionStorage.removeItem('userID');
+          sessionStorage.removeItem('sessionID');
+          resolve(jsObj)
+        })
+        .catch(function(err){
+          console.error('error parsing logout response: ', err);
+          reject(err);
+        })
+      })
+    .catch(function(err){
+      console.error('error logging out: ', err);
+      reject(err);
     })
-
-
-  window.globalStateUserID = null;
-  window.globalStateSessionID = null;
-  return;
+  })
 }
 
 
