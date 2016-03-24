@@ -114,7 +114,7 @@ handleProfileRedirect: function(){
        <div className='title' onClick={this.handleHomeRedirect}>RNTR</div>
         <div className="signup" onClick={this.handleSigninRedirect}>Sign Up/Sign In</div>
       	 <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
-      	  <div className="myProfile" onClick={this.handleProfileRedirect}> My Profile </div>
+      	  <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
 					<form onSubmit={this.handleSearchRedirect}>
 						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
 						
