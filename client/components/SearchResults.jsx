@@ -24,6 +24,7 @@ var SearchResults = React.createClass({
         description: item[0].description,
         photo: item[0].photo,
         zip: item[0].zip,
+
         name1: item[1].name,
         price1: item[1].price,
         description1: item[1].description,
@@ -47,6 +48,9 @@ var SearchResults = React.createClass({
           <div className="newListing">DESCRIPTION:
             <div>{this.state.description}</div>
           </div>
+          <div className="newListing">PIC:
+            <a href={this.state.photo} >Link</a>
+          </div>
         </div>
 
         <div className="newListing">RESULT 2
@@ -58,6 +62,9 @@ var SearchResults = React.createClass({
           </div>
           <div className="newListing">DESCRIPTION:
             <div>{this.state.description1}</div>
+          </div>
+          <div className="newListing">PIC:
+            <a href={this.state.photo1} >Link</a>
           </div>
         </div>
 
