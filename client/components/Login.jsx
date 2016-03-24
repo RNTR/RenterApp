@@ -31,21 +31,41 @@ handlePasswordChange: function(e) {
   },
 
 logout: function(){
-	 postRequests.logout( {
-	 	userID: window.globalStateUserID, 
-	 	cookie: {sessionId: window.globalStateSessionID}
-	 } )
+
+	var stringUserID = sessionStorage.getItem('userID')
+	if(!stringUserID){
+		alert('There is not currently anyone logged in.')
+		//do something else for this case?
+	} else{
+		var userID = parseInt(stringUserID);
+		var sessionID = sessionStorage.getItem('sessionID');
+		var wrangledContext = this;
+		postRequests.logout( {
+			'userID': userID, 
+			'cookie': {'sessionId': sessionID}
+		})
+		.then(function(resp){
+			wrangledContext.redirectLogout();
+		})	
+	}
 },
 
 submit: function(){
 
-
+	var wrangled = this;
 	postRequests.login(this.state)
-	this.redirect();
+	.then(function(resp){
+		console.log('about to redirect in submit behavior: ', resp);
+		wrangled.redirect();		
+	})
 },
 
 redirect: function(){
 	this.props.history.pushState(null, 'user');
+},
+
+redirectLogout: function(){
+	this.props.history.pushState(null, '/');
 },
 
 render: function(){
