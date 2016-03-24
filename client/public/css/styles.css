@@ -11,7 +11,6 @@
 	min-width: 1045px;
 	background-repeat: no-repeat;
 	background-size: cover;
-	/*background-color: rgba(0, 0, 0, 0.7);*/
 	box-shadow: inset 0 0 0 1000px rgba(0,2,8,.5);
 }
 
@@ -170,7 +169,6 @@
 	font-size:14px;
 	border:1px solid #0076a3; border-right:0px;
 	border-radius: 5px 5px 5px 5px;
-	
 }
 
 .searchSubmitButton {
@@ -203,7 +201,6 @@
 	background: #007ead;
 	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
 	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
-
 }
 
 .signupContainer{
@@ -364,7 +361,6 @@
 	font-size:14px;
 	border:1px solid #0076a3; border-right:0px;
 	border-radius: 5px 5px 5px 5px;
-
 }
 
 .loginButton{
@@ -389,7 +385,6 @@
 	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
 	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
 	border-radius: 5px 5px 5px 5px;
-
 }
 
 .logoutButton{
@@ -444,12 +439,6 @@
 
 
 
-
-
-
-
-
-
 				/************************************************  HOME PAGE *******************************************/
 
 #home {
@@ -462,7 +451,6 @@
 }
 
 .HomePageMain {
-
 
 }
 
@@ -477,7 +465,6 @@
 	bottom: 50%;
 	right: 33%;
 	float: center;
-
 }
 
 
@@ -633,7 +620,7 @@
 .itemDetails .itemZip {
 
 
-	 font-family: 'Avenir';
+  font-family: 'Avenir';
   font-size: 42px;
   color: #1ad1ff;
   text-shadow: 2px 2px black;
@@ -642,7 +629,7 @@
 
 .itemDetails .itemAvailability {
 
-	font-size: 23px;
+  font-size: 23px;
 
 }
 

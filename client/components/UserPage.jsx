@@ -10,7 +10,10 @@ var getRequests = require('../requests/get.js');
 var UserPage = React.createClass({
 
 getInitialState: function(){
+
+
 	 return {
+	 	name: null,
 	 	itemsForRent: null,
 	 	itemsUserIsRenting: null,
 	 	itemsBeingRentedFromUser: null
@@ -18,11 +21,18 @@ getInitialState: function(){
 },
 
 componentDidMount: function(){
-
+	this.getUserInfo();
 },
 
 getUserInfo: function(){
-	
+	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
+	var promise = postRequests.getUserInfo({userID: stashedUserID});
+	promise.then( (user) => {
+		console.log('GOT BACK THE USER INFO FROM GET USER INFO: ', user);
+		this.setState({
+			name: user.user.username
+		})
+	})
 }, 
 
 delistItem: function(){},
@@ -56,8 +66,8 @@ getCurrentRentedItems: function(){
 render: function(){
 	
 	return (<div className='userPage'>
-			 
-			  <div className='userGreeting'> Welcome, {postRequests.getUserInfo()}</div>
+			 <div className='userContainer'>
+			  <div className='userGreeting'> Welcome, <bold>{this.state.name}</bold></div>
 			  
 			  <div className='yourStuffForRent'> Your items for rent: 
 			  	<div className='yourItemForRent'>{this.getListedItems}{this.state.itemsForRent}</div>    
@@ -71,7 +81,7 @@ render: function(){
 			  	<div className='itemBeingRentedFromYou'>{this.getCurrentRentedItems}{this.state.itemsBeingRentedFromUser}</div>
 			  </div>
 
-
+			 </div>
 			</div>);
 
 

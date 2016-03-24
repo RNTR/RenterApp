@@ -13,9 +13,20 @@ import { render } from 'react-dom'
 var App = require('../App.jsx')
 
 
-exports.getUserInfo = function(){
-  console.log('getUserInfo was called. its not set to grab anything yet.')
-}
+exports.getUserInfo = function(userID) {
+  return fetch('users/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+    console.log('getUserInfo response: ', response)
+      return response;
+    })
+};
+
 
 exports.addNewItem = function(itemObject) {
   return new Promise(function(resolve, reject){
