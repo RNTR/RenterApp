@@ -47,11 +47,11 @@ handleHomeRedirect: function(){
     this.props.history.hashHistory.pushState(this.state, '/');
 },
 
-// handleNewListingRedirect: function(){
-//
-//
-//     this.props.history.hashHistory.pushState(this.state, 'new');
-// },
+handleNewListingRedirect: function(){
+
+
+    this.props.history.hashHistory.pushState(this.state, 'new');
+},
 
 handleSigninRedirect: function(){
 
@@ -76,12 +76,17 @@ handleProfileRedirect: function(){
       	  <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
 					<form onSubmit={this.handleSearchRedirect}>
 						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
-						<input placeholder="Zip Code" type="number" value={this.state.zipCode} onChange={this.handleZip}></input>
-						<button type="submit">GO</button>
+						<input className='zipSearchbar'placeholder="ZIP" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
+						<button className='searchSubmitButton'type="submit">GO</button>
 					</form>
 
-      </div>
 
+
+
+
+
+
+      </div>
 
     );
   }

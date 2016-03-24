@@ -91,16 +91,19 @@ var MakeNewListing = React.createClass({
       <div className="newlisting">
         <form className="newListing" onSubmit={this.submit}>
             
-            <label>Item Name:</label><input className="itemNameInput"placeholder="Enter Item Name" type="text" value={this.state.name} onChange={this.handleNameChange}></input>
-            <label>Photo URL</label><input className="photoInput"placeholder="Enter Photo URL" type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
-            <label>Dates Available:</label>
+            <label>Item Name  </label><input className="itemNameInput" type="text" value={this.state.name} onChange={this.handleNameChange}></input>
+            <label>Photo URL  </label><input className="photoInput" type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
+            <label>Dates Available  </label>
                     <br/>
-                First Available<input className='newListingInput1' type="date" value={this.state.date_start} onChange={this.handleDateStartChange}></input>
+                First Available  <input className='newListingInput1' type="date" value={this.state.date_start} onChange={this.handleDateStartChange}></input>
                     <br/>
-                Last Available<input className='newListingInput2' type="date" value={this.state.date_end} onChange={this.handleDateEndChange}></input> 
-            <label>Price:</label><input className="priceInput" type="number" value={this.state.price} onChange={this.handlePriceChange} placeholder="Enter Price"></input>
-            <label>ZIP:</label><input className="locationInput"type="number" onChange={this.handleZipChange} value={this.state.zip}></input>
-            <label>Item Description:</label><textarea className="itemDescriptionInput"rows="5" cols="50" placeholder="Enter Item Description" type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
+                Last Available  <input className='newListingInput2' type="date" value={this.state.date_end} onChange={this.handleDateEndChange}></input> 
+                <br/>
+            <label>$  </label><input className="priceInput" type="number" value={this.state.price} onChange={this.handlePriceChange}></input>
+                <br/>
+            <label>ZIP  </label><input className="locationInput"type="number" onChange={this.handleZipChange} value={this.state.zip}></input>
+                <br/>
+            <label>Description  </label><textarea className="itemDescriptionInput"rows="5" cols="50"  type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
           
             <button className="newListingButton" type="submit">SUBMIT NEW LISTING!</button>
 

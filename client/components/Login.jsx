@@ -41,11 +41,11 @@ submit: function(){
 
 
 	postRequests.login(this.state)
-this.redirect();
+	this.redirect();
 },
 
 redirect: function(){
-	this.props.history.pushState(null, 'item');
+	this.props.history.pushState(null, 'user');
 },
 
 render: function(){
@@ -59,7 +59,14 @@ render: function(){
 
 		 <button className='logoutButton' onClick={this.logout}>LOGOUT</button>
 
-		</div>)
+		</div>
+
+		
+
+
+
+
+		)
 }
 
 })
