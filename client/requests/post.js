@@ -76,10 +76,14 @@ exports.signup = function(signupObject){
     .then(function(signupObject){
       console.log('signup response: ', signupObject)
       signupObject.json()
-      .then(function(jsObj){
-        sessionStorage.setItem('userID', jsObj.user.userID);
-        sessionStorage.setItem('sessionID', jsObj.sessionID);
-        resolve(jsObj);
+      .then(function(jsObj){          
+        if(jsObj.status === 'failed'){
+            reject(jsObj)
+          } else {
+            sessionStorage.setItem('userID', jsObj.user.userID);
+            sessionStorage.setItem('sessionID', jsObj.sessionID);
+            resolve(jsObj);
+          }
       })
       .catch(function(err){
         console.error('error parsing signup response: ', err);

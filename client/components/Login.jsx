@@ -68,8 +68,10 @@ submit: function(){
 				alert(err.message);
 				//make this prettier plz
 			} else if (err.message === 'user not found.'){
-				alert('invalid username. Try again!');
+				alert('That user does not exist. Try again!');
 				//make this prettier plz
+			} else if (err.message === 'Invald format. Make sure you sent in a valid username and password.'){
+				alert('Make sure you entered a valid username and password!')
 			} else{
 				console.error('error signing up: ', err);
 			}
