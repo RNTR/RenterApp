@@ -18,21 +18,22 @@ exports.getUserInfo = function(){
 }
 
 exports.addNewItem = function(itemObject) {
-  console.log("ITEM OBJECT: ", itemObject);
-  return fetch('items/', {
-    method: 'POST',
-    headers: requestHeaders,
-    // credentials: 'include',
-    body: JSON.stringify(itemObject)
-  }).then(function(itemObject){
-    return itemObject.json();
-  }).then( function(response) {
-      console.log('ITEM RESPONSE', response);
-      // window.globalStateItemID = response.id;
-      return response;
-    })
-
-
+  return new Promise(function(resolve, reject){
+    fetch('items/', {
+      method: 'POST',
+      headers: requestHeaders,
+      credentials: 'include',
+      body: JSON.stringify(itemObject)
+    }).then(function(itemObject){
+        var newObj; 
+        itemObject.json()
+          .then(function(Justin){
+            newObj = Justin; 
+            // window.globalStateItemID = newObj.id;
+            resolve(Justin);
+          })
+      })
+  })
 };
 
 
@@ -43,7 +44,6 @@ exports.addNewItem = function(itemObject) {
 
 
 exports.searchForItem = function(itemName) {
-  console.log("ITEMNAME: ", itemName)
   return fetch('items/search', {
     method: 'POST',
     headers: requestHeaders,
@@ -52,7 +52,6 @@ exports.searchForItem = function(itemName) {
     return itemName.json()
   })
   .then( function(response) {
-      console.log('ITEMNAME RESPONSE', response.items[0]);
       return response.items[0];
     })
 };
@@ -66,7 +65,6 @@ exports.searchForItem = function(itemName) {
 
 
 exports.signup = function(signupObject){
-  console.log("SIGNUP OBJECT: ", signupObject);
   return fetch('signup/', {
     method: 'POST',
     headers: requestHeaders,
@@ -74,7 +72,6 @@ exports.signup = function(signupObject){
   }).then(function(signupObject){
     return signupObject.json();
   }).then( function(response) {
-      console.log('SIGNUP RESPONSE', response);
       window.globalStateUserID = response.user.userID;
       window.globalStateSessionID = response.sessionID;
       return response;
@@ -82,7 +79,6 @@ exports.signup = function(signupObject){
 };
 
 exports.login = function(loginObject){
-  console.log("LOGIN OBJECT: ", loginObject);
   return fetch('login/', {
     method: 'POST',
     headers: requestHeaders,
@@ -90,8 +86,6 @@ exports.login = function(loginObject){
   }).then(function(loginObject){
     return loginObject.json();
   }).then( function(response) {
-      console.log('login RESPONSE: ', response);
-      console.log('login RESPONSE ID: ', response.user.userID);
       window.globalStateUserID = response.user.userID;
       window.globalStateSessionID = response.sessionID;
       return response;
@@ -101,7 +95,6 @@ exports.login = function(loginObject){
 
 
 exports.logout = function(userID){
-  console.log('userID: ', userID)
   return fetch('logout/', {
     method: 'POST',
     headers: requestHeaders,
@@ -110,7 +103,6 @@ exports.logout = function(userID){
   }).then(function(userID){
     return userID.json();
   }).then( function(response) {
-      console.log('login RESPONSE: ', response);
       window.globalStateUserID = null;
       return response;
     })
@@ -136,7 +128,6 @@ exports.goToProfile = function(userID){
     credentials: 'include',
     body: JSON.stringify(userID)
   }).then( function(response) {
-      console.log('USERID', response);
     })
 
 }
@@ -149,9 +140,8 @@ exports.goToProfile = function(userID){
 
 
 exports.getItem = function(itemID){
-  console.log('REQUEST ID: ', itemID)
 
-  return fetch('items/' + itemID, {
+  return fetch('items/id', {
     method: 'POST',
     headers: requestHeaders,
     credentials: 'include',
@@ -161,11 +151,26 @@ exports.getItem = function(itemID){
       return itemID.json();
     })
     .then(function(response) {
-        console.log('response.item', response.item);
         return response.item;
     })
 };
 
+
+exports.getItemRedirect = function(itemID){
+
+  return fetch('items/', {
+    method: 'POST',
+    headers: requestHeaders,
+    credentials: 'include',
+    body: JSON.stringify(itemID)
+  })
+    .then(function(itemID){
+      return itemID.json();
+    })
+    .then(function(response) {
+        return response.item;
+    })
+};
 
 
 exports.handleSubmit = function(){
@@ -240,3 +245,6 @@ exports.newListLocation = function() {
 exports.submitNewListing = function() {
 
 }
+
+
+  

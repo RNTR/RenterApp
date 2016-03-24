@@ -29,7 +29,6 @@ var MakeNewListing = React.createClass({
     this.setState({
       name: e.target.value
     });
-    console.log('this.props ', this.props)
   },
 
   handlePhotoChange: function(e) {
@@ -71,11 +70,11 @@ var MakeNewListing = React.createClass({
   submit: function(){
   var scopeReference = this;
   postRequests.addNewItem({item:this.state})
-    .then(function(){
-      window.globalStateItemID = scopeReference.state.id;
+    .then(function(item){
+      sessionStorage.setItem('currentItemID', item.item.id);
     })
     .then(function(){
-      scopeReference.handleRedirect();  
+      scopeReference.handleRedirect();
   })
 
   
@@ -83,8 +82,7 @@ var MakeNewListing = React.createClass({
   },
 
   handleRedirect: function(){
-
-    this.props.history.pushState(null, 'item');
+    this.props.history.pushState(this.state, 'item');
   },
 
   render: function() {
