@@ -29,7 +29,6 @@ var MakeNewListing = React.createClass({
     this.setState({
       name: e.target.value
     });
-    console.log('this.props ', this.props)
   },
 
   handlePhotoChange: function(e) {
