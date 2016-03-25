@@ -12,12 +12,17 @@ var SearchResults = React.createClass({
 
     this.handleItemName();
 
+
     return {results: null, zip: null}
+
 
   },
 
   handleItemName: function() {
-    var promise = postRequests.searchForItem({searchTerm: sessionStorage.getItem("GlobalSearchTerm"), zipCode: parseInt(sessionStorage.getItem("GlobalSearchZip"))})
+    var promise = postRequests.searchForItem(
+      {searchTerm: sessionStorage.getItem("GlobalSearchTerm"), 
+      zipCode: parseInt(sessionStorage.getItem("GlobalSearchZip"))})
+    
     promise.then((item) => {
       if (!item || item.length === 0){
         this.setState({
