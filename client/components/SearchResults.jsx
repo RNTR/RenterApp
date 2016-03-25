@@ -12,66 +12,58 @@ var SearchResults = React.createClass({
 
     this.handleItemName();
 
-    return {name: "Loading...", price: null, description: ''}
+    return {results: null, zip: null}
   },
 
   handleItemName: function() {
     var promise = postRequests.searchForItem({searchTerm: sessionStorage.getItem("GlobalSearchTerm"), zipCode: parseInt(sessionStorage.getItem("GlobalSearchZip"))})
     promise.then((item) => {
-      this.setState({
-        name: item[0].name,
-        price: item[0].price,
-        description: item[0].description,
-        photo: item[0].photo,
-        zip: item[0].zip,
 
-        name1: item[1].name,
-        price1: item[1].price,
-        description1: item[1].description,
-        photo1: item[1].photo,
-        zip1: item[1].zip
-      })
+      if (item.length === 0){
+        this.setState({
+          results: null,
+          zip: null
+        })
+      } else{
+        this.setState({
+          results : item,
+          zip: item[0].zip
+        })
+      }
     })
   },
 
   render: function() {
-    return (
-      <div>
-        <div className="newListing">Here's what we found for: {this.state.zip}</div>
-        <div className="newListing">RESULT 1
-          <div className="newListing">NAME:
-            <div >{this.state.name}</div>
-          </div>
-          <div className="newListing">PRICE:
-            <div >${this.state.price}.00/Day</div>
-          </div>
-          <div className="newListing">DESCRIPTION:
-            <div>{this.state.description}</div>
-          </div>
-          <div className="newListing">PIC:
-            <a href={this.state.photo} >Link</a>
-          </div>
-        </div>
+    var results = this.state.results;
+    var zip = this.state.zip;
 
-        <div className="newListing">RESULT 2
-          <div className="newListing">NAME:
-            <div >{this.state.name1}</div>
-          </div>
-          <div className="newListing">PRICE:
-            <div >${this.state.price1}.00/Day</div>
-          </div>
-          <div className="newListing">DESCRIPTION:
-            <div>{this.state.description1}</div>
-          </div>
-          <div className="newListing">PIC:
-            <a href={this.state.photo1} >Link</a>
-          </div>
-        </div>
-
-
-
+    if (results !== null){
+      return (
+        <div>
+        <div className="newListing">Here is what we found for: {this.state.zip}</div>
+        <div>
+            {results.map(function(item,index){
+              return  <div className="newListing">RESULT {index+1}
+                      <div className="newListing">NAME:
+                        <div >{item.name}</div>
+                      </div>
+                      <div className="newListing">PRICE:
+                        <div >${item.price}.00/Day</div>
+                      </div>
+                      <div className="newListing">DESCRIPTION:
+                        <div>{item.description}</div>
+                      </div>
+                      <div className="newListing">PIC:
+                        <a href={item.photo} >Link</a>
+                      </div>
+                    </div>
+            })}
+      </div>
       </div>
     )
+  } else {
+    return <div className="newListing">NO RESULTS FOUND </div>;
+  }
   }
 });
 
