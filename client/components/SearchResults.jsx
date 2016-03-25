@@ -46,8 +46,9 @@ var SearchResults = React.createClass({
 
 
 
-  handleItemRedirect: function(){
-    sessionStorage.setItem("itemID", this.state.id)
+  handleItemRedirect: function(itemID){
+    var ID = itemID || this.state.itemID;
+    sessionStorage.setItem("itemID", ID)
     this.props.history.pushState(this.state, 'item');
   },
   handleItem1Redirect: function(){
@@ -65,8 +66,10 @@ var SearchResults = React.createClass({
 
 
   render: function() {
+    var wrangled = this;
     var results = this.state.results;
     var zip = this.state.zip;
+    console.log("RESULTS INSIDE RENDER:", results)
     if (results !== null && results !== 'not found'){
       return (
         <div>
@@ -74,7 +77,9 @@ var SearchResults = React.createClass({
         <div className="resultsContainer">
           <div className="results">
             {results.map(function(item,index){
-              return  <div>
+              return  <div className="searchResult" onClick={function(){
+                wrangled.handleItemRedirect(item.id)
+              }}>
                       <div className="teal">
                         RESULT {index+1}
                       </div>
@@ -86,9 +91,6 @@ var SearchResults = React.createClass({
                       </div>
                       <div>DESCRIPTION:
                         <div className="result">{item.description}</div>
-                      </div>
-                      <div  className="result">PIC:
-                        <a target="_blank" href={item.photo} >Link</a>
                       </div>
                     </div>
             })}
