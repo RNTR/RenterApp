@@ -96,11 +96,12 @@
 .bar .title {
 	right: 90%;
 	font-size: 50px;
-	font-family: 'nougatine';
+	font-family: 'Avenir';
 	position: static;
 	color: white;
-	text-shadow: 2px 2px black;
+	text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;
 	font-weight: bold;
+	margin-top: -10px;
 }
 
 .bar .title:hover {
@@ -147,7 +148,7 @@
 	font-size:14px;
 	border:1px solid #0076a3; border-right:0px;
 	border-radius: 5px 5px 5px 5px;
-	
+
 }
 
 .searchSubmitButton {
@@ -507,7 +508,7 @@
 }
 
 .userPage .userContainer{
-	
+
 }
 
 .userPage .userGreeting {
@@ -534,7 +535,7 @@
 }
 
 .userPage .stuffYouAreRenting {
-	
+
 }
 
 .userPage .stuffYouAreRenting .itemYouAreRenting {
@@ -542,7 +543,7 @@
 }
 
 .userPage .stuffOthersAreRentingFromYou {
-	
+
 }
 
 .userPage .stuffOthersAreRentingFromYou .itemBeingRentedFromYou {
@@ -637,6 +638,10 @@
 	border-radius: 5px 5px 5px 5px;
 }
 
+.itemPage .rentItemDiv {
+	
+}
+
 .itemPage .bookingCalendarDiv {
 
 }
@@ -676,7 +681,7 @@
 	padding: 5px 15px;
 	font-family: 'Avenir';
 	font-size:14px;
-	border:1px solid #0076a3; 
+	border:1px solid #0076a3;
 	border-radius: 5px 5px 5px 5px;
 
 }
@@ -693,7 +698,7 @@
 	padding: 5px 15px;
 	font-family: 'Avenir';
 	font-size:14px;
-	border:1px solid #0076a3; 
+	border:1px solid #0076a3;
 	border-radius: 5px 5px 5px 5px;
 }
 
@@ -719,10 +724,10 @@
 
 .resultsContainer{
 	font-family: 'Avenir';
-	width: 600px;
+	width: 500px;
 	font-size: 35px;
 	margin: 0 auto;
-	text-align: center;
+	text-align: left;
 	color:  #f2f2f2;
 	font-weight: bolder;
 	width: 850px;
@@ -732,23 +737,31 @@
 	margin-bottom: 15%;
 	margin-right: 20%;
 	margin-left: 20%;
+	padding-bottom: 20px;
 }
 
 .resultsPhoto{
-	border:1px solid black;
-	border-radius: 2px 2px 2px 2px; 
+	/*border:1px solid black;*/
+	border-radius: 2px 2px 2px 2px;
+}
+
+.teal {
+	color: teal;
 }
 
 .results {
- font-family: 'Avenir';
-  font-size: 40px;
+ 	font-family: 'Avenir';
+  font-size: 35px;
   margin: 0 auto;
   text-align: center;
-  padding-top: 20px;
-  border-bottom: 1px solid orange;
-  color: #1ad1ff;
-  text-shadow: 2px 2px black;
-  font-weight: bolder;
+  padding: 20px;
+  /*border-bottom: 1px solid orange;*/
+  color: #f2f2f2;
+	/*text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;*/
+}
+
+.result {
+	margin-bottom: 20px;
 }
 
 
@@ -766,10 +779,10 @@ a:visited {
     color: #ff8080;
 }
 
-a:hover {
+/*a:hover {
     color:#b3cccc;
     display: block;
-}
+}*/
 
 
 
@@ -909,7 +922,7 @@ a:hover {
 	border-radius: 5px 5px 5px 5px;
 }
 
-.itemDescriptionInput{	
+.itemDescriptionInput{
 	font-style: italic;
 	font-size: 28px;
 	font-color: red;
@@ -948,4 +961,3 @@ a:hover {
 	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
 	border-radius: 5px 5px 5px 5px;
 }
-
