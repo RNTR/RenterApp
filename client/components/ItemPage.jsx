@@ -11,13 +11,14 @@ var ItemPage = React.createClass({
 
 	getInitialState: function(){
 
-		// this.fetchItem();
-
 		return {
 			photo: null,
-			name: 'Loading...',
+			name: null,
 			description: null,
-			price: null
+			price: null,
+			date_start: null,
+			date_end: null
+
 		};
 	},
 
@@ -43,15 +44,50 @@ var ItemPage = React.createClass({
 
 	},
 
+	handleDateStartChange: function(e){
+		 this.setState({
+      		date_start: e.target.value
+    	})
+	},
+
+	handleDateEndChange: function(e){
+		 this.setState({
+      		date_end: e.target.value
+    	})
+	},
+
 	handleItemRent: function(){
-		alert('RENT')
+	var stashedItemID = parseInt(sessionStorage.getItem('itemID')); 
+	var stashedUserID = parseInt(sessionStorage.getItem('userID')); 
+	var startDate = this.state.date_start;
+	var endDate = this.state.date_end;
+
+		var bookingPromise = postRequests.bookItem(
+			{rental:{
+				user_id:stashedUserID, 
+				item_id: stashedItemID, 
+				date_start: startDate,
+				date_end: endDate
+			}}
+			
+	  )
+
+		bookingPromise.then( (bookingResponse)  => {
+			if(bookingResponse.status === 'complete'){
+				alert('Item Booked!')
+			}
+			else{
+				alert('This item is not available for the dates selected.')
+			}
+		})
+
+
 	},
 
 
 
 
 	render: function(){
-		console.log('PHOTO: ', this.state.photo)
 		return ( 
 		<form className="itemPage" onSubmit={this.handleItemRent}>
 			  <div className="itemPhoto"><img src={this.state.photo} width='300' height='300' ></img></div>
@@ -62,14 +98,21 @@ var ItemPage = React.createClass({
 		  		<div className='itemAvailability'>Item availability</div>
 				<div className='itemPrice'>Price/hr ${this.state.price} </div>
 				<br/>
+				<div className='bookingDiv' display='none' >
+					<input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input>
+					<input className='bookEndDate' type='date' onChange={this.handleDateEndChange} value={this.state.date_end}></input>
+				</div>
+				<br/>
 				<button className='rentItemDiv'> Rent this item!
 		
 			  	</button>
+			  	<br/>
 			  </div>
 			</form>
 			)
 	}
 })
+
 
 
 		

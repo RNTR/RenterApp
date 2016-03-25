@@ -255,6 +255,24 @@ exports.getItemRedirect = function(itemID){
     })
 };
 
+exports.bookItem  = function(rentalRequestObject){
+
+  return fetch('bookings/', {
+    method: 'POST',
+    headers: requestHeaders,
+    credentials: 'include',
+    body: JSON.stringify(rentalRequestObject)
+  })
+    .then(function(rentalRequestObject){
+      return rentalRequestObject.json();
+    })
+    .then(function(response) {
+      console.log('BOOKING RESPONSE: ', response)
+        return response
+    })
+};
+
+
 
 exports.handleSubmit = function(){
 
@@ -279,7 +297,6 @@ exports.getUserItemsForRent = function(userID) {
     return userID.json()
   })
   .then( function(response) {
-    console.log('getUserItemsForRent response: ', response)
       return response;
     })
 };
@@ -293,58 +310,30 @@ exports.getStuffRentedFromOthers = function(userID) {
     return userID.json()
   })
   .then( function(response) {
-    console.log('getStuffRentedFromOthers response: ', response)
     if(response.rentalsWithItems.length === 0){
       response = 'NO CURRENT RENTALS'
     }
       return response;
     })
 };
-exports.stuffBeingRentedFromUser = function(){
+
+exports.stuffBeingRentedFromUser = function(userID){
+   return fetch('items/user/rented_from/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+    console.log('gstuffBeingRentedFromUser  response: ', response)
+      return response;
+    })
 
 
 };
 
-/************ SEARCH RESULTS **********/
 
-exports.searchResults = function() {
 
-};
 
-exports.searchLocation = function() {
 
-}
-
-/************ NEW LISTING **********/
-
-exports.itemName = function() {
-
-}
-
-exports.itemDescription = function() {
-
-}
-
-exports.photoURL = function() {
-
-}
-
-exports.firstDate = function() {
-
-}
-
-exports.lastDate = function() {
-
-}
-
-exports.price = function() {
-
-}
-
-exports.newListLocation = function() {
-
-}
-
-exports.submitNewListing = function() {
-
-}

@@ -652,11 +652,13 @@ exports.rentedFromRoute = function(reqBody){
  		var ownerID = reqBody.owner
  		dbMethod.getItemsByOwnerID(ownerID)
  			.then(function(results){
+ 				console.log('ReSULTS INSIDE GET ITEMS BY OWNER ID', results)
  				var items = results;
  				var rentalsPromises = [];
  				var rentalArrays = [];
 
  				items.forEach(function(x){
+ 					console.log('about to push into rentalsPromises ', x)
  					rentalsPromises.push(dbMethod.getRentalsByItemID(x.id)
  						.then(function(resp){
  							rentalArrays.push(resp);
@@ -677,6 +679,7 @@ exports.rentedFromRoute = function(reqBody){
 
  				Promise.all(rentalsPromises)
  					.then(function(){
+ 						console.log('all rentalsPromises resolved ', rentalsPromises)
  						//pack rentals arrays inside the appropriate item objects
  						for (var i=0; i<items.length; i++){
  							for (var j=0; j<rentalArrays.length; j++){
