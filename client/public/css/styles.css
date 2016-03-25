@@ -564,11 +564,17 @@
 }
 
 .itemPhoto {
-	padding-left: 200px;
+	padding:0px;
+/*	margin-right: 10px;
+*/	border: 1px solid black;
+	width: 50%;
+	margin: 0 auto;
 }
 
 .itemDetails {
-
+	margin: 0 auto;
+	text-align: center;
+	font-size: 19px;
 }
 
 .itemDetails .itemDescription {
@@ -586,11 +592,15 @@
 
 .itemDetails .itemPrice {
 
-
 }
 
-.itemPage .rentItemDiv {
-  
+.itemPage .bookingDiv {
+	border: 1px solid black;
+	height: 150px;
+	width:420px;
+	margin: 0 auto;
+	background-color: rgba(255,255,255,0.7);
+	border-radius: 5px 5px 5px 5px;
 }
 
 .itemPage .bookingCalendarDiv {
@@ -601,7 +611,7 @@
 	font-style: italic;
 	font-size: 23px;
 	font-color: red;
-	top: 85%;
+	top: 93%;
 	right: 45.5%;
 	position: absolute;
 	margin-top: 5%;
@@ -626,7 +636,7 @@
 	font-style: italic;
 	font-size: 23px;
 	font-color: red;
-	top: 75%;
+	top: 83%;
 	right: 52%;
 	position: absolute;
 	margin-top: 1%;
@@ -634,7 +644,7 @@
 	padding: 5px 15px;
 	font-family: 'Avenir';
 	font-size:14px;
-	border:1px solid #0076a3; border-right:0px;
+	border:1px solid #0076a3; 
 	border-radius: 5px 5px 5px 5px;
 
 }
@@ -643,7 +653,7 @@
 	font-style: italic;
 	font-size: 23px;
 	font-color: red;
-	top: 75%;
+	top: 83%;
 	right: 37%;
 	position: absolute;
 	margin-top: 1%;
@@ -651,7 +661,7 @@
 	padding: 5px 15px;
 	font-family: 'Avenir';
 	font-size:14px;
-	border:1px solid #0076a3; border-right:0px;
+	border:1px solid #0076a3; 
 	border-radius: 5px 5px 5px 5px;
 }
 

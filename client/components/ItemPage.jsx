@@ -95,7 +95,9 @@ var ItemPage = React.createClass({
 			  	<div className="itemName"> <p>{this.state.name}</p> </div>
   				<div className='itemDescription'><p>{this.state.description}</p></div>
   				<div className="itemZip">Located in {this.state.zip} </div>
+  				<br/>
 				<div className='itemPrice'> ${this.state.price}/hr </div>
+				<br/>
 				<br/>
 				<div className='bookingDiv' display='none' >
 					 <input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input>

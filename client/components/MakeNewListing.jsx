@@ -92,7 +92,7 @@ var MakeNewListing = React.createClass({
         <h1 className='newListingTitle'>Submit New Listing</h1>
         <form className="newListing" onSubmit={this.submit}>
             
-            <label> - </label><input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
+            <label></label><input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
             <label></label><input className="photoInput" placeholder='photo' placeholder='Item Photo URL' type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
             <label></label>
                     <br/>
