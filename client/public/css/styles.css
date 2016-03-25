@@ -99,7 +99,7 @@
 	font-family: 'Nougatine';
 	position: static;
 	color: white;
-	text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;
+	/*text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;*/
 	font-weight: bold;
 	margin-top: -10px;
 }
@@ -639,7 +639,7 @@
 }
 
 .itemPage .rentItemDiv {
-	
+
 }
 
 .itemPage .bookingCalendarDiv {
@@ -724,20 +724,33 @@
 
 .resultsContainer{
 	font-family: 'Avenir';
-	width: 500px;
-	font-size: 35px;
+	width: 600px;
+	font-size: 20px;
 	margin: 0 auto;
-	text-align: left;
+	text-align: center;
 	color:  black;
 	font-weight: bolder;
-	width: 850px;
 	background-color: rgba(255,255,255,0.4);
 	border-radius: 5px 5px 5px 5px;
-	margin-top: 6%;
+	/*margin-top: 6%;
 	margin-bottom: 15%;
 	margin-right: 20%;
-	margin-left: 20%;
+	margin-left: 20%;*/
 	padding-bottom: 20px;
+}
+
+.searchResult {
+	width: 400px;
+	font-size: 20px;
+	margin: 0 auto;
+	text-align: center;
+	color:  black;
+	font-weight: bolder;
+	background-color: rgba(255,255,255,0.4);
+	border-radius: 5px 5px 5px 5px;
+	padding-bottom: 20px;
+	margin-bottom: 10px;
+	cursor: pointer;
 }
 
 .resultsPhoto{
@@ -751,13 +764,14 @@
 
 .results {
  	font-family: 'Avenir';
-  font-size: 35px;
+  font-size: 20px;
   margin: 0 auto;
   text-align: center;
   padding: 20px;
   /*border-bottom: 1px solid orange;*/
   color: black;
-	text-shadow: 1px 1px 2px black, 0 0 1em teal, 0 0 0.2em teal;
+	font-weight: bolder;
+	/*text-shadow: 1px 1px 2px black, 0 0 1em teal, 0 0 0.2em teal;*/
 }
 
 .result {
