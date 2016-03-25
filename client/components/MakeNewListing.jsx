@@ -87,7 +87,7 @@ var MakeNewListing = React.createClass({
 
   render: function() {
     return (
-      <div className="newlisting">
+      <div className="newlistingContainer">
         <form className="newListing" onSubmit={this.submit}>
             
             <label>Item Name  </label><input className="itemNameInput" type="text" value={this.state.name} onChange={this.handleNameChange}></input>
