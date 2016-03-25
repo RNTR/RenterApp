@@ -53,10 +53,10 @@ var ItemPage = React.createClass({
 
 		return ( 
 		<div className="itemPage">
-			  <div className="itemPhoto"></div>
+			  <div className="itemPhoto"> <img src={this.state.photo}></img></div>
 			  <div className='itemDetails'>
 			  	<div className="itemName">NAME: <p>{this.state.name}</p> </div>
-  				<div className='itemDescription'><p>img src= {this.state.description}</p></div>
+  				<div className='itemDescription'><p>{this.state.description}</p></div>
 		  		<div className='itemAvailability'>Item availability</div>
 				<div className='itemPrice'>Item price  </div>
 				<button className='rentItemDiv'> Rent this item!

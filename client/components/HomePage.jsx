@@ -22,6 +22,7 @@ var HomePage = React.createClass({
           <div className="animated bounce">
             Currently in <span className="red">Development</span>!
           </div>
+          <div className="animated bounce"><a target="_blank" href="http://bit.ly/1RCeXpx">visit our github!</a></div>
         </div>
       </div>
     );
