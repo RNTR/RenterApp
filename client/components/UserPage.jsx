@@ -52,13 +52,14 @@ getListedItems: function(){
 	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
 	var promise = postRequests.getUserItemsForRent({user_id: stashedUserID});
 	promise.then( (user) => {
+		console.log('got owned items back: ', user)
+		console.log('here are items for rent: ', user.items)
 		this.setState({
-			itemsForRent: user.items[0].name,
-			getListedItemObjectID: user.items[0].id
+			itemsForRent: user.items,
+			getListedItemObjectID: user.items[0].id //1st item's id. may not be necessary in a min.
 		})
-	
-	sessionStorage.setItem("itemID", user.items[0].id)
-	
+		console.log('this.state after getting items: ',this.state)
+		sessionStorage.setItem("itemID", user.items[0].id)
 	})
 	
 
@@ -130,8 +131,9 @@ handleitemBeingRentedFromYouChange: function(e){
 								/******* REDIRECT FUNCTIONS ********/
 
 
-handleItemRedirect: function(){
-	sessionStorage.setItem("itemID", this.state.getListedItemObjectID) 
+handleItemRedirect: function(itemID){
+	var id = itemID || this.state.getListedItemObjectID;
+	sessionStorage.setItem("itemID", id) ;
 	this.props.history.pushState(this.state, 'item');
 },
 
@@ -151,25 +153,51 @@ handlegetCurrentRentedItemsItemRedirect: function(){
 
 
 render: function(){
+	var ownedItems = this.state.itemsForRent; 
+	var wrangled = this;
+	console.log('here is wrangled.state: ',wrangled.state)
+	console.log('here is ownedItems: ',ownedItems)
 
-	return (<div className='userPage'>
-			 <div className='userContainer'>
-			  <div className='userGreeting'> Welcome, <bold>{this.state.name}</bold></div>
-			  
-			  <div className='yourStuffForRent'> Your items for rent: 
-			  	<div className='yourItemForRent' onClick={this.handleItemRedirect}>{this.state.itemsForRent}</div>    
-			  </div>
-			  	
-			  <div className='stuffYouAreRenting'>Items you are renting from others:
-			  	<div className='itemYouAreRenting' onClick={this.handleitemsUserIsRentingRedirect}>{this.state.itemsUserIsRenting}</div>
-			  </div>
-			  	  
-			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
-			  	<div className='itemBeingRentedFromYou' onChange={this.handleitemBeingRentedFromYouChange} onClick={this.handlegetCurrentRentedItemsItemRedirect}>{this.state.itemsBeingRentedFromUser}</div>
-			  </div>
+	if (ownedItems !== null){
+		return (<div className='userPage'>
+				 <div className='userContainer'>
+				  <div className='userGreeting'> Welcome, <bold>{this.state.name}</bold></div>
+					  <div className='yourStuffForRent'> Your items for rent: 
+					  {ownedItems.map(function(item,index){
+		              return  <div className='yourItemForRent' onClick={function(){wrangled.handleItemRedirect(item.id)}}>{item.name}</div>
+		            })}
+  
+				  </div>
+				  	
+				  <div className='stuffYouAreRenting'>Items you are renting from others:
+				  	<div className='itemYouAreRenting' onClick={wrangled.handleitemsUserIsRentingRedirect}>{wrangled.state.itemsUserIsRenting}</div>
+				  </div>
+				  	  
+				  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
+				  	<div className='itemBeingRentedFromYou' onChange={wrangled.handleitemBeingRentedFromYouChange} onClick={wrangled.handlegetCurrentRentedItemsItemRedirect}>{wrangled.state.itemsBeingRentedFromUser}</div>
+				  </div>
 
-			 </div>
-			</div>);
+				 </div>
+				</div>);
+	} else {
+				return (<div className='userPage'>
+				 <div className='userContainer'>
+				  <div className='userGreeting'> Welcome, <bold>{this.state.name}</bold></div>
+					  <div className='yourStuffForRent'> Your items for rent:   
+				  </div>
+				  	
+				  <div className='stuffYouAreRenting'>Items you are renting from others:
+				  	<div className='itemYouAreRenting' onClick={this.handleitemsUserIsRentingRedirect}>{this.state.itemsUserIsRenting}</div>
+				  </div>
+				  	  
+				  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
+				  	<div className='itemBeingRentedFromYou' onChange={this.handleitemBeingRentedFromYouChange} onClick={this.handlegetCurrentRentedItemsItemRedirect}>{this.state.itemsBeingRentedFromUser}</div>
+				  </div>
+
+				 </div>
+				</div>);
+	}
+
 
 
 }

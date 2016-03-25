@@ -10,6 +10,7 @@ var App = require('../App.jsx')
 var MakeNewListing = React.createClass({
 
   getInitialState: function() {
+    var itemOwner = sessionStorage.getItem('userID');
     return {
       name: '',
       address: '',
@@ -17,7 +18,7 @@ var MakeNewListing = React.createClass({
       category: '',
       price: null,
       photo: '',
-      item_owner: 1,
+      item_owner: itemOwner,
       date_start: '',
       date_end: '',
       description: ''
