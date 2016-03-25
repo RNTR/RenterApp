@@ -104,11 +104,12 @@ var ItemPage = React.createClass({
 				<div className='bookingDiv' display='none' >
 					 <input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input>
 					 <input className='bookEndDate' type='date' onChange={this.handleDateEndChange} value={this.state.date_end}></input>
-				</div>
-				<br/>
-				<button className='bookItemButton'> Rent this item!
+					 <button className='bookItemButton'> Rent this item!
 		
 			  	</button>
+				</div>
+				<br/>
+				
 			  	<br/>
 			</form>
 			)

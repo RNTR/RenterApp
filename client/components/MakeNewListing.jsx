@@ -104,7 +104,7 @@ var MakeNewListing = React.createClass({
                 <br/>
             <label></label><input className="locationInput"type="number" placeholder='ZIP Code' onChange={this.handleZipChange} value={this.state.zip}></input>
                 <br/>
-            <label></label><textarea className="itemDescriptionInput"rows="5" cols="50" placeholder='Item Description' type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
+            <label></label><textarea className="itemDescriptionInput"rows="5" cols="50" maxlength='50' placeholder='Item Description' type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
           
             <button className="newListingButton" type="submit">Submit Listing!</button>
 
