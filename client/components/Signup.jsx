@@ -76,13 +76,13 @@ redirect: function(){
 render: function(){
 	return (
 
-		<div>
+		<div className='signupContainer'>
 
 		<form className = 'signup' onSubmit={this.submit}>
 		<input className='userSignup' value={this.state.username} onChange={this.handleUsernameChange} placeholder='Username'/>
-		<input className='emailSignup' value={this.state.email} onChange={this.handleEmailChange} placeholder='email'/>
+		<input className='emailSignup' value={this.state.email} onChange={this.handleEmailChange} placeholder='E-mail'/>
 		 <input className='userPassword' value={this.state.password} onChange={this.handlePasswordChange} type='password' placeholder='Password' />
-		 <button className="signupButton" type="submit">LOGIN</button>
+		 <button className="signupButton" type="submit">Sign Up</button>
 		 </form>
 
 		</div>

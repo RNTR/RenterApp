@@ -81,6 +81,11 @@ handleSigninRedirect: function(){
 
 },
 
+handleSignUpRedirect: function(){
+	    this.props.history.hashHistory.pushState(this.state, 'signup');
+},
+
+
 handleProfileRedirect: function(){
 	var sessionID = sessionStorage.getItem('sessionID');
 	var userID = parseInt(sessionStorage.getItem('userID'));
@@ -112,12 +117,14 @@ handleProfileRedirect: function(){
     return (
       <div className="bar">
        <div className='title' onClick={this.handleHomeRedirect}>RNTR</div>
-        <div className="signup" onClick={this.handleSigninRedirect}>Sign Up/Sign In</div>
+        <div className="signup" onClick={this.handleSignUpRedirect}>Sign Up</div>
+         <div className="signin" onClick={this.handleSigninRedirect}>Sign In</div>
       	 <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
       	  <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
 					<form onSubmit={this.handleSearchRedirect}>
 						<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
-						<input className='zipSearchbar'placeholder="Zip Code" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
+						
+						<input className='zipSearchbar'placeholder="ZIP Code" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
 						<button className='searchSubmitButton'type="submit">GO</button>
 					</form>
 

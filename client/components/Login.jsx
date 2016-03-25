@@ -91,12 +91,12 @@ render: function(){
 	return (<div>
 
 		<form className = 'userName' onSubmit={this.submit}>
-		<input className='userInput' value = {this.state.username} onChange={this.handleUsernameChange} placeholder='Username'/>
-		 <input className='userPass' value={this.state.password} onChange={this.handlePasswordChange} type='password' placeholder='Password' />
-		 <button className="loginButton" type="submit">LOGIN</button>
+		<input className='loginUserInput' value = {this.state.username} onChange={this.handleUsernameChange} placeholder='Username'/>
+		 <input className='loginPassInput' value={this.state.password} onChange={this.handlePasswordChange} type='password' placeholder='Password' />
+		 <button className="loginButton" type="submit">Sign In</button>
 		 </form>
 
-		 <button className='logoutButton' onClick={this.logout}>LOGOUT</button>
+		 <button className='logoutButton' onClick={this.logout}>Logout</button>
 
 		</div>
 

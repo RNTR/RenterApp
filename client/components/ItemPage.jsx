@@ -11,13 +11,14 @@ var ItemPage = React.createClass({
 
 	getInitialState: function(){
 
-		// this.fetchItem();
-
 		return {
 			photo: null,
-			name: 'Loading...',
+			name: null,
 			description: null,
-			price: null
+			price: null,
+			date_start: null,
+			date_end: null
+
 		};
 	},
 
@@ -25,24 +26,61 @@ var ItemPage = React.createClass({
 		this.fetchItem();
 	},
 
-	// handlePhoto: function(){
-	// 	postRequests.getItem({itemID: 4})
-	// 	.then(function(response){
-	// 	  return response.item.photo
-	// 	})
-	// },
+
 
 	fetchItem: function(){
-		var stashedItemID = parseInt(sessionStorage.getItem('currentItemID'));
+		var stashedItemID = parseInt(sessionStorage.getItem('itemID')); //or itemID if coming from userpAGE
 		var promise = postRequests.getItem({ itemID: stashedItemID })
 		promise.then( (item) => {
+			console.log('THIS IS THE ITEM OBJECT', item)
 			this.setState({ 
 				name: item.name,
 				photo: item.photo,
 				description: item.description,
-				price: item.price
+				price: item.price,
+				zip: item.zip
 			 })
 		})
+
+	},
+
+	handleDateStartChange: function(e){
+		 this.setState({
+      		date_start: e.target.value
+    	})
+	},
+
+	handleDateEndChange: function(e){
+		 this.setState({
+      		date_end: e.target.value
+    	})
+	},
+
+	handleItemRent: function(){
+	var stashedItemID = parseInt(sessionStorage.getItem('itemID')); 
+	var stashedUserID = parseInt(sessionStorage.getItem('userID')); 
+	var startDate = this.state.date_start;
+	var endDate = this.state.date_end;
+
+		var bookingPromise = postRequests.bookItem(
+			{rental:{
+				user_id:stashedUserID, 
+				item_id: stashedItemID, 
+				date_start: startDate,
+				date_end: endDate
+			}}
+			
+	  )
+
+		bookingPromise.then( (bookingResponse)  => {
+			if(bookingResponse.status === 'complete'){
+				alert('Item Booked!')
+			}
+			else{
+				alert('This item is not available for the dates selected.')
+			}
+		})
+
 
 	},
 
@@ -50,23 +88,30 @@ var ItemPage = React.createClass({
 
 
 	render: function(){
-
 		return ( 
-		<div className="itemPage">
-			  <div className="itemPhoto"> <img src={this.state.photo}></img></div>
+		<form className="itemPage" onSubmit={this.handleItemRent}>
+			  <div><img className='itemPhoto' src={this.state.photo} width='300' height='300' ></img></div>
 			  <div className='itemDetails'>
-			  	<div className="itemName">NAME: <p>{this.state.name}</p> </div>
+			  	<div className="itemName"> <p>{this.state.name}</p> </div>
   				<div className='itemDescription'><p>{this.state.description}</p></div>
-		  		<div className='itemAvailability'>Item availability</div>
-				<div className='itemPrice'>Item price  </div>
-				<button className='rentItemDiv'> Rent this item!
+  				<div className="itemZip">Located in {this.state.zip} </div>
+				<div className='itemPrice'> ${this.state.price}/hr </div>
+				<br/>
+				<div className='bookingDiv' display='none' >
+					 <input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input>
+					 <input className='bookEndDate' type='date' onChange={this.handleDateEndChange} value={this.state.date_end}></input>
+				</div>
+				<br/>
+				<button className='bookItemButton'> Rent this item!
 		
 			  	</button>
+			  	<br/>
 			  </div>
-			</div>
+			</form>
 			)
 	}
 })
+
 
 
 		

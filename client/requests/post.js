@@ -13,9 +13,19 @@ import { render } from 'react-dom'
 var App = require('../App.jsx')
 
 
-exports.getUserInfo = function(){
-  console.log('getUserInfo was called. its not set to grab anything yet.')
-}
+exports.getUserInfo = function(userID) {
+  return fetch('users/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+      return response;
+    })
+};
+
 
 exports.addNewItem = function(itemObject) {
   return new Promise(function(resolve, reject){
@@ -56,7 +66,6 @@ exports.searchForItem = function(itemName) {
       return response.items;
     })
 };
-
 
 
 /******************* SIGN UP/ SIGN IN ********************/
@@ -246,6 +255,24 @@ exports.getItemRedirect = function(itemID){
     })
 };
 
+exports.bookItem  = function(rentalRequestObject){
+
+  return fetch('bookings/', {
+    method: 'POST',
+    headers: requestHeaders,
+    credentials: 'include',
+    body: JSON.stringify(rentalRequestObject)
+  })
+    .then(function(rentalRequestObject){
+      return rentalRequestObject.json();
+    })
+    .then(function(response) {
+      console.log('BOOKING RESPONSE: ', response)
+        return response
+    })
+};
+
+
 
 exports.handleSubmit = function(){
 
@@ -261,61 +288,52 @@ exports.listItem = function(){
 }
 
 
-exports.getUserItemsForRent = function(){
+exports.getUserItemsForRent = function(userID) {
+  return fetch('items/user/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+      return response;
+    })
+};
+
+exports.getStuffRentedFromOthers = function(userID) {
+  return fetch('items/user/is_renting/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+    if(response.rentalsWithItems.length === 0){
+      response = 'NO CURRENT RENTALS'
+    }
+      return response;
+    })
+};
+
+exports.stuffBeingRentedFromUser = function(userID){
+   return fetch('items/user/rented_from/', {
+    method: 'POST',
+    headers: requestHeaders,
+    body: JSON.stringify(userID)
+  }).then(function(userID){
+    return userID.json()
+  })
+  .then( function(response) {
+    console.log('gstuffBeingRentedFromUser  response: ', response)
+      return response;
+    })
 
 
 };
 
-exports.getStuffRentedFromOthers = function(){
 
 
-};
-
-exports.stuffBeingRentedFromUser = function(){
 
 
-};
-
-/************ SEARCH RESULTS **********/
-
-exports.searchResults = function() {
-
-};
-
-exports.searchLocation = function() {
-
-}
-
-/************ NEW LISTING **********/
-
-exports.itemName = function() {
-
-}
-
-exports.itemDescription = function() {
-
-}
-
-exports.photoURL = function() {
-
-}
-
-exports.firstDate = function() {
-
-}
-
-exports.lastDate = function() {
-
-}
-
-exports.price = function() {
-
-}
-
-exports.newListLocation = function() {
-
-}
-
-exports.submitNewListing = function() {
-
-}

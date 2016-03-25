@@ -10,48 +10,165 @@ var getRequests = require('../requests/get.js');
 var UserPage = React.createClass({
 
 getInitialState: function(){
-	 return {};
+
+
+	 return {
+	 	name: null,
+	
+	 	itemsForRent: null,
+	 	getListedItemObjectID: null,
+
+
+	 	itemsUserIsRenting: null,
+	 	itemsUserIsRentingObjectID: null,
+
+
+	 	itemsBeingRentedFromUser: 'something',
+	 	itemsBeingRentedFromUserObjectID: null
+	 	
+	 };
 },
 
 componentDidMount: function(){
-
+	this.getUserInfo();
+	this.getListedItems();
+	this.getItemsUserIsRenting();
+	this.getCurrentRentedItems();
 },
 
 getUserInfo: function(){
-
-	console.log('user page')
-
+	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
+	var promise = postRequests.getUserInfo({userID: stashedUserID});
+	promise.then( (user) => {
+		this.setState({
+			name: user.user.username
+		})
+	})
 }, 
-
-requestsToRentees: function(){},
-
-requestsFromRenters: function(){},
 
 delistItem: function(){},
 
-getListedItems: function(){},
+getListedItems: function(){
+	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
+	var promise = postRequests.getUserItemsForRent({user_id: stashedUserID});
+	promise.then( (user) => {
+		this.setState({
+			itemsForRent: user.items[0].name,
+			getListedItemObjectID: user.items[0].id
+		})
+	
+	sessionStorage.setItem("itemID", user.items[0].id)
+	
+	})
+	
 
-getCurrentRentedItems: function(){},
+
+},
+
+
+getItemsUserIsRenting: function(){
+
+	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
+	var promise = postRequests.getStuffRentedFromOthers({userID: stashedUserID});
+	promise.then( (item) => {
+		
+			if(item === 'NO CURRENT RENTALS'){
+
+				this.setState({
+					itemsUserIsRenting: 'You are not currently renting anything.'
+				})
+
+			}
+
+				else{
+		
+
+
+			this.setState({
+				itemsUserIsRenting: item.items[0].name,
+				itemsUserIsRentingObjectID: item.items[0].id
+			})
+	
+		}
+
+	})
+
+
+
+},
+
+getCurrentRentedItems: function(){
+
+	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
+	console.log('stashedUserID', stashedUserID)
+	var promise = postRequests.stuffBeingRentedFromUser({owner: stashedUserID})
+	promise.then( (item) => {
+		console.log('DSOFIHSDFIHADSFIOASHDFOIAUSDHFA: ', item.itemsWithRentals[2])
+	
+				this.setState({
+					itemsBeingRentedFromUser: item.itemsWithRentals[2].name
+				})
+	})
+
+},
+
+// item.items[0][0].name
+
+
+handleitemBeingRentedFromYouChange: function(e){
+	this.setState({
+      itemsBeingRentedFromUser: e.target.value
+    });
+},
+
+
+
+
+
+
+
+								/******* REDIRECT FUNCTIONS ********/
+
+
+handleItemRedirect: function(){
+	sessionStorage.setItem("itemID", this.state.getListedItemObjectID) 
+	this.props.history.pushState(this.state, 'item');
+},
+
+handleitemsUserIsRentingRedirect: function(){
+	sessionStorage.setItem("itemID", this.state.itemsUserIsRentingObjectID)
+	if(this.state.itemsUserIsRentingObjectID !== null){
+			this.props.history.pushState(this.state, 'item');
+	} 
+},
+
+handlegetCurrentRentedItemsItemRedirect: function(){
+	sessionStorage.setItem("itemID", this.state.getListedItemObjectID) 
+	this.props.history.pushState(this.state, 'item');
+},
+
+
+
 
 render: function(){
-	
+
 	return (<div className='userPage'>
-			 
-			  <div className='userGreeting'> Welcome, {postRequests.getUserInfo()}</div>
+			 <div className='userContainer'>
+			  <div className='userGreeting'> Welcome, <bold>{this.state.name}</bold></div>
 			  
 			  <div className='yourStuffForRent'> Your items for rent: 
-			  	<div className='yourItemForRent'>{postRequests.getUserItemsForRent()}</div>    
+			  	<div className='yourItemForRent' onClick={this.handleItemRedirect}>{this.state.itemsForRent}</div>    
 			  </div>
 			  	
 			  <div className='stuffYouAreRenting'>Items you are renting from others:
-			  	<div className='itemYouAreRenting'>{postRequests.getStuffRentedFromOthers()}</div>
+			  	<div className='itemYouAreRenting' onClick={this.handleitemsUserIsRentingRedirect}>{this.state.itemsUserIsRenting}</div>
 			  </div>
 			  	  
 			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
-			  	<div className='itemBeingRentedFromYou'>{postRequests.stuffBeingRentedFromUser()}</div>
+			  	<div className='itemBeingRentedFromYou' onChange={this.handleitemBeingRentedFromYouChange} onClick={this.handlegetCurrentRentedItemsItemRedirect}>{this.state.itemsBeingRentedFromUser}</div>
 			  </div>
 
-
+			 </div>
 			</div>);
 
 
