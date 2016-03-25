@@ -496,7 +496,7 @@
   font-family: 'Avenir';
   font-size: 20px;
   width: 600px;
-  height: 600px;
+  /*height: 600px;*/
   margin: 0 auto;
   padding-top: 20px;
   font-weight: bolder;
@@ -522,10 +522,10 @@
 }
 
 .userPage .yourItemForRent {
-	padding-top: 10px;
+	padding-top: 5px;
 	margin-left: 5%;
 	color: #0099ff;
-	width: 60px;
+	width: 240px;
 }
 
 .yourItemForRent:hover {
