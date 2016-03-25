@@ -229,7 +229,7 @@
 
 
 
-												*** HOME PAGE ***
+												/**** HOME PAGE ****/
 
 #home {
 	background-color: red;
@@ -260,7 +260,7 @@
 
 
 
-												*** USER PAGE ***
+												/**** USER PAGE ****/
 
 .site .userPage {
   font-family: 'Avenir';
@@ -369,7 +369,7 @@
 	font-weight: bolder;
 }
 
-												/**** ITEM PAGE ***
+												/**** ITEM PAGE ****/
 
 .itemPage {
   font-family: 'Avenir';
@@ -460,7 +460,7 @@
    width: 600px;
    font-size: 40px;
    margin: 0 auto;
-/*   text-align: center;*/
+   text-align: center;
    padding-top: 10px;
    padding-bottom: 10px;
    border-bottom: 1px solid orange;
@@ -527,6 +527,8 @@
 
 										/*SEARCH RESULTS*/
 
+
+
 .results {
  font-family: 'Avenir';
   width: 600px;
@@ -571,7 +573,10 @@ a:hover {
     color:#b3cccc;
     display: block;
 }
-										/**  LOGIN PAGE  **/
+
+
+										/*LOGIN PAGE  */
+
 /*.userName {
 	margin-left: 35%;
 	margin-top: 20%;
