@@ -81,6 +81,11 @@ handleSigninRedirect: function(){
 
 },
 
+handleSignUpRedirect: function(){
+	    this.props.history.hashHistory.pushState(this.state, 'signup');
+},
+
+
 handleProfileRedirect: function(){
 	var sessionID = sessionStorage.getItem('sessionID');
 	var userID = parseInt(sessionStorage.getItem('userID'));
@@ -112,7 +117,8 @@ handleProfileRedirect: function(){
     return (
       <div className="bar">
        <div className='title' onClick={this.handleHomeRedirect}>RNTR</div>
-        <div className="signup" onClick={this.handleSigninRedirect}>Sign Up/Sign In</div>
+        <div className="signup" onClick={this.handleSignUpRedirect}>Sign Up</div>
+         <div className="signin" onClick={this.handleSigninRedirect}>Sign In</div>
       	 <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
       	  <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
 					<form onSubmit={this.handleSearchRedirect}>

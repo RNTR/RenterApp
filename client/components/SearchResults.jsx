@@ -13,6 +13,7 @@ var SearchResults = React.createClass({
     this.handleItemName();
 
     return {results: null, zip: null}
+
   },
 
   handleItemName: function() {
@@ -38,6 +39,26 @@ var SearchResults = React.createClass({
     })
   },
 
+
+
+  handleItemRedirect: function(){
+    sessionStorage.setItem("itemID", this.state.id) 
+    this.props.history.pushState(this.state, 'item');
+  },
+  handleItem1Redirect: function(){
+    sessionStorage.setItem("itemID", this.state.id1) 
+    this.props.history.pushState(this.state, 'item');
+  },
+  handleItem2Redirect: function(){
+    sessionStorage.setItem("itemID", this.state.id2) 
+    this.props.history.pushState(this.state, 'item');
+  },
+  handleItem3Redirect: function(){
+    sessionStorage.setItem("itemID", this.state.id3) 
+    this.props.history.pushState(this.state, 'item');
+  },
+
+
   render: function() {
     var results = this.state.results;
     var zip = this.state.zip;
@@ -62,7 +83,7 @@ var SearchResults = React.createClass({
                       </div>
                     </div>
             })}
-      </div>
+        </div>
       </div>
     )
   } else if(results === 'not found'){

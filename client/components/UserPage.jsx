@@ -23,7 +23,7 @@ getInitialState: function(){
 	 	itemsUserIsRentingObjectID: null,
 
 
-	 	itemsBeingRentedFromUser: null,
+	 	itemsBeingRentedFromUser: 'something',
 	 	itemsBeingRentedFromUserObjectID: null
 	 	
 	 };
@@ -103,16 +103,26 @@ getCurrentRentedItems: function(){
 	console.log('stashedUserID', stashedUserID)
 	var promise = postRequests.stuffBeingRentedFromUser({owner: stashedUserID})
 	promise.then( (item) => {
-		console.log('DSOFIHSDFIHADSFIOASHDFOIAUSDHFA: ', item)
+		console.log('DSOFIHSDFIHADSFIOASHDFOIAUSDHFA: ', item.itemsWithRentals[2])
 	
 				this.setState({
-					itemsBeingRentedFromUser: item
+					itemsBeingRentedFromUser: item.itemsWithRentals[2].name
 				})
 	})
 
 },
 
 // item.items[0][0].name
+
+
+handleitemBeingRentedFromYouChange: function(e){
+	this.setState({
+      itemsBeingRentedFromUser: e.target.value
+    });
+},
+
+
+
 
 
 
@@ -155,7 +165,7 @@ render: function(){
 			  </div>
 			  	  
 			  <div className='stuffOthersAreRentingFromYou'>Items that others are renting from you:
-			  	<div className='itemBeingRentedFromYou' onClick={this.handlegetCurrentRentedItemsItemRedirect}>{this.state.itemsBeingRentedFromUser}</div>
+			  	<div className='itemBeingRentedFromYou' onChange={this.handleitemBeingRentedFromYouChange} onClick={this.handlegetCurrentRentedItemsItemRedirect}>{this.state.itemsBeingRentedFromUser}</div>
 			  </div>
 
 			 </div>
