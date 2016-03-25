@@ -100,7 +100,7 @@ var SearchResults = React.createClass({
   } else if(results === 'not found'){
     return <div className="newListing">NO RESULTS FOUND </div>;
   } else {
-    return <div className="newListing">LOADING...</div>;
+    return <div className="newListing"></div>;
   }
   }
 });
