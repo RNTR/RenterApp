@@ -688,10 +688,13 @@ exports.rentedFromRoute = function(reqBody){
  								}
  							}
  						}
+ 						var rentalsOnly = items.filter(function(x){
+ 							return x.rentals.length > 0
+ 						})
  						var body = {
  							status : 'complete',
  							message : 'items retrieved (with arrays of rentals inside)',
- 							itemsWithRentals : items
+ 							itemsWithRentals : rentalsOnly
  						}
  						fulfill(body)
  					})
