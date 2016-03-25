@@ -87,24 +87,25 @@ var MakeNewListing = React.createClass({
 
   render: function() {
     return (
-      <div className="newlistingContainer">
+      <div className="newListingContainer">
+        <h1 className='newListingTitle'>Submit New Listing</h1>
         <form className="newListing" onSubmit={this.submit}>
             
-            <label>Item Name  </label><input className="itemNameInput" type="text" value={this.state.name} onChange={this.handleNameChange}></input>
-            <label>Photo URL  </label><input className="photoInput" type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
-            <label>Dates Available  </label>
+            <label> - </label><input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
+            <label></label><input className="photoInput" placeholder='photo' placeholder='Item Photo URL' type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
+            <label></label>
                     <br/>
-                First Available  <input className='newListingInput1' type="date" value={this.state.date_start} onChange={this.handleDateStartChange}></input>
+                <input className='newListingInput1' type="date" placeholder='Date First Available' value={this.state.date_start} onChange={this.handleDateStartChange}></input>
                     <br/>
-                Last Available  <input className='newListingInput2' type="date" value={this.state.date_end} onChange={this.handleDateEndChange}></input> 
+                <input className='newListingInput2' type="date" placeholder='Date Last Available' value={this.state.date_end} onChange={this.handleDateEndChange}></input> 
                 <br/>
-            <label>$  </label><input className="priceInput" type="number" value={this.state.price} onChange={this.handlePriceChange}></input>
+            <label></label><input className="priceInput" type="number" placeholder='Price per hour'value={this.state.price} onChange={this.handlePriceChange}></input>
                 <br/>
-            <label>ZIP  </label><input className="locationInput"type="number" onChange={this.handleZipChange} value={this.state.zip}></input>
+            <label></label><input className="locationInput"type="number" placeholder='ZIP Code' onChange={this.handleZipChange} value={this.state.zip}></input>
                 <br/>
-            <label>Description  </label><textarea className="itemDescriptionInput"rows="5" cols="50"  type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
+            <label></label><textarea className="itemDescriptionInput"rows="5" cols="50" placeholder='Item Description' type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
           
-            <button className="newListingButton" type="submit">SUBMIT NEW LISTING!</button>
+            <button className="newListingButton" type="submit">Submit Listing!</button>
 
         </form>
       </div>
