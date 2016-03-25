@@ -92,7 +92,7 @@ var MakeNewListing = React.createClass({
         <h1 className='newListingTitle'>Submit New Listing</h1>
         <form className="newListing" onSubmit={this.submit}>
             
-            <label> - </label><input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
+            <label></label><input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
             <label></label><input className="photoInput" placeholder='photo' placeholder='Item Photo URL' type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
             <label></label>
                     <br/>
@@ -104,7 +104,7 @@ var MakeNewListing = React.createClass({
                 <br/>
             <label></label><input className="locationInput"type="number" placeholder='ZIP Code' onChange={this.handleZipChange} value={this.state.zip}></input>
                 <br/>
-            <label></label><textarea className="itemDescriptionInput"rows="5" cols="50" placeholder='Item Description' type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
+            <label></label><textarea className="itemDescriptionInput"rows="5" cols="50" maxlength='50' placeholder='Item Description' type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
           
             <button className="newListingButton" type="submit">Submit Listing!</button>
 
