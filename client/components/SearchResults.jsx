@@ -21,7 +21,7 @@ var SearchResults = React.createClass({
 
       if (item.length === 0){
         this.setState({
-          results: null,
+          results: 'not found',
           zip: null
         })
       } else{
@@ -37,7 +37,7 @@ var SearchResults = React.createClass({
     var results = this.state.results;
     var zip = this.state.zip;
 
-    if (results !== null){
+    if (results !== null && results !== 'not found'){
       return (
         <div>
         <div className="newListing">Here is what we found for: {this.state.zip}</div>
@@ -61,8 +61,10 @@ var SearchResults = React.createClass({
       </div>
       </div>
     )
-  } else {
+  } else if(results === 'not found'){
     return <div className="newListing">NO RESULTS FOUND </div>;
+  } else {
+    return <div className="newListing">LOADING...</div>;
   }
   }
 });
