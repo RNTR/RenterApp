@@ -99,7 +99,7 @@
 	font-family: 'Nougatine';
 	position: static;
 	color: white;
-	text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;
+	/*text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;*/
 	font-weight: bold;
 	margin-top: -10px;
 }
