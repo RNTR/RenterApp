@@ -20,9 +20,9 @@ var SearchResults = React.createClass({
 
   handleItemName: function() {
     var promise = postRequests.searchForItem(
-      {searchTerm: sessionStorage.getItem("GlobalSearchTerm"), 
+      {searchTerm: sessionStorage.getItem("GlobalSearchTerm"),
       zipCode: parseInt(sessionStorage.getItem("GlobalSearchZip"))})
-    
+
     promise.then((item) => {
       if (!item || item.length === 0){
         this.setState({
@@ -47,19 +47,19 @@ var SearchResults = React.createClass({
 
 
   handleItemRedirect: function(){
-    sessionStorage.setItem("itemID", this.state.id) 
+    sessionStorage.setItem("itemID", this.state.id)
     this.props.history.pushState(this.state, 'item');
   },
   handleItem1Redirect: function(){
-    sessionStorage.setItem("itemID", this.state.id1) 
+    sessionStorage.setItem("itemID", this.state.id1)
     this.props.history.pushState(this.state, 'item');
   },
   handleItem2Redirect: function(){
-    sessionStorage.setItem("itemID", this.state.id2) 
+    sessionStorage.setItem("itemID", this.state.id2)
     this.props.history.pushState(this.state, 'item');
   },
   handleItem3Redirect: function(){
-    sessionStorage.setItem("itemID", this.state.id3) 
+    sessionStorage.setItem("itemID", this.state.id3)
     this.props.history.pushState(this.state, 'item');
   },
 
@@ -70,31 +70,37 @@ var SearchResults = React.createClass({
     if (results !== null && results !== 'not found'){
       return (
         <div>
-        <div className="newListing">Here is what we found for: {this.state.zip}</div>
-        <div>
+        <div className="results">Here is what we found for: {this.state.zip}</div>
+        <div className="resultsContainer">
+          <div className="results">
             {results.map(function(item,index){
-              return  <div className="newListing">RESULT {index+1}
-                      <div className="newListing">NAME:
-                        <div >{item.name}</div>
+              return  <div>
+                      <div className="teal">
+                        RESULT {index+1}
                       </div>
-                      <div className="newListing">PRICE:
-                        <div >${item.price}.00/Day</div>
+                      <div>NAME:
+                        <div className="result">{item.name}</div>
                       </div>
-                      <div className="newListing">DESCRIPTION:
-                        <div>{item.description}</div>
+                      <div>PRICE:
+                        <div className="result">${item.price}.00/Day</div>
                       </div>
-                      <div className="newListing">PIC:
-                        <a href={item.photo} >Link</a>
+                      <div>DESCRIPTION:
+                        <div className="result">{item.description}</div>
+                      </div>
+                      <div  className="result">PIC:
+                        <a target="_blank" href={item.photo} >Link</a>
                       </div>
                     </div>
             })}
+
+          </div>
         </div>
       </div>
     )
   } else if(results === 'not found'){
     return <div className="newListing">NO RESULTS FOUND </div>;
   } else {
-    return <div className="newListing">LOADING...</div>;
+    return <div className="newListing"></div>;
   }
   }
 });
