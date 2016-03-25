@@ -96,7 +96,7 @@
 .bar .title {
 	right: 90%;
 	font-size: 50px;
-	font-family: 'Avenir';
+	font-family: 'Nougatine';
 	position: static;
 	color: white;
 	text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;
@@ -728,7 +728,7 @@
 	font-size: 35px;
 	margin: 0 auto;
 	text-align: left;
-	color:  #f2f2f2;
+	color:  black;
 	font-weight: bolder;
 	width: 850px;
 	background-color: rgba(255,255,255,0.4);
@@ -756,8 +756,8 @@
   text-align: center;
   padding: 20px;
   /*border-bottom: 1px solid orange;*/
-  color: #f2f2f2;
-	/*text-shadow: 1px 1px 2px black, 0 0 1em orange, 0 0 0.2em orange;*/
+  color: black;
+	text-shadow: 1px 1px 2px black, 0 0 1em teal, 0 0 0.2em teal;
 }
 
 .result {
