@@ -22,15 +22,15 @@ See ```Database Setup``` for more information.
 
 On every pull request, Travis will automatically run and perform the following:
 
- - Perform clone from the DEV-BRANCH at the specific pull request.
+ - Clone from the DEV-BRANCH at the specific pull request.
  - Create a Docker container from the cloned repo.
  - Read the travis.yml file from the root directory of the repo for the Node version.
  - Run npm install.
  - Start the server.
  - Run tests from the test directory.
 
-If any of the above fail, Travis will report on what went wrong on the Github pull request page.
-If all of the above are successful, Travis will autodeploy to production when the pull request is merged to DEV-BRANCH.
+If any of the above fail, Travis will report what went wrong on the Github pull request page.
+If all of the above succeed, Travis will autodeploy to production when the pull request is merged to DEV-BRANCH.
 
 ## Stack
 
