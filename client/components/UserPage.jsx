@@ -51,12 +51,9 @@ getListedItems: function(){
 	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
 	var promise = postRequests.getUserItemsForRent({user_id: stashedUserID});
 	promise.then( (user) => {
-		console.log('got owned items back: ', user)
-		console.log('here are items for rent: ', user.items)
 		this.setState({
 			itemsForRent: user.items,
 		})
-		console.log('this.state after getting items: ',this.state)
 		sessionStorage.setItem("itemID", user.items[0].id)
 	})
 	
@@ -89,8 +86,6 @@ getCurrentRentedItems: function(){
 	var stashedUserID = parseInt(sessionStorage.getItem('userID'));
 	var promise = postRequests.stuffBeingRentedFromUser({owner: stashedUserID})
 	promise.then( (item) => {
-		console.log('these are the items that came back: ', item)
-		//there may need to be some selection/handling of 'no results found' here.
 		this.setState({
 			itemsBeingRentedFromUser: item.itemsWithRentals
 		})
@@ -139,7 +134,6 @@ render: function(){
 	var ownedItems = this.state.itemsForRent; 
 	var userIsRenting = this.state.itemsUserIsRenting;
 	var rentedFromUser = this.state.itemsBeingRentedFromUser;
-	console.log('here is rentedFromUser in render: ', rentedFromUser);
 	var wrangled = this;
 
 	var ownedDivs;
@@ -168,7 +162,7 @@ render: function(){
 
 	var rentFromUserDivs;
 	//generate rentFromUserDivs
-	if(rentedFromUser !== null ){
+	if(rentedFromUser !== null && rentedFromUser.length>0){
 	  rentFromUserDivs = rentedFromUser.map(function(item,index){
           return  	<div className='rentalBlock'>
           				<div className='yourItemForRent' onChange={wrangled.handleitemBeingRentedFromYouChange} onClick={function(){wrangled.handlegetCurrentRentedItemsItemRedirect(item.id)}}>{item.name}</div>
@@ -179,7 +173,6 @@ render: function(){
 	} else {
 		rentFromUserDivs = <div className='noItemsYet'>Nobody is currently renting from you.</div>
 	}
-// <div className='itemBeingRentedFromYou' onChange={wrangled.handleitemBeingRentedFromYouChange} onClick={wrangled.handlegetCurrentRentedItemsItemRedirect}>{wrangled.state.itemsBeingRentedFromUser}</div>
 
 
 	return (<div className='userPage'>
@@ -204,20 +197,4 @@ render: function(){
 });
 
 
-
 module.exports = UserPage;
-
-			
-
-
-
-
-
-		  	
-
-// results.map(function(results) {
-// 			  		<SearchResults results={results} />
-// 			  	})
-
-
-
