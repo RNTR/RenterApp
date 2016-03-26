@@ -12,8 +12,8 @@
 
 The RNTR backend was developed via TDD using Mocha and Chai. To run the test suite:
 ```
-	$ createdb RNTR_test
-	$ npm test
+$ createdb RNTR_test
+$ npm test
 ```
 
 See ```Database Setup``` for more information.
@@ -56,17 +56,23 @@ See ```Database Setup```
 
 ## Database Setup
 
-1) install postgress:
+- install postgress:
+
 	``` $ brew install postgresql ```
-2) initialize a pg instance via terminal:
+
+- initialize a pg instance via terminal:
+
 	``` $ postgres -D /usr/local/var/postgres ```
-3) create a local database for RNTR via terminal:
+
+- create a local database for RNTR via terminal:
+
 	``` $ createdb RNTR_dev ```
-4) run server.js:
+
+- run server.js:
+
 	``` $ npm start ```
 
-
-To query a local database from terminal once a postgres instance is running:
+- To query a local database from terminal once a postgres instance is running:
 
 	``` $ psql RNTR_dev ```
 
