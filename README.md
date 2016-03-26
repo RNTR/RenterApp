@@ -22,9 +22,8 @@ See ```Database Setup``` for more information.
 
 On every pull request, Travis will automatically run and perform the following:
 
- - Clone from the DEV-BRANCH at the specific pull request.
- - Create a Docker container from the cloned repo.
- - Read the travis.yml file from the root directory of the repo for the Node version.
+ - Clone from the pull request.
+ - Read the travis.yml file from the root directory of the repo.
  - Run npm install.
  - Start the server.
  - Run tests from the test directory.
