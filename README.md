@@ -10,9 +10,9 @@
 
 ## Tests
 
-The RNTR backend was developed via a TDD workflow. To run all unit and end-to-end tests:
-	$ createdb RNTR_test
-	$ npm test
+The RNTR backend was developed via a TDD workflow using Mocha and Chai. To run all unit and end-to-end API tests:
+- $ createdb RNTR_test
+- $ npm test
 
 See ```Database Setup``` for more information.
 
