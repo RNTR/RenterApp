@@ -11,8 +11,10 @@
 ## Tests
 
 The RNTR backend was developed via a TDD workflow. To run all unit and end-to-end tests:
-- create a test database: $createdb RNTR_test
-- run $npm test
+	$createdb RNTR_test
+	$npm test
+
+See '''Database Setup''' for more information.
 
 ## Continuous Integration
 
@@ -35,7 +37,7 @@ If any of the above fail, travis will report on what went wrong on the Github pu
  - Express.js
 
 ##Database
-See ```references``` directory
+See ```Database Setup```
 
 ##Data Flow
 
