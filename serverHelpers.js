@@ -551,7 +551,8 @@ exports.getOwnedRoute = function(reqBody){
  				var body = {
  					status : 'complete',
  					message : 'items retrieved.',
- 					'items' : items
+ 					'items' : items,
+ 					code : 200
  				}
  				fulfill(body);
  			})
@@ -559,14 +560,16 @@ exports.getOwnedRoute = function(reqBody){
  				var body = {
  					status : 'failed',
  					message : 'internal error',
- 					error : err
+ 					error : err,
+ 					code : 500
  				}
  				reject(body);
  			})
  		} else {
 		 	var body = {
 				status : 'failed',
-				message : 'invalid input. Make sure you supplied a valid user_id'
+				message : 'invalid input. Make sure you supplied a valid user_id',
+				code : 400
 			}
 			reject(body);
  		}
