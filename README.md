@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/nodedoubt/cinemaplate.svg?branch=master)](https://travis-ci.org/RNTR/RenterApp)
 
+The RNTR web platform allows users to rent (or rent out) household items in their community.
+
 ## Getting Started
 
     $ npm install
