@@ -199,10 +199,10 @@ routes.post('/bookings/item', function (req, res){
   // get all rentals for a given item
   helpers.rentalsForItemRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 
   })
@@ -211,10 +211,10 @@ routes.delete('/bookings', function (req, res){
   // delete a rental.
   helpers.deleteRentalRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
   })
 

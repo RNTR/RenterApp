@@ -924,7 +924,8 @@ exports.rentalsForItemRoute = function(reqBody){
  		if (!!!reqBody.itemID || typeof reqBody.itemID !== 'number'){
 			var body = {
 		 		status : 'failed',
-		 		message : 'invalid format. Make sure you provided a valid itemID.'
+		 		message : 'invalid format. Make sure you provided a valid itemID.',
+		 		code : 400
 		 	}
 		 	reject(body)
  		}
@@ -935,7 +936,8 @@ exports.rentalsForItemRoute = function(reqBody){
  				var body = {
  					status : 'complete',
  					message : 'rentals retrieved.',
- 					'rentals' : rentals
+ 					'rentals' : rentals,
+ 					code : 200
  				}
  				fulfill(body);
  			})
@@ -943,7 +945,8 @@ exports.rentalsForItemRoute = function(reqBody){
  				var body = {
  					status : 'failed',
  					message : 'internal error',
- 					error : err
+ 					error : err,
+ 					code : 500
  				}
  				reject(body);
  			})
@@ -955,7 +958,8 @@ exports.deleteRentalRoute = function(reqBody){
  		if (!!!reqBody.rentalID || typeof reqBody.rentalID !== 'number'){
 		 	var body = {
 				status : 'failed',
-				message : 'invalid format. Make sure you entered a valid rentalID, userID, and password'
+				message : 'invalid format. Make sure you entered a valid rentalID, userID, and password',
+				code : 400
 			}
 			reject(body);
  		}
@@ -974,10 +978,12 @@ exports.deleteRentalRoute = function(reqBody){
  					obj.status = 'complete';
  					obj.message = 'rental deleted.';
  					obj.rentalID = response[0].id;
+ 					obj.code = 200;
  					fulfill(obj);
  				} else {
  					obj.status = 'failed';
  					obj.message = 'item was not deleted - item did not exist';
+ 					obj.code = 400;
  					reject(obj);
  				}
  			})
@@ -986,6 +992,7 @@ exports.deleteRentalRoute = function(reqBody){
  				var errorBody = {
  					status : 'failed',
  					message : 'internal error',
+ 					code : 500,
  					error: err
  				}
  				reject(errorBody);
