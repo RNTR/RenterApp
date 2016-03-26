@@ -115,7 +115,7 @@ routes.post('/items/search', function (req, res){
       res.status(200).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 })
 

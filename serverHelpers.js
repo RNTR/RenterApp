@@ -474,6 +474,7 @@ exports.searchItemsRoute = function(reqBody){
 	 				var body = {
 	 					status : 'complete',
 	 					message : 'items retrieved.',
+	 					code : 200,
 	 					'items' : results
 	 				}
 	 				fulfill(body);
@@ -482,6 +483,7 @@ exports.searchItemsRoute = function(reqBody){
 	 				var body = {
 	 					status : 'failed',
 	 					message : 'internal error',
+	 					code : 500,
 	 					error : err
 	 				}
 	 				reject(body);
@@ -489,7 +491,8 @@ exports.searchItemsRoute = function(reqBody){
  		} else {
  			var body = {
  				status : 'failed',
- 				message : 'invalid input. Make sure you supplied a valid searchTerm and zipCode.'
+ 				message : 'invalid input. Make sure you supplied a valid searchTerm and zipCode.',
+ 				code : 400
  			}
  			reject(body);
  		}
