@@ -266,7 +266,7 @@ describe ("Server-Side Routing:", function() {
       yield request(app)
         .post('/items')
         .send(body)
-        .expect(200)
+        .expect(201)
         .expect(function(response) {
           expect(response.body.item).to.exist;
           expect(response.body.status).to.equal('complete')
@@ -920,7 +920,7 @@ describe ("Server-Side Routing:", function() {
       yield request(app)
         .post('/bookings')
         .send(rentalTwoBody)
-        .expect(200)
+        .expect(201)
         .expect(function(response) {
           expect(response.body.status).to.equal('complete');
           expect(response.body.message).to.equal('rental created.');
