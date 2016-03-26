@@ -8,6 +8,14 @@
     $ webpack
     $ npm start
 
+## Stack
+
+ - PostgreSQL
+ - Knex.js
+ - Node.js
+ - Express.js
+ - React.js
+
 ## Tests
 
 The RNTR backend was developed via TDD using Mocha and Chai. To run the test suite:
@@ -30,14 +38,6 @@ On every pull request, Travis will automatically run and perform the following:
 
 If any of the above fail, Travis will report what went wrong on the Github pull request page.
 If all of the above succeed, Travis will autodeploy to production when the pull request is merged to DEV-BRANCH.
-
-## Stack
-
- - PostgreSQL
- - Knex.js
- - Node.js
- - Express.js
- - React.js
 
 ##Database
 See ```Database Setup```.
