@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nodedoubt/cinemaplate.svg?branch=master)](https://travis-ci.org/RNTR/RenterApp)
 
-The RNTR web platform allows users to rent (or rent out) household items in their community.
+The RNTR web platform allows users to search their community for tools, household items, sports equippment, or almost anything else and rent it by the day from neighbors. Alternatively, RNTR allows users to rent out their underutilized posessions, turning junk into a revenue stream.
 
 ## Getting Started
 
