@@ -45,6 +45,8 @@ See ```Database Setup```.
 ## Road Map
   - In-app messaging for users
   - Rental confirmation/rejection options for item owners
+  - Rental cancellation option for users
+  - Delete Items and Delete Account option for users
   - User rating/review system
   - Booking items by-the-hour
   - Email notifications
