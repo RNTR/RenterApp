@@ -20,7 +20,7 @@ See ```Database Setup``` for more information.
 
 ## Continuous Integration
 
-On every pull request Travis will automatically run and perform the following:
+On every pull request, Travis will automatically run and perform the following:
 
  - Perform clone from the DEV-BRANCH at the specific pull request.
  - Create a Docker container from the cloned repo.
