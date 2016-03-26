@@ -6,11 +6,8 @@ var db = require('./db/dbConfig.js');
 var dbMethod = require('./db/dbMethods.js')
 var helpers = require('./serverHelpers.js')
 var webpack = require('webpack');
-var cookieParser = require('cookie-parser')
 var app = express();
 
-//makes cookies accessible via req.cookie
-routes.use( cookieParser() );
 
 
   
@@ -32,7 +29,6 @@ routes.post('/signup', function (req, res){
   // sign up a new user.
   helpers.signupRoute(req.body)
     .then(function(response){
-      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true}) //valid for one week.
         .status(200).send(response);
     })
     .catch(function(err){
@@ -44,7 +40,6 @@ routes.post('/login', function (req, res){
   // log a user in.
   helpers.loginRoute(req.body)
     .then(function(response){
-      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true}) //valid for one week.
         res.status(200).send(response);
     })
     .catch(function(err){
@@ -54,7 +49,6 @@ routes.post('/login', function (req, res){
 
 routes.post('/logout', function (req, res){
   // log a user out.
-  req.body.cookie = req.body.cookie || req.cookies;
   helpers.logoutRoute(req.body)
     .then(function(response){
       res.status(200).send(response);
@@ -92,14 +86,11 @@ routes.delete('/users', function (req, res){
 
 routes.post('/session', function (req, res){
   //validate a session - Does it exist? Does it match the userID?
-  console.log('sessions route activated: ',req.body)
   helpers.validateSessionRoute(req.body)
     .then(function(resp){
-      console.log('here is server about to send resp: ', resp)
       res.status(200).send(resp);
     })
     .catch(function(err){
-      console.log('here is err on server: ', err)
       res.status(err.code).send(err)
     })
 })
