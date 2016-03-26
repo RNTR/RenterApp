@@ -10,7 +10,7 @@
 
 ## Tests
 
-The RNTR backend was developed via TDD using Mocha and Chai. To run all unit and end-to-end API tests:
+The RNTR backend was developed via TDD using Mocha and Chai. To run the test suite:
 - $ createdb RNTR_test
 - $ npm test
 
@@ -20,7 +20,7 @@ See ```Database Setup``` for more information.
 
 On every pull request Travis will automatically run and perform the following:
 
- - Perform clone from the master brach at the specific pull request.
+ - Perform clone from the DEV-BRANCH at the specific pull request.
  - Create a Docker container from the cloned repo.
  - Read the travis.yml file from the root directory of the repo for the Node version.
  - Run npm install.
@@ -39,13 +39,18 @@ If any of the above fail, travis will report on what went wrong on the Github pu
 ##Database
 See ```Database Setup```
 
-##Data Flow
-
-placeholder here.
-
 ## Road Map
-  - list of future features
-  - another futre feature
+  - In-app messaging for users
+  - Rental confirmation/rejection options for item owners
+  - User rating/review system
+  - Booking items by-the-hour
+  - Email notifications
+  - In-app notifications
+  - Filter searches by item category, condition, and availability dates
+  - Payment processing integration (Paypal, Venmo)
+  - Enhanced UI for displaying item availability
+  - 'Request an Item' functionality
+  - City-specific home pages
 
 ## Database Setup
 ```
