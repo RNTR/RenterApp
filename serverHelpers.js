@@ -374,10 +374,12 @@ exports.deleteUserRoute = function(reqBody){
 	 					obj.status = 'complete';
 	 					obj.message = 'user deleted';
 	 					obj.user = user;
+	 					obj.code = 200;
 	 					fulfill(obj);
 	 				} else {
 	 					obj.status = 'failed';
 	 					obj.message = 'user was not deleted - user did not exist';
+	 					obj.code = 400;
 	 					reject(obj);
 	 				}
 	 			})
@@ -387,6 +389,7 @@ exports.deleteUserRoute = function(reqBody){
 	 				var errorBody = {
 	 					status : 'failed',
 	 					message : 'internal error',
+	 					code : 500,
 	 					error : err
 	 				}
 	 				reject(errorBody);
@@ -395,6 +398,7 @@ exports.deleteUserRoute = function(reqBody){
 	 		var errorBody = {
 	 			status : 'failed',
 	 			message : 'invalid input. Please provide a valid "user" object containing a "userID"',
+	 			code : 400
 	 			}
 	 		reject(errorBody);
 	 	}
