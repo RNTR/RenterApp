@@ -34,12 +34,13 @@ If any of the above fail, travis will report on what went wrong on the Github pu
 ## Stack
 
  - PostgreSQL
- - React.js
+ - Knex.js
  - Node.js
  - Express.js
+ - React.js
 
 ##Database
-See ```Database Setup```
+See ```Database Setup```.
 
 ## Road Map
   - In-app messaging for users
@@ -56,19 +57,19 @@ See ```Database Setup```
 
 ## Database Setup
 
-- install postgress:
+- Install postgress:
 	
 	``` $ brew install postgresql ```
 
-- initialize a pg instance via terminal:
+- Initialize a pg instance via terminal:
 	
 	``` $ postgres -D /usr/local/var/postgres ```
 
-- create a local database for RNTR via terminal:
+- Create a local database for RNTR via terminal:
 	
 	``` $ createdb RNTR_dev ```
 
-- run server.js:
+- Run server.js:
 	
 	``` $ npm start ```
 
