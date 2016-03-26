@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/nodedoubt/cinemaplate.svg?branch=master)](https://travis-ci.org/RNTR/RenterApp)
 
-The RNTR web platform (alpha) allows users to rent tools, household items, sports equippment, or nearly anything else from neighbors in their communities. Alternatively, RNTR allows users to monetize their underutilized posessions, turning junk into a revenue stream!
+The RNTR web platform (alpha) allows users to rent tools, household items, sports equippment, or nearly anything else from neighbors in their communities. Alternatively, RNTR allows users to monetize their underutilized posessions, turning junk into revenue.
 
 ## Getting Started
 
