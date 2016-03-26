@@ -13,9 +13,9 @@ The RNTR web platform (alpha) allows users to rent tools, household items, sport
 ## Stack
 
  - Node.js
+ - Express.js
  - PostgreSQL
  - Knex.js
- - Express.js
  - React.js
 
 ## Tests
