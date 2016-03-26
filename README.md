@@ -57,17 +57,22 @@ See ```Database Setup```
 ## Database Setup
 
 - install postgress:
+	
 	``` $ brew install postgresql ```
 
 - initialize a pg instance via terminal:
+	
 	``` $ postgres -D /usr/local/var/postgres ```
 
 - create a local database for RNTR via terminal:
+	
 	``` $ createdb RNTR_dev ```
 
 - run server.js:
+	
 	``` $ npm start ```
 
 - To query a local database from terminal once a postgres instance is running:
+	
 	``` $ psql RNTR_dev ```
 
