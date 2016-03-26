@@ -215,7 +215,6 @@ describe ("Server-Side Routing:", function() {
         .post('/login')
         .send(loginBody)
         .expect(function(resp){
-          console.log('here is loging in via the test: ', resp.body);
           sessionID = resp.body.sessionID;
         })
 

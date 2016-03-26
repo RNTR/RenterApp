@@ -29,7 +29,7 @@ routes.post('/signup', function (req, res){
   // sign up a new user.
   helpers.signupRoute(req.body)
     .then(function(response){
-        .status(200).send(response);
+      res.status(200).send(response);
     })
     .catch(function(err){
       res.status(err.code).send(err)
@@ -65,7 +65,7 @@ routes.post('/users', function (req, res){
       res.status(200).send(response)
     })
     .catch(function(err){
-      res.status(400).send(err)
+      res.status(err.code).send(err)
     })
 })
 
