@@ -11,8 +11,8 @@
 ## Tests
 
 The RNTR backend was developed via a TDD workflow. To run all unit and end-to-end tests:
-	$createdb RNTR_test
-	$npm test
+	- $createdb RNTR_test
+	- $npm test
 
 See '''Database Setup''' for more information.
 
