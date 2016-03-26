@@ -19,16 +19,16 @@ addons:
     - g++-4.8
 services:
 - postgresql
-before_deploy: 
-- export NODE_ENV=production
+# before_deploy: 
+# - export NODE_ENV=production
 deploy:
   provider: heroku
   api_key:
     secure: G9UIxRq+UfH5tE1FDKLk17I/jV2FqwKK9g6mJZ0rSU37IVW7SRwpLQX5jeIMGqVCrmG9KaRMZ8ns2NI1HwO6RemtvJqEW0jxFhhHhS1zT4YRZPYYAFeFVNePuy1UvPS2S8Lm5RaOEhIUBW2WpYjx4p6MaDuEvYHk0wA6MRiqr4f/u2LjS67lLYJJFrTng7xptzzRTZoFCB0tN5avY3pHfGxAJisJ4fMn6B2KrXKsp2STyurHKYb5rwbaIJODZE61XR5w4QohUIa9HB3a4JoYa7Y4koQ0f+kcb+1XDdM50lHrYrI1o76qT/HD1v/6uZeaO9tWs2uZFTlKY+2g9d8kcsOEu3yIuiirxclzLXMG35PvttMUCahg+ZLOBpsVwjUBWO9CbtfrhPagfckgGnars/0dieTFgbCeYGsNs1ghDjil1+MPdWeb0CVUIMdtevfSjc2lsZ6sWHnTDKWBr9hJ7vKzscNoGlLVzyR4riUSXNjzKf9CD2OYw03twXNCo+l0G6yrcBl0LgNf/8syasVFdS0Mip3Z6nbNgUzKNpz4LXTkeslCiwwRgS1rZzvLzPIheRj/ZsES1mcFM+jlR4c/Z2jG2BrLR9e/PSEc/GEyCEp40Zcw5rtcjEj9ydZexUuUz2eO0N3enJKPIGanKBYCUZm5PE07DYAGKWa9tJkQEek=
-  run: 
-  - webpack
+  # run: 
+  # - webpack
   app: rntr
   on:
     repo: RNTR/RenterApp
-    branch: master
+    branch: DEV-BRANCH
 
