@@ -1,13 +1,52 @@
-# RenterApp
+# RNTR
 
+[![Build Status](https://travis-ci.org/nodedoubt/cinemaplate.svg?branch=master)](https://travis-ci.org/RNTR/RenterApp)
 
+## Getting Started
 
+    $ npm install
+    $ webpack
+    $ npm start
 
+## Tests
 
+The RNTR backend was developed via a TDD workflow. To run all unit and end-to-end tests:
+- create a test database: $createdb RNTR_test
+- run $npm test
 
+## Continuous Integration
 
+On every pull request Travis will automatically run and perform the following:
 
-How to start up a local dev database:
+ - Perform clone from the master brach at the specific pull request.
+ - Create a Docker container from the cloned repo.
+ - Read the travis.yml file from the root directory of the repo for the Node version.
+ - Run npm install.
+ - Start the server.
+ - Run tests from the test directory.
+
+If any of the above fail, travis will report on what went wrong on the Github pull request page.
+
+## Stack
+
+ - PostgreSQL
+ - React.js
+ - Node.js
+ - Express.js
+
+##Database
+See ```references``` directory
+
+##Data Flow
+
+placeholder here.
+
+## Road Map
+  - list of future features
+  - another futre feature
+
+## Database Setup
+```
 
 1) install postgress, if you don't already have it on your machine:
 	brew install postgresql
