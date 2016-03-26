@@ -77,3 +77,8 @@ See ```Database Setup```.
 	
 	``` $ psql RNTR_dev ```
 
+## Known Bugs
+
+- CLIENT: 'Submit', 'Sign up', 'Sign in', 'Submit Listing', and 'Rent This Item' buttons interrupt asyncronous processes the first time they are clicked after page load. As a temporary workaround, if you are in a view containing one of these buttons, click the button once after page load prior to filling out or submitting any information.
+	EXAMPLE: Prior to signing up, click the 'sign up' button. Then fill out the name, password, and email forms and click the 'sign up' button again.
+
