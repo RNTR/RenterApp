@@ -30,6 +30,7 @@ On every pull request Travis will automatically run and perform the following:
  - Run tests from the test directory.
 
 If any of the above fail, travis will report on what went wrong on the Github pull request page.
+If all of the above are successful, travis will autodeploy to production when the pull request is merged to DEV-BRANCH
 
 ## Stack
 
