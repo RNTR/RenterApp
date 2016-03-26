@@ -11,8 +11,10 @@
 ## Tests
 
 The RNTR backend was developed via TDD using Mocha and Chai. To run the test suite:
-- $ createdb RNTR_test
-- $ npm test
+```
+	$ createdb RNTR_test
+	$ npm test
+```
 
 See ```Database Setup``` for more information.
 
@@ -53,21 +55,18 @@ See ```Database Setup```
   - City-specific home pages
 
 ## Database Setup
-```
 
-1) install postgress, if you don't already have it on your machine:
-	brew install postgresql
+1) install postgress:
+	``` $ brew install postgresql ```
 2) initialize a pg instance via terminal:
-	postgres -D /usr/local/var/postgres
+	``` $ postgres -D /usr/local/var/postgres ```
 3) create a local database for RNTR via terminal:
-	createdb RNTR_dev
-4) run server.js using node, nodemon, or npm start:
-	nodemon server/server.js
-5) seed database with starter users
-	knex seed:run
+	``` $ createdb RNTR_dev ```
+4) run server.js:
+	``` $ npm start ```
 
-How to query a local database from terminal (helpful for testing):
 
-1) after starting a local db (see above), run the following in terminal:
-	psql RNTR_dev
-2) query away. (remember to end all statements with semicolons)
+To query a local database from terminal once a postgres instance is running:
+
+	``` $ psql RNTR_dev ```
+
