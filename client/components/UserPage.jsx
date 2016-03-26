@@ -138,12 +138,12 @@ render: function(){
 
 	var ownedDivs;
 	//generate ownedDivs
-	if (ownedItems !== null){
+	if (ownedItems !== null && ownedItems.length>0){
 		ownedDivs = ownedItems.map(function(item,index){
 		return  <div className='yourItemForRent' onClick={function(){wrangled.handleItemRedirect(item.id)}}>{item.name}</div>
 		})
 	} else {
-		ownedDivs = <div className= 'noItemsYet'>You do not own any items. Add something!</div>
+		ownedDivs = <div className= 'noItemsYet'>You do not own any items.</div>
 	}
 
 	var rentFromOthersDivs;
