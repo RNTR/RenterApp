@@ -425,6 +425,7 @@ exports.createItemRoute = function(reqBody){
 	 							var body = {
 	 								status : 'complete',
 	 								message : 'item added.',
+	 								code : 200,
 	 								item : newItem
 	 							}
 	 							fulfill(body);
@@ -432,7 +433,8 @@ exports.createItemRoute = function(reqBody){
 	 				} else if (response === 'We do not have a record of that items owner.') {
 	 					var body = {
 	 						status : 'failed',
-	 						message : response
+	 						message : response,
+	 						code : 400
 	 					}
 	 					reject(body);
 	 				}
@@ -441,6 +443,7 @@ exports.createItemRoute = function(reqBody){
 	 				var body = {
 	 					status : 'failed',
 	 					message : 'error. make sure you provided the correct information in the request body.',
+	 					code : 400,
 	 					error : err
 	 				}
 	 				reject(body);
@@ -448,7 +451,8 @@ exports.createItemRoute = function(reqBody){
 	 	} else {
 	 		var body = {
 	 			status : 'failed',
-	 			message : 'invalid request format. make sure you provided an item object with name, address, zip, category, price, photo, item_owner, date_start, and date_end fields.'
+	 			message : 'invalid request format. make sure you provided an item object with name, address, zip, category, price, photo, item_owner, date_start, and date_end fields.',
+	 			code : 400
 	 		}
 	 		reject(body);
 	 	}

@@ -104,11 +104,7 @@ routes.post('/items', function (req, res){
       res.status(200).send(response)
     })
     .catch(function(err){
-      if (err.message === 'We do not have a record of that items owner.'){
-        res.status(400).send(err)
-      } else {
-        res.status(500).send(err)
-      }
+      res.status(err.code).send(err)
     })
 })
 
