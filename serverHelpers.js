@@ -50,7 +50,7 @@ exports.signupRoute = function(reqBody){
  									var body = {
  										'status' : 'completed',
  										'message' : 'user created',
- 										'code' : 200,
+ 										'code' : 201,
  										'sessionID' : sessionID,
  										'user' : userObj
  									}
@@ -191,18 +191,17 @@ exports.logoutRoute = function(reqBody){
  			var body = {
  				status : 'failed',
  				message : 'you are not currently signed in as that user!',
- 				code : 400
+ 				code : 401
  			}
  			reject(body);
  		} else {
- 			console.log('id inside logoutRoute: ', cookie.sessionId)
  			dbMethod.getSessionBySessionID(cookie.sessionId)
  				.then(function(res){
  					if(res === false){
  						var body = {
  							status : 'failed',
  							message : 'sessionId not found. Are you sure you are logged in?',
- 							code : 403
+ 							code : 401
  						}
  						reject(body);
  					} else {
@@ -210,7 +209,7 @@ exports.logoutRoute = function(reqBody){
  							var body = {
  								status: 'failed',
  								message : 'your userID does not match for this session.',
- 								code : 403
+ 								code : 401
  							}
  							reject(body);
  						} else {
@@ -268,7 +267,7 @@ exports.validateSessionRoute = function(reqBody){
 						var body = {
 							status : 'failed',
 							message : 'sessionID not found. Try logging out and logging in again.',
-							code : 403
+							code : 401
 						}
 						reject(body);
 					} else if(resp[0].user_id && resp[0].user_id === userID){
@@ -282,7 +281,7 @@ exports.validateSessionRoute = function(reqBody){
 						var body = {
 								status : 'failed',
 								message : 'your userID does not match that session.',
-								code : 403
+								code : 401
 							}
 							reject(body)
 						}
@@ -320,38 +319,60 @@ exports.getUserRoute = function(reqBody){
 	        	if (response === false){
 	        		body.status = 'failed';
 	        		body.message = 'could not find that user.';
+	        		body.code = 400;
 	        		reject(body);
 	        	} else {
 	          		body.user = {};
 	          		body.user.username = response[0].username;
-	          		body.user.email = response[0].email
-	          		body.status = 'complete'
-	         		body.message = 'user retrieved.'
+	          		body.user.email = response[0].email;
+	          		body.status = 'complete';
+	         		body.message = 'user retrieved.';
+	         		body.code = 200;
 	          		fulfill(body);
 	          	}
 	        })
-	    } else if (reqBody.username && typeof reqBody.username === 'string'){
+	        .catch(function(err){
+	        	var body = {};
+	        		body.status = 'failed';
+	        		body.message = 'internal error getting user by ID';
+	        		body.error = err;
+	        		body.code = 500;
+	        		reject(body);
+	        	})
+	        }
+	    else if (reqBody.username && typeof reqBody.username === 'string'){
 	      dbMethod.getUserByUsername(reqBody.username)
 	        .then(function(response){
 	        	var body = {};
 	        	if (response === false){
 	        		body.status = 'failed';
 	        		body.message = 'could not find that user.';
+	        		body.code = 400;
 	        		reject(body);
 	        	} else{
 		          	body.user = {};
 		          	body.user.id = response[0].id;
 		          	body.user.username = response[0].username;
-		          	body.user.email = response[0].email
-		          	body.status = 'complete'
-		          	body.message = 'user retrieved.'
+		          	body.user.email = response[0].email;
+		          	body.status = 'complete';
+		          	body.message = 'user retrieved.';
+		          	body.code = 200;
 		          	fulfill(body);
 	      		}
 	        })
+	        .catch(function(err){
+	        	var body = {};
+	        		body.status = 'failed';
+	        		body.message = 'internal error getting user by ID';
+	        		body.error = err;
+	        		body.code = 500;
+	        		reject(body);
+	        	})
 	    } else {
 	      var errorBody = {
 	        status : 'failed',
-	        message : 'invalid request format. Please send a valid "userID" or "username" '
+	        message : 'invalid request format. Please send a valid "userID" or "username" ',
+	        code : 400
 	      }
 	      reject(errorBody);
 	    }
@@ -370,19 +391,22 @@ exports.deleteUserRoute = function(reqBody){
 	 					obj.status = 'complete';
 	 					obj.message = 'user deleted';
 	 					obj.user = user;
+	 					obj.code = 200;
 	 					fulfill(obj);
 	 				} else {
 	 					obj.status = 'failed';
 	 					obj.message = 'user was not deleted - user did not exist';
+	 					obj.code = 400;
 	 					reject(obj);
 	 				}
 	 			})
 	 			.catch(function(err){
 	 				//do something with err
-	 				console.log('error in helper: ',err)
+	 				console.error('error in helper: ',err)
 	 				var errorBody = {
 	 					status : 'failed',
 	 					message : 'internal error',
+	 					code : 500,
 	 					error : err
 	 				}
 	 				reject(errorBody);
@@ -391,6 +415,7 @@ exports.deleteUserRoute = function(reqBody){
 	 		var errorBody = {
 	 			status : 'failed',
 	 			message : 'invalid input. Please provide a valid "user" object containing a "userID"',
+	 			code : 400
 	 			}
 	 		reject(errorBody);
 	 	}
@@ -417,6 +442,7 @@ exports.createItemRoute = function(reqBody){
 	 							var body = {
 	 								status : 'complete',
 	 								message : 'item added.',
+	 								code : 201,
 	 								item : newItem
 	 							}
 	 							fulfill(body);
@@ -424,7 +450,8 @@ exports.createItemRoute = function(reqBody){
 	 				} else if (response === 'We do not have a record of that items owner.') {
 	 					var body = {
 	 						status : 'failed',
-	 						message : response
+	 						message : response,
+	 						code : 400
 	 					}
 	 					reject(body);
 	 				}
@@ -433,6 +460,7 @@ exports.createItemRoute = function(reqBody){
 	 				var body = {
 	 					status : 'failed',
 	 					message : 'error. make sure you provided the correct information in the request body.',
+	 					code : 400,
 	 					error : err
 	 				}
 	 				reject(body);
@@ -440,7 +468,8 @@ exports.createItemRoute = function(reqBody){
 	 	} else {
 	 		var body = {
 	 			status : 'failed',
-	 			message : 'invalid request format. make sure you provided an item object with name, address, zip, category, price, photo, item_owner, date_start, and date_end fields.'
+	 			message : 'invalid request format. make sure you provided an item object with name, address, zip, category, price, photo, item_owner, date_start, and date_end fields.',
+	 			code : 400
 	 		}
 	 		reject(body);
 	 	}
@@ -462,6 +491,7 @@ exports.searchItemsRoute = function(reqBody){
 	 				var body = {
 	 					status : 'complete',
 	 					message : 'items retrieved.',
+	 					code : 200,
 	 					'items' : results
 	 				}
 	 				fulfill(body);
@@ -470,6 +500,7 @@ exports.searchItemsRoute = function(reqBody){
 	 				var body = {
 	 					status : 'failed',
 	 					message : 'internal error',
+	 					code : 500,
 	 					error : err
 	 				}
 	 				reject(body);
@@ -477,7 +508,8 @@ exports.searchItemsRoute = function(reqBody){
  		} else {
  			var body = {
  				status : 'failed',
- 				message : 'invalid input. Make sure you supplied a valid searchTerm and zipCode.'
+ 				message : 'invalid input. Make sure you supplied a valid searchTerm and zipCode.',
+ 				code : 400
  			}
  			reject(body);
  		}
@@ -536,7 +568,8 @@ exports.getOwnedRoute = function(reqBody){
  				var body = {
  					status : 'complete',
  					message : 'items retrieved.',
- 					'items' : items
+ 					'items' : items,
+ 					code : 200
  				}
  				fulfill(body);
  			})
@@ -544,14 +577,16 @@ exports.getOwnedRoute = function(reqBody){
  				var body = {
  					status : 'failed',
  					message : 'internal error',
- 					error : err
+ 					error : err,
+ 					code : 500
  				}
  				reject(body);
  			})
  		} else {
 		 	var body = {
 				status : 'failed',
-				message : 'invalid input. Make sure you supplied a valid user_id'
+				message : 'invalid input. Make sure you supplied a valid user_id',
+				code : 400
 			}
 			reject(body);
  		}
@@ -568,7 +603,8 @@ exports.isRentingRoute = function(reqBody){
 	 	if (!!!reqBody.userID || typeof reqBody.userID !== 'number'){
 	 		var body = {
 	 			status : 'failed',
-	 			message : 'invalid format. Make sure you sent a valid userID.'
+	 			message : 'invalid format. Make sure you sent a valid userID.',
+	 			code : 400
 	 		}
 	 		reject(body);
 	 	}
@@ -581,7 +617,8 @@ exports.isRentingRoute = function(reqBody){
  					var body = {
 	 					status : 'completed',
 	 					message : 'No rentals found for that user.',
-	 					rentalsWithItems : []
+	 					rentalsWithItems : [],
+	 					code : 200
 	 				}
 	 				fulfill(body);
 	 				return;
@@ -589,7 +626,7 @@ exports.isRentingRoute = function(reqBody){
 
  				var rentals = results;
  				var itemPromises = [];
- 				var items = []
+ 				var items = [];
 
  				rentals.forEach(function(x){
  					var itemID = x.item_id
@@ -619,7 +656,8 @@ exports.isRentingRoute = function(reqBody){
  						var body = {
  							status : 'complete',
  							message : 'rentals retrieved (with objects inside)',
- 							rentalsWithItems : rentals
+ 							rentalsWithItems : rentals,
+ 							code: 200
  						}
  						fulfill(body)
  					})
@@ -628,6 +666,7 @@ exports.isRentingRoute = function(reqBody){
  						var body = {
  							status : 'failed',
  							message : 'could not retrieve items a user is renting',
+ 							code : 500,
  							error : err
  						}
  						console.error('something broke getting all the items to put into the rentals: ', err)
@@ -644,7 +683,8 @@ exports.rentedFromRoute = function(reqBody){
 	 	if (!!!reqBody.owner || typeof reqBody.owner !== 'number'){
 	 		var body = {
 	 			status : 'failed',
-	 			message : 'invalid format. Make sure you sent a valid "owner".'
+	 			message : 'invalid format. Make sure you sent a valid "owner".',
+	 			code : 400
 	 		}
 	 		reject(body);
 	 	}
@@ -652,13 +692,11 @@ exports.rentedFromRoute = function(reqBody){
  		var ownerID = reqBody.owner
  		dbMethod.getItemsByOwnerID(ownerID)
  			.then(function(results){
- 				console.log('ReSULTS INSIDE GET ITEMS BY OWNER ID', results)
  				var items = results;
  				var rentalsPromises = [];
  				var rentalArrays = [];
 
  				items.forEach(function(x){
- 					console.log('about to push into rentalsPromises ', x)
  					rentalsPromises.push(dbMethod.getRentalsByItemID(x.id)
  						.then(function(resp){
  							rentalArrays.push(resp);
@@ -668,7 +706,7 @@ exports.rentedFromRoute = function(reqBody){
  							console.error('could not push in rentedFromRoute: ', err);
  							var errObj = { 
  									err: err,
- 									message : 'could not retrieve this rental'
+ 									message : 'could not retrieve this rental',
  								}
 
  							rentalArrays.push(errObj)
@@ -679,7 +717,6 @@ exports.rentedFromRoute = function(reqBody){
 
  				Promise.all(rentalsPromises)
  					.then(function(){
- 						console.log('all rentalsPromises resolved ', rentalsPromises)
  						//pack rentals arrays inside the appropriate item objects
  						for (var i=0; i<items.length; i++){
  							for (var j=0; j<rentalArrays.length; j++){
@@ -697,7 +734,8 @@ exports.rentedFromRoute = function(reqBody){
  						var body = {
  							status : 'complete',
  							message : 'items retrieved (with arrays of rentals inside)',
- 							itemsWithRentals : rentalsOnly
+ 							itemsWithRentals : rentalsOnly,
+ 							code : 200
  						}
  						fulfill(body)
  					})
@@ -706,7 +744,8 @@ exports.rentedFromRoute = function(reqBody){
  						var body = {
  							status : 'failed',
  							message : 'could not retrieve items being rented by others',
- 							error : err
+ 							error : err,
+ 							code : 500
  						}
  						reject(body);
  					})
@@ -732,20 +771,22 @@ exports.deleteItemRoute = function(reqBody){
  					obj.message = 'item deleted.';
  					obj.itemID = response[0].id;
  					obj.itemName = response[0].name;
+ 					obj.code = 200;
  					fulfill(obj);
  				} else {
  					obj.status = 'failed';
  					obj.message = 'item was not deleted - item did not exist';
+ 					obj.code = 400;
  					reject(obj);
  				}
  			})
  			.catch(function(err){
  				//do something with err
- 				console.log('error in helper: ',err)
  				var errorBody = {
  					status : 'failed',
  					message : 'internal error',
- 					error : err
+ 					error : err,
+ 					code : 500
  				}
  				reject(errorBody);
  			})
@@ -753,6 +794,7 @@ exports.deleteItemRoute = function(reqBody){
  			var errorBody = {
  					status : 'failed',
  					message : 'invalid format. Make sure you provided a valid item_id, user_id, and password.',
+ 					code : 400
  				}
  			reject(errorBody);
  		}
@@ -773,7 +815,8 @@ exports.createRentalRoute = function(reqBody){
 
 			var body = {
 				status : 'failed',
-				message : 'invalid request format. Make sure you provided a rental object with valid item_id, date_start, and date_end fields.'
+				message : 'invalid request format. Make sure you provided a rental object with valid item_id, date_start, and date_end fields.',
+				code : 400
 			}
 			reject(body)
 		}
@@ -781,7 +824,8 @@ exports.createRentalRoute = function(reqBody){
 		if (Date.parse(reqBody.rental.date_start) >= Date.parse(reqBody.rental.date_end)){
 			var body = {
 				status : 'failed',
-				message : 'invalid dates. Make sure date_start does not occur after date_end, or visa versa.'
+				message : 'invalid dates. Make sure date_start does not occur after date_end, or visa versa.',
+				code : 400
 			}
 			reject(body)
 		}
@@ -813,6 +857,7 @@ exports.createRentalRoute = function(reqBody){
 					 							var body = {
 					 								status : 'complete',
 					 								message : 'rental created.',
+					 								code : 201,
 					 								rental : newRental
 					 							}
 					 							fulfill(body);
@@ -820,7 +865,8 @@ exports.createRentalRoute = function(reqBody){
 					 				} else if (response === false) {
 					 					var body = {
 					 						status : 'failed',
-					 						message : 'error retrieving rental'
+					 						message : 'error retrieving rental',
+					 						code : 500
 					 					}
 					 					reject(body);
 					 				}
@@ -829,6 +875,7 @@ exports.createRentalRoute = function(reqBody){
 					 				var body = {
 					 					status : 'failed',
 					 					message : 'internal error',
+					 					code : 500,
 					 					error : err
 					 				}
 					 				reject(body)
@@ -838,14 +885,16 @@ exports.createRentalRoute = function(reqBody){
  							//reject for item conflict
  							var body = {
 			 					status : 'failed',
-			 					message : 'rental conflicts with an existing booking.'
+			 					message : 'rental conflicts with an existing booking.',
+			 					code : 409
 			 				}
 			 				reject(body)
  						} else if (hasBookingConflict){
  							//reject for booking conflict
  							var body = {
 			 					status : 'failed',
-			 					message : 'booking conflict detected.'
+			 					message : 'booking conflict detected.',
+			 					code : 409
 			 				}
 			 				reject(body)
  						}
@@ -853,7 +902,8 @@ exports.createRentalRoute = function(reqBody){
  					.catch(function(err){
 		 				var body = {
 					 		status : 'failed',
-					 		message : 'Error checking date range validity. Were date_start and date_end in the correct dateTime format?'
+					 		message : 'Error checking date range validity. Were date_start and date_end in the correct dateTime format?',
+					 		code : 500
 					 	}
 					 	reject(body)
  					})
@@ -861,7 +911,8 @@ exports.createRentalRoute = function(reqBody){
  			.catch(function(err){
  				var body = {
 			 		status : 'failed',
-			 		message : 'Error checking date conflicts. Were date_start and date_end in the correct dateTime format?'
+			 		message : 'Error checking date conflicts. Were date_start and date_end in the correct dateTime format?',
+			 		code : 500
 			 	}
 			 	reject(body)
  			})
@@ -873,7 +924,8 @@ exports.rentalsForItemRoute = function(reqBody){
  		if (!!!reqBody.itemID || typeof reqBody.itemID !== 'number'){
 			var body = {
 		 		status : 'failed',
-		 		message : 'invalid format. Make sure you provided a valid itemID.'
+		 		message : 'invalid format. Make sure you provided a valid itemID.',
+		 		code : 400
 		 	}
 		 	reject(body)
  		}
@@ -884,7 +936,8 @@ exports.rentalsForItemRoute = function(reqBody){
  				var body = {
  					status : 'complete',
  					message : 'rentals retrieved.',
- 					'rentals' : rentals
+ 					'rentals' : rentals,
+ 					code : 200
  				}
  				fulfill(body);
  			})
@@ -892,7 +945,8 @@ exports.rentalsForItemRoute = function(reqBody){
  				var body = {
  					status : 'failed',
  					message : 'internal error',
- 					error : err
+ 					error : err,
+ 					code : 500
  				}
  				reject(body);
  			})
@@ -904,7 +958,8 @@ exports.deleteRentalRoute = function(reqBody){
  		if (!!!reqBody.rentalID || typeof reqBody.rentalID !== 'number'){
 		 	var body = {
 				status : 'failed',
-				message : 'invalid format. Make sure you entered a valid rentalID, userID, and password'
+				message : 'invalid format. Make sure you entered a valid rentalID, userID, and password',
+				code : 400
 			}
 			reject(body);
  		}
@@ -923,10 +978,12 @@ exports.deleteRentalRoute = function(reqBody){
  					obj.status = 'complete';
  					obj.message = 'rental deleted.';
  					obj.rentalID = response[0].id;
+ 					obj.code = 200;
  					fulfill(obj);
  				} else {
  					obj.status = 'failed';
  					obj.message = 'item was not deleted - item did not exist';
+ 					obj.code = 400;
  					reject(obj);
  				}
  			})
@@ -935,6 +992,7 @@ exports.deleteRentalRoute = function(reqBody){
  				var errorBody = {
  					status : 'failed',
  					message : 'internal error',
+ 					code : 500,
  					error: err
  				}
  				reject(errorBody);

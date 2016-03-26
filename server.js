@@ -6,11 +6,8 @@ var db = require('./db/dbConfig.js');
 var dbMethod = require('./db/dbMethods.js')
 var helpers = require('./serverHelpers.js')
 var webpack = require('webpack');
-var cookieParser = require('cookie-parser')
 var app = express();
 
-//makes cookies accessible via req.cookie
-routes.use( cookieParser() );
 
 
   
@@ -32,8 +29,7 @@ routes.post('/signup', function (req, res){
   // sign up a new user.
   helpers.signupRoute(req.body)
     .then(function(response){
-      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true}) //valid for one week.
-        .status(200).send(response);
+      res.status(200).send(response);
     })
     .catch(function(err){
       res.status(err.code).send(err)
@@ -44,8 +40,7 @@ routes.post('/login', function (req, res){
   // log a user in.
   helpers.loginRoute(req.body)
     .then(function(response){
-      res.cookie('sessionId',response.sessionID, { maxAge: 604800000, httpOnly: true}) //valid for one week.
-        res.status(200).send(response);
+        res.status(response.code).send(response);
     })
     .catch(function(err){
       res.status(err.code).send(err);
@@ -54,10 +49,9 @@ routes.post('/login', function (req, res){
 
 routes.post('/logout', function (req, res){
   // log a user out.
-  req.body.cookie = req.body.cookie || req.cookies;
   helpers.logoutRoute(req.body)
     .then(function(response){
-      res.status(200).send(response);
+      res.status(response.code).send(response);
     })
     .catch(function(err){
       res.status(err.code).send(err);
@@ -68,10 +62,10 @@ routes.post('/users', function (req, res){
   // retrieve info about a single user.
   helpers.getUserRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(400).send(err)
+      res.status(err.code).send(err)
     })
 })
 
@@ -79,27 +73,20 @@ routes.delete('/users', function (req, res){
   // delete a user's account.
   helpers.deleteUserRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      if (err.message === 'user was not deleted - user did not exist' || err.message === 'invalid input.'){
-        res.status(400).send(err)
-      } else {
-        res.status(500).send(err)
-      }
+      res.status(err.code).send(err)
     })
 })
 
 routes.post('/session', function (req, res){
   //validate a session - Does it exist? Does it match the userID?
-  console.log('sessions route activated: ',req.body)
   helpers.validateSessionRoute(req.body)
     .then(function(resp){
-      console.log('here is server about to send resp: ', resp)
-      res.status(200).send(resp);
+      res.status(response.code).send(resp);
     })
     .catch(function(err){
-      console.log('here is err on server: ', err)
       res.status(err.code).send(err)
     })
 })
@@ -114,14 +101,10 @@ routes.post('/items', function (req, res){
   // create a new item.
   helpers.createItemRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      if (err.message === 'We do not have a record of that items owner.'){
-        res.status(400).send(err)
-      } else {
-        res.status(500).send(err)
-      }
+      res.status(err.code).send(err)
     })
 })
 
@@ -129,10 +112,10 @@ routes.post('/items/search', function (req, res){
   // retrieve items that match a searched name and ZIP code
   helpers.searchItemsRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 })
 
@@ -140,7 +123,7 @@ routes.post('/items/id', function (req, res){
   //retrieve a single item by its id
   helpers.getItemByIDRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
       res.status(err.code).send(err)
@@ -151,10 +134,10 @@ routes.post('/items/user', function (req, res){
   // retrieve items that a user owns.
   helpers.getOwnedRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 })
 
@@ -163,10 +146,10 @@ routes.post('/items/user/is_renting', function (req, res){
   // or has rented from others, along with rental info.
   helpers.isRentingRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 })
 
@@ -175,10 +158,10 @@ routes.post('/items/user/rented_from', function (req, res){
   // that have been rented FROM a user, along with rental info.
   helpers.rentedFromRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 })
 
@@ -186,10 +169,10 @@ routes.delete('/items', function (req, res){
   // delete an item.
   helpers.deleteItemRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 })
 
@@ -205,16 +188,10 @@ routes.post('/bookings', function (req, res){
       // b) rental dates lie within item start/end dates
   helpers.createRentalRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      if (err.message === 'rental conflicts with an existing booking.'){
-        res.status(409).send(err)
-      } else if (err.message === 'booking conflict detected.'){
-        res.status(409).send(err)
-      } else {
-        res.status(500).send(err);
-      }
+      res.status(err.code).send(err);
     })
   })
 
@@ -222,10 +199,10 @@ routes.post('/bookings/item', function (req, res){
   // get all rentals for a given item
   helpers.rentalsForItemRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
 
   })
@@ -234,10 +211,10 @@ routes.delete('/bookings', function (req, res){
   // delete a rental.
   helpers.deleteRentalRoute(req.body)
     .then(function(response){
-      res.status(200).send(response)
+      res.status(response.code).send(response)
     })
     .catch(function(err){
-      res.status(500).send(err);
+      res.status(err.code).send(err);
     })
   })
 
