@@ -226,7 +226,7 @@ exports.getItemsByName = function(name){
 exports.getItemsByNameLike = function(name){ //
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
-		knex.select('*').from('items').where('name', 'like', '%'+name+'%')
+		knex.select('*').from('items').whereRaw('LOWER(name) LIKE ?', '%'+name.toLowerCase()+'%')
 			.then(function(items){
 				knex.destroy();
 				fulfill(items)
