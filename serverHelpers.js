@@ -476,7 +476,7 @@ exports.deleteUserRoute = function(reqBody){
 
 
 
-////// - ITEM FUNCTIONS - ///////
+// ------------ ITEM FUNCTIONS -----------
 
 
 
@@ -855,7 +855,9 @@ exports.deleteItemRoute = function(reqBody){
 
 
 
-////// - RENTAL FUNCTIONS - ///////
+// ------------ RENTAL FUNCTIONS -----------
+
+
 
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
@@ -1019,9 +1021,6 @@ exports.deleteRentalRoute = function(reqBody){
 		var rentalID = reqBody.rentalID;
  		var userID = reqBody.userID;
  		var pw = reqBody.password;
-
- 		// TODO: when AUTH in place, use username and password to authenticate
- 		// prior to deleting a rental.
 
  		dbMethod.removeRental(rentalID)
  			.then(function(response){
