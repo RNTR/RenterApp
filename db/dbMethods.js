@@ -223,8 +223,6 @@ exports.getItemsByName = function(name){
 	})
 }
 
-// .where('name', 'like', '%'+name+'%')
-
 exports.getItemsByNameLike = function(name){ //
 	return new Promise(function(fulfill, reject){
 		var knex = require('knex')(config[env]); 
