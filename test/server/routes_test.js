@@ -71,7 +71,7 @@ describe ("Server-Side Routing:", function() {
       yield request(app)
         .post('/signup')
         .send(body)
-        .expect(200)
+        .expect(201)
         .expect(function(response) {
           expect(response.body.status).to.equal('completed');
           expect(response.body.user).to.exist;

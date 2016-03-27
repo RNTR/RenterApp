@@ -3,11 +3,23 @@
 
 
 
-////// - USER FUNCTIONS - ///////
+//TODO: Look into ES6 Generator functions here to improve readability.
+
+
+
+// ------------ USER FUNCTIONS -----------
 
 
 
 exports.signupRoute = function(reqBody){
+
+	// 1) Filter for bad input.
+	// 2) Attempt to add a user.
+	// 		- If username taken, 409.
+	// 3) Grab info about newly-created user.
+	// 4) Add a session for newly-created user.
+	// 5) Send user info and sessionID back to client. 201.
+
  	return new Promise(function(fulfill, reject){
  		var username = reqBody.username;
  		var password = reqBody.password;
@@ -91,6 +103,14 @@ exports.signupRoute = function(reqBody){
  }
 
 exports.loginRoute = function(reqBody){
+
+	// 1) Filter for bad input.
+	// 2) Grab info about user.
+ 	// 		-  If user not found, 400.
+ 	// 3) Validate password.
+ 	//		- If invalid, 401.
+ 	// 4) Send user info and sessionID back to client. 200.
+
  	return new Promise(function(fulfill, reject){
  		var username = reqBody.username;
  		var password = reqBody.password;
@@ -177,6 +197,15 @@ exports.loginRoute = function(reqBody){
  }
 
 exports.logoutRoute = function(reqBody){
+
+	// 1) Filter for bad input.
+ 	// 2) Check for sessionID.
+ 	//		- If not found, 401.
+ 	// 3) Retrieve session, attempt to match sessionID with userID.
+ 	//		- If not found or no match, 401
+ 	// 3) Delete the user's session.
+ 	// 4) 200.
+
  	return new Promise(function(fulfill, reject){
  		var userID = reqBody.userID;
  		var cookie = reqBody.cookie;
@@ -248,6 +277,14 @@ exports.logoutRoute = function(reqBody){
  }
 
 exports.validateSessionRoute = function(reqBody){
+
+	// 1) Filter for bad input.
+ 	// 2) Retrieve session by ID.
+ 	//		- If not found, 401
+ 	// 3) Match sessionID with userID
+ 	// 		- If no match, 401
+ 	// 4) Inform client of verification. 200.
+
 	return new Promise(function(fulfill,reject){
 		var sessionID = reqBody.sessionID;
 		var userID = reqBody.userID;
@@ -311,6 +348,15 @@ exports.validateSessionRoute = function(reqBody){
 }
 
 exports.getUserRoute = function(reqBody){
+
+	// 1) Check for bad input.
+ 	// 2) If userID present, grab user by ID.
+ 	//		- If not found, 400.
+ 	// 3) Else if username present, grab user by name.
+ 	//		- If not found, 400.
+ 	// 4) If neither ID nor name present, 400.
+ 	// 5) Send user info to client. 200.
+
  	return new Promise(function(fulfill, reject){
 	 	if (reqBody.userID && typeof reqBody.userID === 'number'){
 	      dbMethod.getUserByID(reqBody.userID)
@@ -380,6 +426,12 @@ exports.getUserRoute = function(reqBody){
  }
 
 exports.deleteUserRoute = function(reqBody){
+
+	// 1) Filter for bad input.
+ 	// 2) Remove user.
+ 	//		- If user never existed, 400.
+ 	// 3) 200.
+
  	return new Promise(function(fulfill, reject){
  		if (reqBody.user && typeof reqBody.user.userID === 'number'){
 	 		var user = reqBody.user;
@@ -424,7 +476,7 @@ exports.deleteUserRoute = function(reqBody){
 
 
 
-////// - ITEM FUNCTIONS - ///////
+// ------------ ITEM FUNCTIONS -----------
 
 
 
@@ -803,7 +855,9 @@ exports.deleteItemRoute = function(reqBody){
 
 
 
-////// - RENTAL FUNCTIONS - ///////
+// ------------ RENTAL FUNCTIONS -----------
+
+
 
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
@@ -968,9 +1022,6 @@ exports.deleteRentalRoute = function(reqBody){
  		var userID = reqBody.userID;
  		var pw = reqBody.password;
 
- 		// TODO: when AUTH in place, use username and password to authenticate
- 		// prior to deleting a rental.
-
  		dbMethod.removeRental(rentalID)
  			.then(function(response){
  				var obj = {};
@@ -988,7 +1039,6 @@ exports.deleteRentalRoute = function(reqBody){
  				}
  			})
  			.catch(function(err){
- 				//do something with err
  				var errorBody = {
  					status : 'failed',
  					message : 'internal error',

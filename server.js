@@ -10,7 +10,12 @@ var app = express();
 
 
 
+//TODO:
+  // - refactor a number of POST routes to GET and send them data via URL query strings.
+  // - ammend API tests and client-side route functions to reflect GET changes.
+
   
+
 // ------------ BASE ROUTE -----------
 
 
@@ -29,7 +34,7 @@ routes.post('/signup', function (req, res){
   // sign up a new user.
   helpers.signupRoute(req.body)
     .then(function(response){
-      res.status(200).send(response);
+      res.status(response.code).send(response);
     })
     .catch(function(err){
       res.status(err.code).send(err)
@@ -84,9 +89,10 @@ routes.post('/session', function (req, res){
   //validate a session - Does it exist? Does it match the userID?
   helpers.validateSessionRoute(req.body)
     .then(function(resp){
-      res.status(response.code).send(resp);
+      res.status(resp.code).send(resp);
     })
     .catch(function(err){
+      console.log('here is err in /session: ', err)
       res.status(err.code).send(err)
     })
 })
@@ -227,28 +233,35 @@ routes.delete('/bookings', function (req, res){
 // When in Development or Production mode...
 if (process.env.NODE_ENV !== 'test') {   
 
-  //*********************
-  //WEBPACK CONFIGURATION: 
-  //*********************
+
+
+  //        *********************
+  //        WEBPACK CONFIGURATION: 
+  //        *********************
+
+
+
+  //Webpack is responsible for concatonating/compiling public files, 
+  //including .jsx files, for React.js.
 
   var config = require('./webpack.config.js')
   var compiler = webpack(config);
 
   compiler.run(function(err, stats) {
-
+    if (err){console.error('error compiling Webpack: ', err)}
   });
 
-  compiler.watch({ // watch options:
-      aggregateTimeout: 300, // wait so long for more changes
-      poll: true // use polling instead of native watchers
-      // pass a number to set the polling interval
-  }, function(err, stats) {
-      // ...
+  compiler.watch({
+    aggregateTimeout: 300,
+    poll: true
+    }, function(err, stats) {
+      if (err){console.error('error setting Webpack watch: ', err)}
   });
    
-  app.use(require('webpack-dev-middleware')(compiler, {
-     noInfo: true,
-     publicPath: config.output.publicPath
+  app.use(
+    require('webpack-dev-middleware')(compiler, {
+      noInfo: true,
+      publicPath: config.output.publicPath
    }));
    
   app.use(require('webpack-hot-middleware')(compiler));
@@ -256,9 +269,13 @@ if (process.env.NODE_ENV !== 'test') {
   var assetFolder = path.resolve(__dirname, './dist');
   routes.use(express.static(assetFolder));
 
-  //*********************
-  //EXPRESS CONFIGURATION:
-  //*********************
+
+
+  //        *********************
+  //        EXPRESS CONFIGURATION:
+  //        *********************
+
+
 
   var app = express();
   app.use( require('body-parser').json() )
@@ -273,6 +290,8 @@ if (process.env.NODE_ENV !== 'test') {
   app.listen(port);
   console.log("Listening on port", port);
 }
+
+
 
 // When in Test mode...
 else {  
