@@ -861,7 +861,7 @@ exports.deleteItemRoute = function(reqBody){
 
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
- 		
+
 		if (!!!reqBody.rental || typeof reqBody.rental.user_id !== 'number'
 			|| typeof reqBody.rental.item_id !== 'number' || 
 			typeof reqBody.rental.date_start !== 'string' || 

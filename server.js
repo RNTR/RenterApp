@@ -89,9 +89,10 @@ routes.post('/session', function (req, res){
   //validate a session - Does it exist? Does it match the userID?
   helpers.validateSessionRoute(req.body)
     .then(function(resp){
-      res.status(response.code).send(resp);
+      res.status(resp.code).send(resp);
     })
     .catch(function(err){
+      console.log('here is err in /session: ', err)
       res.status(err.code).send(err)
     })
 })
