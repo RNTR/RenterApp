@@ -861,7 +861,7 @@ exports.deleteItemRoute = function(reqBody){
 
 exports.createRentalRoute = function(reqBody){
  	return new Promise(function(fulfill, reject){
-
+ 		
 		if (!!!reqBody.rental || typeof reqBody.rental.user_id !== 'number'
 			|| typeof reqBody.rental.item_id !== 'number' || 
 			typeof reqBody.rental.date_start !== 'string' || 
@@ -1039,7 +1039,6 @@ exports.deleteRentalRoute = function(reqBody){
  				}
  			})
  			.catch(function(err){
- 				//do something with err
  				var errorBody = {
  					status : 'failed',
  					message : 'internal error',

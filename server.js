@@ -34,7 +34,7 @@ routes.post('/signup', function (req, res){
   // sign up a new user.
   helpers.signupRoute(req.body)
     .then(function(response){
-      res.status(200).send(response);
+      res.status(response.code).send(response);
     })
     .catch(function(err){
       res.status(err.code).send(err)
