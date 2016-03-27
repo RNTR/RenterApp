@@ -19,9 +19,12 @@ var SearchResults = React.createClass({
   },
 
   handleItemName: function() {
+    var zipCode = parseInt(sessionStorage.getItem('GlobalSearchZip'));
+    var searchTerm = sessionStorage.getItem('GlobalSearchTerm');
+
     var promise = postRequests.searchForItem(
-      {searchTerm: sessionStorage.getItem("GlobalSearchTerm"),
-      zipCode: parseInt(sessionStorage.getItem("GlobalSearchZip"))})
+      {'searchTerm': searchTerm,
+      'zipCode': zipCode})
 
     promise.then((item) => {
       if (!item || item.length === 0){
@@ -32,7 +35,7 @@ var SearchResults = React.createClass({
       } else{
         this.setState({
           results : item,
-          zip: item[0].zip
+          zip: zipCode
         })
       }
     })
@@ -73,7 +76,7 @@ var SearchResults = React.createClass({
     if (results !== null && results !== 'not found'){
       return (
         <div>
-        <div className="results">Here is what we found for: {this.state.zip}</div>
+        <div className="results">Here is what we found near {this.state.zip}:</div>
         <div className="resultsContainer">
           <div className="results">
             {results.map(function(item,index){

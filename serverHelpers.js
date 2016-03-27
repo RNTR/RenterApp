@@ -529,16 +529,18 @@ exports.createItemRoute = function(reqBody){
 }
 
 exports.searchItemsRoute = function(reqBody){
+	//compares only the first three numbers in each zipcode to increase number of search results.
  	return new Promise(function(fulfill, reject){
  		if (reqBody.searchTerm && typeof reqBody.searchTerm === 'string' 
  			&& reqBody.zipCode && typeof reqBody.zipCode === 'number'){
 
 	 		var name = reqBody.searchTerm;
 	 		var zip = reqBody.zipCode;
+	 		var shortZip = zip.toString().slice(0,3)
 	 		dbMethod.getItemsByNameLike(name)
 	 			.then(function(items){
 	 				var results = items.filter(function(x){
-	 					return x.zip === zip;
+	 					return x.zip.toString().slice(0,3) === shortZip;
 	 				})
 	 				var body = {
 	 					status : 'complete',
