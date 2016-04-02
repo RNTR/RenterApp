@@ -72,7 +72,6 @@ var SearchResults = React.createClass({
     var wrangled = this;
     var results = this.state.results;
     var zip = this.state.zip;
-    console.log("RESULTS INSIDE RENDER:", results)
     if (results !== null && results !== 'not found'){
       return (
         <div>

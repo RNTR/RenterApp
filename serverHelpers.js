@@ -481,6 +481,12 @@ exports.deleteUserRoute = function(reqBody){
 
 
 exports.createItemRoute = function(reqBody){
+
+	// 1) Filter for bad input.
+ 	// 2) Attempt to create a new item.
+ 	// 		- if successful, 201
+ 	// 3) 	- if unsuccessful, 400 with correct error message.
+
  	return new Promise(function(fulfill, reject){
  		if (reqBody.item && typeof reqBody.item.name === 'string'){
 	 		var item = reqBody.item;
@@ -529,7 +535,11 @@ exports.createItemRoute = function(reqBody){
 }
 
 exports.searchItemsRoute = function(reqBody){
-	//compares only the first three numbers in each zipcode to increase number of search results.
+
+	// 1) Filter for bad input.
+ 	// 2) Get items by name.
+ 	// 3) Filter items for matching zipcodes (only the first 3 digits - increases # of results), 200.
+
  	return new Promise(function(fulfill, reject){
  		if (reqBody.searchTerm && typeof reqBody.searchTerm === 'string' 
  			&& reqBody.zipCode && typeof reqBody.zipCode === 'number'){
