@@ -132,7 +132,7 @@ handleProfileRedirect: function(){
 render: function() {
 	    return (
 	      <div className="bar">
-	       <div className='title' onClick={this.handleHomeRedirect}>RÑTR</div>
+	       <div className='title' onClick={this.handleHomeRedirect}>RNTR</div>
 	        <div className="signup" onClick={this.handleSignUpRedirect}>Sign Up</div>
 	         <div className="signin" onClick={this.handleSigninRedirect}>Sign In</div>
 	      	  <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
