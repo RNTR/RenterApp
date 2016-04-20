@@ -10,7 +10,7 @@ var App = require('../App.jsx');
 import { hashHistory } from 'react-router';
 import { RouterContext, match } from 'react-router';
 import { History } from 'react-router';
-var $ = require("jquery")
+
 
 
 var GlobalNavBar = React.createClass({
