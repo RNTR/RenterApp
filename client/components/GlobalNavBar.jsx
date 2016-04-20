@@ -12,6 +12,7 @@ import { RouterContext, match } from 'react-router';
 import { History } from 'react-router';
 
 
+
 var GlobalNavBar = React.createClass({
 
 getInitialState: function(){
@@ -55,7 +56,6 @@ handleNewListingRedirect: function(){
 
 		if(!sessionID){
 
-			alert('You are not signed in! Sign up or sign in first.')
 			wrangled.props.history.hashHistory.pushState(this.state, 'login')
 
 		} else {
@@ -69,8 +69,7 @@ handleNewListingRedirect: function(){
 
 			.catch(function(err){
 				if(err.code === 403){
-					alert('You are not signed in! Sign up or sign in first.')
-					//DO SOMETHING PRETTIER THAN ALERT!
+			
 					wrangled.props.history.hashHistory.pushState(wrangled.state, 'login')
 
 				} else {
@@ -102,7 +101,6 @@ handleProfileRedirect: function(){
 
 		if(!sessionID){
 
-			alert('You are not signed in! Sign up or sign in first.')
 			wrangled.props.history.hashHistory.pushState(this.state, 'login')
 		
 		} else {

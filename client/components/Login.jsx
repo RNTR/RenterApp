@@ -11,6 +11,7 @@ var Login = React.createClass({
 
 getInitialState: function(){
 	
+	
 	return {
 		username: null,
 		password: null
