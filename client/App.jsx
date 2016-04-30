@@ -9,12 +9,12 @@ var postRequests = require('./requests/post.js');
 var getRequests = require('./requests/get.js');
 var deleteRequests = require('./requests/delete.js');
 var SearchResults = require('./components/SearchResults.jsx');
-var css = require("../client/public/css/styles.css")
 var Router = require('react-router');
 var Link = Router.Link
 import {render} from 'react-dom'
 import { hashHistory } from 'react-router';
 import { RouterContext, match } from 'react-router';
+var scss = require('./css/styles.css');
 // import { history } from 'react-router/lib/HashHistory';
 
 

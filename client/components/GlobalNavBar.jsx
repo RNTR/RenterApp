@@ -10,6 +10,7 @@ var App = require('../App.jsx');
 import { hashHistory } from 'react-router';
 import { RouterContext, match } from 'react-router';
 import { History } from 'react-router';
+require('../css/styles.css');
 
 
 
@@ -149,3 +150,6 @@ render: function() {
 
 
 module.exports = GlobalNavBar;
+
+
+
