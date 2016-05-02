@@ -20,11 +20,12 @@ var HomePage = React.createClass({
       <div className="HomePageMain">
         <div className='HomePageGreeting'>
           <div className='animated bounce'>
-              Welcome to <span className="red">RNTR</span>! 
+              Welcome to <span className="red">RNTR</span> 
           </div>
          </div>
-        <div className="github"><a target="_blank" href="http://bit.ly/1RCeXpx">Visit our Github</a></div>
-      </div>
+        <div className='HomePageDescription'> The sharing economy in your own garage! </div>            
+
+    </div>
 
     );
   }
@@ -35,3 +36,5 @@ module.exports = HomePage;
 
 
 
+// // http://i.imgur.com/tH2N46J.png
+//  <div className="github"><a target="_blank" href="http://bit.ly/1RCeXpx">Visit our Github</a></div>

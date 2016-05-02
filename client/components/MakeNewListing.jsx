@@ -73,23 +73,24 @@ var MakeNewListing = React.createClass({
   postRequests.addNewItem({item:this.state})
     .then(function(item){
       sessionStorage.setItem('itemID', item.item.id);
-    })
-    .then(function(){
       scopeReference.handleRedirect();
-  })
+    })
+  //   .then(function(){
+  //     scopeReference.handleRedirect();
+  // })
 
   
 
   },
 
   handleRedirect: function(){
-    this.props.history.pushState(this.state, 'item');
+    this.props.history.pushState(this.state, 'item')
   },
 
   render: function() {
     return (
       <div className="newListingContainer">
-        <h1 className='newListingTitle'>Submit New Listing</h1>
+        <h1 className='newListingTitle'></h1>
         <form className="newListing" onSubmit={this.submit}>
             
             <label></label><input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
