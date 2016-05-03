@@ -579,6 +579,15 @@
 
 }
 
+.noItemsYet{
+	padding-top: 5px;
+	margin-left: 5%;
+	color: #0099ff;
+	width: 240px;
+	text-align: center;
+	margin: 0 auto;
+}
+
 
 
 
