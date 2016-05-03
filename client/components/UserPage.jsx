@@ -152,8 +152,8 @@ render: function(){
 	  rentFromOthersDivs = userIsRenting.map(function(item,index){
           return  	<div className='rentalBlock'>
           				<div className='yourItemForRent' onClick={function(){wrangled.handleitemsUserIsRentingRedirect(item.item.id)}}>{item.item.name}</div>
-          				<div className='rentalTime'>Rental start: {item.date_start.slice(0,10)}</div>
-          				<div className='rentalTime'>Rental end: {item.date_end.slice(0,10)}</div>
+          				<div className='rentalTime'>Starts: {item.date_start.slice(0,10)}</div>
+          				<div className='rentalTime'>Ends: {item.date_end.slice(0,10)}</div>
           			</div>
         });
 	} else {
@@ -166,8 +166,8 @@ render: function(){
 	  rentFromUserDivs = rentedFromUser.map(function(item,index){
           return  	<div className='rentalBlock'>
           				<div className='yourItemForRent' onChange={wrangled.handleitemBeingRentedFromYouChange} onClick={function(){wrangled.handlegetCurrentRentedItemsItemRedirect(item.id)}}>{item.name}</div>
-          				<div className='rentalTime'>Rental start: {item.rentals[0].date_start.slice(0,10)}</div>
-          				<div className='rentalTime'>Rental end: {item.rentals[0].date_end.slice(0,10)}</div>
+          				<div className='rentalTime'>Starts: {item.rentals[0].date_start.slice(0,10)}</div>
+          				<div className='rentalTime'>Ends: {item.rentals[0].date_end.slice(0,10)}</div>
           			</div>
         });
 	} else {
@@ -178,17 +178,20 @@ render: function(){
 	return (<div className='userPage'>
 			 <div className='userContainer'>
 			  <div className='userGreeting'> Welcome, <bold>{this.state.name}</bold></div>
-				  <div className='yourStuffForRent'> Your items for rent: 
+				  <div className='rentTitle'>Your items for rent</div> 
+				  <div className='yourStuffForRent'> 
 				  {ownedDivs}
 			  </div>
-			  	
-			  <div className='yourStuffForRent'>Items you are renting from others:
-			  	{rentFromOthersDivs}
-			  </div>
-			  	  
-			  <div className='yourStuffForRent'>Items that others are renting from you:
-			  	{rentFromUserDivs}
-			  </div>
+			  
+			  <div className='rentTitle'>Items you are renting from others</div>
+				  <div className='yourStuffForRent'>
+				  	{rentFromOthersDivs}
+				  </div>
+			  
+			  <div className='rentTitle'>Items that others are renting from you</div>  
+				  <div className='yourStuffForRent'>
+				  	{rentFromUserDivs}
+				  </div>
 
 			 </div>
 			</div>);

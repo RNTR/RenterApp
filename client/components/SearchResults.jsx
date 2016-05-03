@@ -75,23 +75,20 @@ var SearchResults = React.createClass({
     if (results !== null && results !== 'not found'){
       return (
         <div>
-        <div className="results">Here is what we found near {this.state.zip}:</div>
+        <div className="results">Results for {this.state.zip}:</div>
         <div className="resultsContainer">
           <div className="results">
             {results.map(function(item,index){
               return  <div className="searchResult" onClick={function(){
                 wrangled.handleItemRedirect(item.id)
               }}>
-                      <div className="teal">
-                        RESULT {index+1}
-                      </div>
-                      <div>NAME:
+                      <div>
                         <div className="result">{item.name}</div>
                       </div>
-                      <div>PRICE:
+                      <div>
                         <div className="result">${item.price}.00/Day</div>
                       </div>
-                      <div>DESCRIPTION:
+                      <div>
                         <div className="result">{item.description}</div>
                       </div>
                     </div>
@@ -102,7 +99,7 @@ var SearchResults = React.createClass({
       </div>
     )
   } else if(results === 'not found'){
-    return <div className="newListing">NO RESULTS FOUND </div>;
+    return <div className="notFound">NO RESULTS FOUND </div>;
   } else {
     return <div className="newListing"></div>;
   }

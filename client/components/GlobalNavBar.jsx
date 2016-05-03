@@ -10,6 +10,7 @@ var App = require('../App.jsx');
 import { hashHistory } from 'react-router';
 import { RouterContext, match } from 'react-router';
 import { History } from 'react-router';
+require('../css/styles.css');
 
 
 
@@ -130,7 +131,7 @@ handleProfileRedirect: function(){
 render: function() {
 	    return (
 	      <div className="bar">
-	       <div className='title' onClick={this.handleHomeRedirect}>RNTR</div>
+	       <div><img className='title' onClick={this.handleHomeRedirect} src='http://i.imgur.com/pLBUGGD.png'/></div>
 	        <div className="signup" onClick={this.handleSignUpRedirect}>Sign Up</div>
 	         <div className="signin" onClick={this.handleSigninRedirect}>Sign In</div>
 	      	  <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
@@ -149,3 +150,6 @@ render: function() {
 
 
 module.exports = GlobalNavBar;
+
+
+

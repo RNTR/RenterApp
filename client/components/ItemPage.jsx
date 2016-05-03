@@ -74,7 +74,7 @@ var ItemPage = React.createClass({
 
 		bookingPromise.then( (bookingResponse)  => {
 			if(bookingResponse.status === 'complete'){
-				alert('Item Booked!')
+				$('#fade').popup();
 			}
 			else{
 				alert('This item is not available for the dates selected.')
@@ -102,8 +102,10 @@ var ItemPage = React.createClass({
 
 				<br/>
 				<div className='bookingDiv' display='none' >
-					 <input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input>
-					 <input className='bookEndDate' type='date' onChange={this.handleDateEndChange} value={this.state.date_end}></input>
+					 <div className='bookStartDateWord'>Start <input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input></div>
+					 <br />
+					 <div className='bookEndDateWord'>End <input className='bookEndDate' type='date' onChange={this.handleDateEndChange} value={this.state.date_end}></input></div>
+					 <br />
 					 <button className='bookItemButton'> Rent this item!
 		
 			  	</button>
