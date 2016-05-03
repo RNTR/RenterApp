@@ -74,7 +74,7 @@ var ItemPage = React.createClass({
 
 		bookingPromise.then( (bookingResponse)  => {
 			if(bookingResponse.status === 'complete'){
-				alert('Item Booked!')
+				$('#fade').popup();
 			}
 			else{
 				alert('This item is not available for the dates selected.')

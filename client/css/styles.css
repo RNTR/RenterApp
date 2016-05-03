@@ -745,6 +745,13 @@ display: block;
 }
 
 
+#fade,
+#fade_wrapper,
+#fade_background {
+  transition: all 0.3s;
+  color: blue;
+  background-color: blue;
+}
 
 
 
