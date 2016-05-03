@@ -53,8 +53,10 @@ export default {
 
   userPage: {
     name: null,
-    
+
+    isFetchingItemsForRent:false,
     itemsForRent: null,
+    itemsFetchError:null,
 
     itemsUserIsRenting: null,
     itemsUserIsRentingObjectID: null,
