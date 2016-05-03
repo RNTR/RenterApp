@@ -13,7 +13,10 @@ var SearchResults = React.createClass({
     this.handleItemName();
 
 
-    return {results: null, zip: null}
+    return {
+      results: null, 
+      zip: null
+    }
 
 
   },
