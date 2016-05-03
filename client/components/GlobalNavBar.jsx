@@ -131,7 +131,7 @@ handleProfileRedirect: function(){
 render: function() {
 	    return (
 	      <div className="bar">
-	       <div><img className='title' onClick={this.handleHomeRedirect} src='http://i.imgur.com/pLBUGGD.png'/></div>
+	       <div><img className='title' onClick={this.handleHomeRedirect} src='https://i.imgur.com/pLBUGGD.png'/></div>
 	        <div className="signup" onClick={this.handleSignUpRedirect}>Sign Up</div>
 	         <div className="signin" onClick={this.handleSigninRedirect}>Sign In</div>
 	      	  <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>

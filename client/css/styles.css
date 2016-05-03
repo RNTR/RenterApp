@@ -97,7 +97,7 @@
 }
 
 .bar .title {
-	background-image: url(http://imgur.com/pLBUGGD);
+	background-image: url(https://imgur.com/pLBUGGD);
 	right: 90%;
 	top: 2%;
 	position: fixed;
@@ -471,11 +471,11 @@
 }
 
 .github{
-	font-size:10px;
-
+	font-size:13px;
 	right: 48%;
 	bottom: 1%;
 	color: #b3cccc;
+	position: fixed;
 }
 
 
