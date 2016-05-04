@@ -23,6 +23,25 @@ getInitialState: function(){
 		};
 	},
 
+componentDidMount: function(){
+	
+	this.loggedInCheck();
+
+},
+
+loggedInCheck: function(){
+
+	var userID = parseInt(sessionStorage.getItem('userID'));
+
+	if (userID === null) {
+
+	   return document.getElementsByClassName( 'logoutButton' ).style.display = 'none';
+
+	}
+
+},
+
+
 handleSearch: function(e){
 		this.setState({
 			searchTerm: e.target.value
@@ -128,7 +147,7 @@ handleProfileRedirect: function(){
 		}
 	},
 
-logout: function(){
+	logout: function(){
 
 	var stringUserID = sessionStorage.getItem('userID')
 	if(!stringUserID){
@@ -148,6 +167,7 @@ logout: function(){
 	}
 },
 
+
 render: function() {
 	    return (
 	      <div className="bar">
@@ -162,7 +182,9 @@ render: function() {
 							<input className='zipSearchbar'placeholder="ZIP Code" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
 							<button className='searchSubmitButton'type="submit">GO</button>
 						</form>
-					    <button className='logoutButton' onClick={this.logout}>Logout</button>
+					
+		 	    <button className='logoutButton' onClick={this.logout}>Logout</button>
+
 	      </div>
 	     );
 	   }

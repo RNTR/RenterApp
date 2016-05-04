@@ -5,7 +5,7 @@ var Link = Router.Link
 var postRequests = require('../requests/post.js');
 var getRequests = require('../requests/get.js');
 var App = require('../App.jsx') ;
-
+var $ = require('jquery');
 
 var ItemPage = React.createClass({
 
@@ -74,7 +74,10 @@ var ItemPage = React.createClass({
 
 		bookingPromise.then( (bookingResponse)  => {
 			if(bookingResponse.status === 'complete'){
-				$('#fade').popup();
+				$(".bookingPopup").popup({
+				  opacity: 0.3,
+				  transition: 'all 0.3s'
+				});
 			}
 			else{
 				alert('This item is not available for the dates selected.')
