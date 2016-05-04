@@ -128,6 +128,26 @@ handleProfileRedirect: function(){
 		}
 	},
 
+logout: function(){
+
+	var stringUserID = sessionStorage.getItem('userID')
+	if(!stringUserID){
+		alert('There is not currently anyone logged in.')
+		//do something nicer than an alert window plz!
+	} else{
+		var userID = parseInt(stringUserID);
+		var sessionID = sessionStorage.getItem('sessionID');
+		var wrangledContext = this;
+		postRequests.logout( {
+			'userID': userID, 
+			'cookie': {'sessionId': sessionID}
+		})
+		.then(function(resp){
+			wrangledContext.redirectLogout();
+		})	
+	}
+},
+
 render: function() {
 	    return (
 	      <div className="bar">
@@ -142,6 +162,7 @@ render: function() {
 							<input className='zipSearchbar'placeholder="ZIP Code" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
 							<button className='searchSubmitButton'type="submit">GO</button>
 						</form>
+					    <button className='logoutButton' onClick={this.logout}>Logout</button>
 	      </div>
 	     );
 	   }

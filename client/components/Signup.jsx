@@ -62,7 +62,7 @@ submit: function(){
 				//make this prettier plz
 			} else if (err.message === 'incorrect format. Make sure you provided a valid username, password, and email.'){
 				alert('Make sure you entered a valid username, email, and password!')
-			} else{
+			} else {
 				console.error('error signing up: ', err);
 			}
 		})
@@ -78,12 +78,14 @@ render: function(){
 
 		<div className='signupContainer'>
 
-		<form className = 'signup' onSubmit={this.submit}>
+		<form className = 'signup'>
 		<input className='userSignup' value={this.state.username} onChange={this.handleUsernameChange} placeholder='Username'/>
 		<input className='emailSignup' value={this.state.email} onChange={this.handleEmailChange} placeholder='E-mail'/>
 		 <input className='userPassword' value={this.state.password} onChange={this.handlePasswordChange} type='password' placeholder='Password' />
-		 <button className="signupButton" type="submit">Sign Up</button>
+		 <input type='button' className="signupButton" onClick={this.submit} value='Sign Up'></input>
 		 </form>
+         
+       
 
 		</div>
 

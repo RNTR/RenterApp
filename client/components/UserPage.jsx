@@ -144,7 +144,7 @@ render: function(){
 		return  <div className='yourItemForRent' onClick={function(){wrangled.handleItemRedirect(item.id)}}>{item.name}</div>
 		})
 	} else {
-		ownedDivs = <div className= 'noItemsYet'>You do not own any items.</div>
+		ownedDivs = <div className= 'noItemsYet'>You are not currently listing anything for rent.</div>
 	}
 
 	var rentFromOthersDivs;

@@ -31,25 +31,6 @@ handlePasswordChange: function(e) {
     });
   },
 
-logout: function(){
-
-	var stringUserID = sessionStorage.getItem('userID')
-	if(!stringUserID){
-		alert('There is not currently anyone logged in.')
-		//do something nicer than an alert window plz!
-	} else{
-		var userID = parseInt(stringUserID);
-		var sessionID = sessionStorage.getItem('sessionID');
-		var wrangledContext = this;
-		postRequests.logout( {
-			'userID': userID, 
-			'cookie': {'sessionId': sessionID}
-		})
-		.then(function(resp){
-			wrangledContext.redirectLogout();
-		})	
-	}
-},
 
 submit: function(){
 
@@ -94,7 +75,7 @@ render: function(){
 		<form className = 'userName' onSubmit={this.submit}>
 		<input className='loginUserInput' value = {this.state.username} onChange={this.handleUsernameChange} placeholder='Username'/>
 		 <input className='loginPassInput' value={this.state.password} onChange={this.handlePasswordChange} type='password' placeholder='Password' />
-		 <button className="loginButton" type="submit">Sign In</button>
+		 <input type='button' className="loginButton" onClick={this.submit} value='Sign in'></input>
 		 </form>
 
 		 <button className='logoutButton' onClick={this.logout}>Logout</button>
