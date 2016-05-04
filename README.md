@@ -44,6 +44,8 @@ If all of the above succeed, Travis will autodeploy to production when the pull 
 ##Database
 See ```Database Setup```.
 
+<img src='http://i.imgur.com/xAKLZ0F.png' />
+
 ## Road Map
   - In-app messaging for users
   - Rental confirmation/rejection options for item owners
