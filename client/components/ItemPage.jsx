@@ -93,22 +93,23 @@ var ItemPage = React.createClass({
 			  <div className='itemDetails'>
 			  	<div className="itemName"> <p>{this.state.name}</p> </div>
   				<div className='itemDescription' maxlength='50'><p>{this.state.description}</p></div>
-  				<div className="itemZip">Located in {this.state.zip} </div>
+  				<div className="itemZip"><span className='locatedIn'>Located in</span> {this.state.zip} </div>
   				<br/>
-				<div className='itemPrice'> ${this.state.price}/hr </div>
+				<div className='itemPrice'> ${this.state.price}<span className='perHour'>/hr</span> </div>
 				</div>
 				<br/>
 			      <div><img className='itemPhoto' src={this.state.photo} width='300' height='300' ></img></div>
 
 				<br/>
 				<div className='bookingDiv' display='none' >
-					 <div className='bookStartDateWord'>Start <input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input></div>
+					 <div className='bookStartDateWord'>Start 
+					 		<input className='bookStartDate' type='date' onChange={this.handleDateStartChange} value={this.state.date_start}></input></div>
 					 <br />
-					 <div className='bookEndDateWord'>End <input className='bookEndDate' type='date' onChange={this.handleDateEndChange} value={this.state.date_end}></input></div>
+					 	<div className='bookEndDateWord'>End 
+					 		<input className='bookEndDate' type='date' onChange={this.handleDateEndChange} value={this.state.date_end}></input></div>
 					 <br />
-					 <button className='bookItemButton'> Rent this item!
-		
-			  	</button>
+				<input type='button' className="bookItemButton" onClick={this.handleItemRent} value='Rent this item!'></input>
+
 				</div>
 				<br/>
 				

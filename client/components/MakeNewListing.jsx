@@ -91,23 +91,25 @@ var MakeNewListing = React.createClass({
     return (
       <div className="newListingContainer">
         <h1 className='newListingTitle'></h1>
-        <form className="newListing" onSubmit={this.submit}>
+        <form className="newListing">
             
-            <label></label><input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
-            <label></label><input className="photoInput" placeholder='photo' placeholder='Item Photo URL' type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
-            <label></label>
+           <input className="itemNameInput" placeholder='Item name' type="text" value={this.state.name} onChange={this.handleNameChange}></input>
+            <br/>
+           <input className="photoInput" placeholder='photo' placeholder='Item Photo URL' type="text" value={this.state.photo} onChange={this.handlePhotoChange}></input>
+           
                     <br/>
                 <input className='newListingInput1' type="date" placeholder='Date First Available' value={this.state.date_start} onChange={this.handleDateStartChange}></input>
                     <br/>
                 <input className='newListingInput2' type="date" placeholder='Date Last Available' value={this.state.date_end} onChange={this.handleDateEndChange}></input> 
                 <br/>
-            <label></label><input className="priceInput" type="number" placeholder='Price per hour'value={this.state.price} onChange={this.handlePriceChange}></input>
+           <input className="priceInput" type="number" placeholder='Price per hour'value={this.state.price} onChange={this.handlePriceChange}></input>
                 <br/>
-            <label></label><input className="locationInput"type="number" placeholder='ZIP Code' onChange={this.handleZipChange} value={this.state.zip}></input>
+           <input className="locationInput"type="number" placeholder='ZIP Code' onChange={this.handleZipChange} value={this.state.zip}></input>
                 <br/>
-            <label></label><textarea className="itemDescriptionInput"rows="5" cols="50" maxlength='50' placeholder='Item Description' type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
-          
-            <button className="newListingButton" type="submit">Submit Listing!</button>
+           <textarea className="itemDescriptionInput"rows="5" cols="50" maxlength='50' placeholder='Item Description' type="text" value={this.state.description} onChange={this.handleDescriptionChange}></textarea>
+          <br />
+            <input type='button' className="newListingButton" onClick={this.submit} value='List Item'></input>
+
 
         </form>
       </div>

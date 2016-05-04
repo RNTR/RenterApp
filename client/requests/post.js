@@ -288,6 +288,7 @@ exports.listItem = function(){
 }
 
 
+
 exports.getUserItemsForRent = function(userID) {
   return fetch('items/user/', {
     method: 'POST',
@@ -300,6 +301,8 @@ exports.getUserItemsForRent = function(userID) {
       return response;
     })
 };
+
+
 
 exports.getStuffRentedFromOthers = function(userID) {
   return fetch('items/user/is_renting/', {
