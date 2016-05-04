@@ -151,9 +151,10 @@ handleProfileRedirect: function(){
 
 	var stringUserID = sessionStorage.getItem('userID')
 	if(!stringUserID){
-		alert('There is not currently anyone logged in.')
-		//do something nicer than an alert window plz!
-	} else{
+		document.getElementById('logoutModal').style.display='block'; 
+	    setTimeout(function(){document.getElementById('logoutModal').remove()}, 5000);
+
+	} else {
 		var userID = parseInt(stringUserID);
 		var sessionID = sessionStorage.getItem('sessionID');
 		var wrangledContext = this;
@@ -165,6 +166,10 @@ handleProfileRedirect: function(){
 			wrangledContext.redirectLogout();
 		})	
 	}
+},
+
+redirectLogout: function(){
+	this.props.history.hashHistory.pushState(null, '/');
 },
 
 
@@ -186,7 +191,7 @@ render: function() {
 				
 				<input type='button' className="searchSubmitButton" onClick={this.handleSearchRedirect} value='Go'></input>
 		 	    <input type='button' className="logoutButton" onClick={this.logout} value='Logout'></input>
-		 	    
+		 	    <div id='logoutModal'>There is no one currently logged in.</div>
 		 	 
 
 	      </div>

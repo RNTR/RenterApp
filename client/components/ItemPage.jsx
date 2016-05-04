@@ -74,13 +74,11 @@ var ItemPage = React.createClass({
 
 		bookingPromise.then( (bookingResponse)  => {
 			if(bookingResponse.status === 'complete'){
-				$(".bookingPopup").popup({
-				  opacity: 0.3,
-				  transition: 'all 0.3s'
-				});
-			}
+				  document.getElementById('myModal').style.display='block'; 
+ 				  setTimeout(function(){document.getElementById('myModal').remove()}, 5000);			}
 			else{
-				alert('This item is not available for the dates selected.')
+				document.getElementById('rejectionModal').style.display='block';
+				setTimeout(function(){document.getElementById('rejectionModal').remove()}, 5000); 
 			}
 		})
 
@@ -114,6 +112,10 @@ var ItemPage = React.createClass({
 				<input type='button' className="bookItemButton" onClick={this.handleItemRent} value='Rent this item!'></input>
 
 				</div>
+
+				<div id='myModal'>Item Booked!</div>
+				<div id='rejectionModal'>Item not available for these dates</div>
+
 				<br/>
 				
 			  	<br/>
