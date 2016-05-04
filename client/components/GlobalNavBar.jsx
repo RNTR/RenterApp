@@ -177,13 +177,17 @@ render: function() {
 	      	  <div className="listItem" onClick={this.handleNewListingRedirect}>List an Item</div>
 	      	   <div className="myProfile" onClick={this.handleProfileRedirect}>My Profile</div>
 						
-						<form onSubmit={this.handleSearchRedirect}>
+						<form>
+
 							<input className='searchbar' placeholder='Search Items' type="text" value={this.state.searchTerm} onChange={this.handleSearch}></input>
 							<input className='zipSearchbar'placeholder="ZIP Code" type="number" width='20' value={this.state.zipCode} onChange={this.handleZip}></input>
-							<button className='searchSubmitButton'type="submit">GO</button>
+	
 						</form>
-					
-		 	    <button className='logoutButton' onClick={this.logout}>Logout</button>
+				
+				<input type='button' className="searchSubmitButton" onClick={this.handleSearchRedirect} value='Go'></input>
+		 	    <input type='button' className="logoutButton" onClick={this.logout} value='Logout'></input>
+		 	    
+		 	 
 
 	      </div>
 	     );
