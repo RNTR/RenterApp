@@ -10,13 +10,10 @@ var App = require('../App.jsx');
 var Login = React.createClass({
 
 getInitialState: function(){
-	
-	
 	return {
 		username: null,
 		password: null
 	}
-
 },
 
 handleUsernameChange: function(e) {
@@ -47,13 +44,14 @@ submit: function(){
 		})	
 		.catch(function(err){
 			if (err.message === 'invalid password'){
-				alert(err.message);
-				//make this prettier plz
+				document.getElementById('err1Modal').style.display='block'; 
+	    		setTimeout(function(){document.getElementById('err1Modal').remove()}, 5000);
 			} else if (err.message === 'user not found.'){
-				alert('That user does not exist. Try again!');
-				//make this prettier plz
+				document.getElementById('err2Modal').style.display='block'; 
+	    		setTimeout(function(){document.getElementById('err2Modal').remove()}, 5000);
 			} else if (err.message === 'Invald format. Make sure you sent in a valid username and password.'){
-				alert('Make sure you entered a valid username and password!')
+				document.getElementById('err3Modal').style.display='block'; 
+	    		setTimeout(function(){document.getElementById('err3Modal').remove()}, 5000);
 			} else{
 				console.error('error signing up: ', err);
 			}
@@ -66,25 +64,7 @@ redirect: function(){
 },
 
 
-logout: function(){
 
-	var stringUserID = sessionStorage.getItem('userID')
-	if(!stringUserID){
-		alert('There is not currently anyone logged in.')
-		//do something nicer than an alert window plz!
-	} else{
-		var userID = parseInt(stringUserID);
-		var sessionID = sessionStorage.getItem('sessionID');
-		var wrangledContext = this;
-		postRequests.logout( {
-			'userID': userID, 
-			'cookie': {'sessionId': sessionID}
-		})
-		.then(function(resp){
-			wrangledContext.redirectLogout();
-		})	
-	}
-},
 
 render: function(){
 	return (<div>
@@ -96,6 +76,10 @@ render: function(){
 		 </form>
 
 		 <div id='signinModal'>Someone is already logged in! Log out first.</div>
+		 <div id='err1Modal'>Invalid password</div>
+		 <div id='err2Modal'>User not found</div>
+		 <div id='err3Modal'>Please enter a valid username and password</div>
+		
 		</div>
 
 		

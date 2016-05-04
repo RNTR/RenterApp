@@ -383,9 +383,95 @@
     margin-top: 20px;
 }
 
+#err1Modal {
+	margin: 0 auto;
+    border: none;
+    width: 10%;
+    display: none;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    font-family: 'Avenir';
+    font-style: italic;
+    font-size: 16px;
+    font-family: "Avenir";
+    float: center;
+    margin-top: 20px;
+}
 
+#err2Modal {
+	margin: 0 auto;
+    border: none;
+    width: 10%;
+    display: none;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    font-family: 'Avenir';
+    font-style: italic;
+    font-size: 16px;
+    font-family: "Avenir";
+    float: center;
+    margin-top: 20px;
+}
 
+#err3Modal {
+	margin: 0 auto;
+    border: none;
+    width: 10%;
+    display: none;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    font-family: 'Avenir';
+    font-style: italic;
+    font-size: 16px;
+    font-family: "Avenir";
+    float: center;
+    margin-top: 20px;
+}
 
+#alreadyLoggedInModal {
+	margin: 0 auto;
+    border: none;
+    width: 10%;
+    display: none;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    font-family: 'Avenir';
+    font-style: italic;
+    font-size: 16px;
+    font-family: "Avenir";
+    float: center;
+    margin-top: 20px;
+}
+
+#usernameTakenModal {
+	margin: 0 auto;
+    border: none;
+    width: 10%;
+    display: none;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    font-family: 'Avenir';
+    font-style: italic;
+    font-size: 16px;
+    font-family: "Avenir";
+    float: center;
+    margin-top: 20px;
+}
+
+#validSignupModal {
+	margin: 0 auto;
+    border: none;
+    width: 10%;
+    display: none;
+    border-radius: 5px 5px 5px 5px;
+    text-align: center;
+    font-family: 'Avenir';
+    font-style: italic;
+    font-size: 16px;
+    font-family: "Avenir";
+    float: center;
+    margin-top: 20px;
+}
 
 
 
