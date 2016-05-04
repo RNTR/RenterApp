@@ -43,8 +43,8 @@ handlePasswordChange: function(e) {
 submit: function(){
 	var sessionID = sessionStorage.getItem('sessionID')
 	if(sessionID){
-		alert('Someone is already logged in! Log out first before trying to sign up.')
-		//do something nicer than an alert window plz!
+		document.getElementById('alreadyLoggedInModal').style.display='block'; 
+	    setTimeout(function(){document.getElementById('alreadyLoggedInModal').remove()}, 5000);
 	} else {
 		var wrangled = this;
 		postRequests.signup(this.state)
@@ -55,13 +55,14 @@ submit: function(){
 		.catch(function(err){
 			console.log('this was the signup Error: ',err)
 			if (err.message === 'invalid password'){
-				alert(err.message);
-				//make this prettier plz
+				document.getElementById('err1Modal').style.display='block'; 
+	    		setTimeout(function(){document.getElementById('err1Modal').remove()}, 5000);
 			} else if (err.message === 'That username is taken.'){
-				alert('That username is already taken. Please try another!');
-				//make this prettier plz
+				document.getElementById('usernameTakenModal').style.display='block'; 
+	    		setTimeout(function(){document.getElementById('usernameTakenModal').remove()}, 5000);
 			} else if (err.message === 'incorrect format. Make sure you provided a valid username, password, and email.'){
-				alert('Make sure you entered a valid username, email, and password!')
+				document.getElementById('validSignupModal').style.display='block'; 
+	    		setTimeout(function(){document.getElementById('validSignupModal').remove()}, 5000);
 			} else {
 				console.error('error signing up: ', err);
 			}
@@ -85,8 +86,10 @@ render: function(){
 		 <input type='button' className="signupButton" onClick={this.submit} value='Sign Up'></input>
 		 </form>
          
-       
-
+       <div id='alreadyLoggedInModal'>Someone is already logged in! Please log out first.</div>
+       <div id='err1Modal'>Invalid password</div>
+       <div id='usernameTakenModal'>This username is already taken</div>
+       <div id='validSignupModal'>Please enter a valid username, email, and password</div>
 		</div>
 
 
