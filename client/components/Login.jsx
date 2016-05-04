@@ -36,8 +36,8 @@ submit: function(){
 
 	var sessionID = sessionStorage.getItem('sessionID')
 	if(sessionID){
-		alert('Someone is already logged in! Log out first.')
-		//do something nicer than an alert window plz!
+		document.getElementById('signinModal').style.display='block';
+	    setTimeout(function(){document.getElementById('signingModal').remove()}, 5000);
 	} else {
 		var wrangled = this;
 		postRequests.login(this.state)
@@ -65,9 +65,6 @@ redirect: function(){
 	this.props.history.pushState(null, 'user');
 },
 
-redirectLogout: function(){
-	this.props.history.pushState(null, '/');
-},
 
 logout: function(){
 
@@ -98,7 +95,7 @@ render: function(){
 		 <input type='button' className="loginButton" onClick={this.submit} value='Sign In'></input>
 		 </form>
 
-
+		 <div id='signinModal'>Someone is already logged in! Log out first.</div>
 		</div>
 
 		
