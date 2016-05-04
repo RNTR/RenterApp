@@ -4,6 +4,8 @@
 
 The RNTR web platform (alpha) allows users to rent tools, household items, sports equipment, or nearly anything else from neighbors. Alternatively, RNTR allows users to monetize their underutilized posessions, helping convert junk into revenue.
 
+<a href='rntr.herokuapp.com'/>
+
 ## Getting Started
 
     $ npm install
